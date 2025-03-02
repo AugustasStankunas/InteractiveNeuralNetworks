@@ -37,7 +37,7 @@
                                 <Canvas>
                                     <Canvas.Background>
                                         <DrawingBrush TileMode="Tile"
-                                          Viewport="{Binding CanvasViewModel.MouseMoveVector, 
+                                          Viewport="{Binding CanvasViewModel.CanvasViewPortPos, 
                                                      Converter={StaticResource RectConverter},
                                                      ConverterParameter='50,50'}" ViewportUnits="Absolute"
                                           Viewbox="0,0,50,50" ViewboxUnits="Absolute">      

@@ -49,6 +49,18 @@ namespace InteractiveNeuralNetworks.Controls
             }
         }
 
+        private System.Windows.Point _CanvasViewPortStablePos;
+        private System.Windows.Point _CanvasViewPortPos;
+        public System.Windows.Point CanvasViewPortPos
+        {
+            get => _CanvasViewPortPos;
+            set
+            {
+                _CanvasViewPortPos = value;
+                OnPropertyChanged(nameof(CanvasViewPortPos));
+            }
+        }
+
         //private System.Windows.Point _MouseSelectedMoveVector;
         //public System.Windows.Point MouseSelectedMoveVector
         //{
@@ -71,6 +83,9 @@ namespace InteractiveNeuralNetworks.Controls
             MouseLeftButtonDownCommand = new RelayCommand<MouseEventArgs>(OnMouseLeftButtonDown);
             MouseLeftButtonUpCommand = new RelayCommand<MouseEventArgs>(OnMouseLeftButtonUp);
 
+            CanvasViewPortPos = new System.Windows.Point(0, 0);
+            _CanvasViewPortStablePos = new System.Windows.Point(0, 0);
+
             CanvasItems.Add(new CanvasItemViewModel(0, 0, 60, 60, "Orange"));
             CanvasItems.Add(new CanvasItemViewModel(105, 123, 50, 50, "Pink"));
             CanvasItems.Add(new CanvasItemViewModel(220, 330, 75, 75, "LightBlue"));
@@ -90,6 +105,9 @@ namespace InteractiveNeuralNetworks.Controls
         private void OnMouseLeftButtonUp(MouseEventArgs e)
         {
             mouseLeftButtonDown = false;
+
+            _CanvasViewPortStablePos = new System.Windows.Point(
+                CanvasViewPortPos.X, CanvasViewPortPos.Y);
 
             foreach (var item in CanvasItems)
             {
@@ -134,6 +152,9 @@ namespace InteractiveNeuralNetworks.Controls
                 if (!isAnySelected)
                 {
                     MouseMoveVector = (System.Windows.Point)(mousePos - _mouseStart);
+                    CanvasViewPortPos = new System.Windows.Point(
+                        _CanvasViewPortStablePos.X + MouseMoveVector.X,
+                        _CanvasViewPortStablePos.Y + MouseMoveVector.Y );
 
                     foreach (var item in CanvasItems)
                     {
