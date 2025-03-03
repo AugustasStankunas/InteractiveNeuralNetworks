@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InteractiveNeuralNetworks
+namespace InteractiveNeuralNetworks.ViewModels
 {
     internal class ViewModelBase : INotifyPropertyChanged
     {

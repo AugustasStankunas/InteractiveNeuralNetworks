@@ -1,5 +1,5 @@
 ﻿using InteractiveNeuralNetworks.Commands;
-using InteractiveNeuralNetworks.Controls;
+using InteractiveNeuralNetworks.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace InteractiveNeuralNetworks
+namespace InteractiveNeuralNetworks.ViewModels
 {
     internal class BuilderViewModel : ViewModelBase
     {

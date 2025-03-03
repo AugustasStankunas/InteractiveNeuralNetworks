@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace InteractiveNeuralNetworks.Controls
+namespace InteractiveNeuralNetworks.ViewModels
 {
     internal class CanvasViewModel : ViewModelBase
     {
@@ -16,8 +16,8 @@ namespace InteractiveNeuralNetworks.Controls
         public ICommand MouseLeftButtonDownCommand { get; }
         public ICommand MouseLeftButtonUpCommand { get; }
 
-        private System.Windows.Point _MousePos;
-        public System.Windows.Point MousePos 
+        private Point _MousePos;
+        public Point MousePos 
         {
             get => _MousePos;
             set
@@ -27,8 +27,8 @@ namespace InteractiveNeuralNetworks.Controls
             }
         }
 
-        private System.Windows.Point _CurrentPos;
-        public System.Windows.Point CurrentPos
+        private Point _CurrentPos;
+        public Point CurrentPos
         {
             get => _CurrentPos;
             set
@@ -38,8 +38,8 @@ namespace InteractiveNeuralNetworks.Controls
             }
         }
 
-        private System.Windows.Point _MouseMoveVector;
-        public System.Windows.Point MouseMoveVector
+        private Point _MouseMoveVector;
+        public Point MouseMoveVector
         {
             get => _MouseMoveVector;
             set
@@ -49,9 +49,9 @@ namespace InteractiveNeuralNetworks.Controls
             }
         }
 
-        private System.Windows.Point _CanvasViewPortStablePos;
-        private System.Windows.Point _CanvasViewPortPos;
-        public System.Windows.Point CanvasViewPortPos
+        private Point _CanvasViewPortStablePos;
+        private Point _CanvasViewPortPos;
+        public Point CanvasViewPortPos
         {
             get => _CanvasViewPortPos;
             set
@@ -72,7 +72,7 @@ namespace InteractiveNeuralNetworks.Controls
         //    }
         //}
 
-        private System.Windows.Point _mouseStart;
+        private Point _mouseStart;
         private bool mouseLeftButtonDown = false;
 
         public ObservableCollection<CanvasItemViewModel> CanvasItems { get; set; } = new ObservableCollection<CanvasItemViewModel>();
@@ -83,8 +83,8 @@ namespace InteractiveNeuralNetworks.Controls
             MouseLeftButtonDownCommand = new RelayCommand<MouseEventArgs>(OnMouseLeftButtonDown);
             MouseLeftButtonUpCommand = new RelayCommand<MouseEventArgs>(OnMouseLeftButtonUp);
 
-            CanvasViewPortPos = new System.Windows.Point(0, 0);
-            _CanvasViewPortStablePos = new System.Windows.Point(0, 0);
+            CanvasViewPortPos = new Point(0, 0);
+            _CanvasViewPortStablePos = new Point(0, 0);
 
             CanvasItems.Add(new CanvasItemViewModel(0, 0, 60, 60, "Orange"));
             CanvasItems.Add(new CanvasItemViewModel(105, 123, 50, 50, "Pink"));
@@ -106,20 +106,20 @@ namespace InteractiveNeuralNetworks.Controls
         {
             mouseLeftButtonDown = false;
 
-            _CanvasViewPortStablePos = new System.Windows.Point(
+            _CanvasViewPortStablePos = new Point(
                 CanvasViewPortPos.X, CanvasViewPortPos.Y);
 
             foreach (var item in CanvasItems)
             {
                 if (!item.IsSelected)
                 {
-                    item.StablePosition = new System.Windows.Point(
+                    item.StablePosition = new Point(
                         item.StablePosition.X + MouseMoveVector.X,
                         item.StablePosition.Y + MouseMoveVector.Y);
                 }
                 else
                 {
-                    item.StablePosition = new System.Windows.Point(
+                    item.StablePosition = new Point(
                         item.Position.X,
                         item.Position.Y);
                     item.IsSelected = false;
@@ -128,7 +128,7 @@ namespace InteractiveNeuralNetworks.Controls
         }
         public void OnMouseMove(MouseEventArgs e)
         {
-            System.Windows.Point mousePos = e.GetPosition((IInputElement)e.Source);
+            Point mousePos = e.GetPosition((IInputElement)e.Source);
             MousePos = mousePos;
 
             if (mouseLeftButtonDown)
@@ -138,10 +138,10 @@ namespace InteractiveNeuralNetworks.Controls
                 {
                     if (item.IsSelected)
                     {
-                        MouseMoveVector = new System.Windows.Point(0, 0);
-                        System.Windows.Point relativeToItemMousePos = e.GetPosition((IInputElement)e.OriginalSource);
+                        MouseMoveVector = new Point(0, 0);
+                        Point relativeToItemMousePos = e.GetPosition((IInputElement)e.OriginalSource);
 
-                        item.Position = new System.Windows.Point(
+                        item.Position = new Point(
                             MousePos.X - item.SelectionPosition.X,
                             MousePos.Y - item.SelectionPosition.Y);
 
@@ -151,14 +151,14 @@ namespace InteractiveNeuralNetworks.Controls
 
                 if (!isAnySelected)
                 {
-                    MouseMoveVector = (System.Windows.Point)(mousePos - _mouseStart);
-                    CanvasViewPortPos = new System.Windows.Point(
+                    MouseMoveVector = (Point)(mousePos - _mouseStart);
+                    CanvasViewPortPos = new Point(
                         _CanvasViewPortStablePos.X + MouseMoveVector.X,
                         _CanvasViewPortStablePos.Y + MouseMoveVector.Y );
 
                     foreach (var item in CanvasItems)
                     {
-                        item.Position = new System.Windows.Point(
+                        item.Position = new Point(
                             item.StablePosition.X + MouseMoveVector.X,
                             item.StablePosition.Y + MouseMoveVector.Y);
                     }
