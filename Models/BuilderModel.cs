@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InteractiveNeuralNetworks.Models
 {
-    internal class BuilderModel
+    public class BuilderModel
     {
         public int ClickCounter { get; set; } = 0;
     }
