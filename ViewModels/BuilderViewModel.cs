@@ -12,7 +12,7 @@ namespace InteractiveNeuralNetworks.ViewModels
     internal class BuilderViewModel : ViewModelBase
     {
         public BuilderModel Model { get; set; }
-        public CanvasViewModel CanvasViewModel { get; set; }
+        public WorkspaceViewModel WorkspaceViewModel { get; set; }
 
         // Hello world
         public RelayCommand ClickMeButtonCommand { get; set; }
@@ -29,7 +29,7 @@ namespace InteractiveNeuralNetworks.ViewModels
         public BuilderViewModel()
         {
             Model = new BuilderModel();
-            CanvasViewModel = new CanvasViewModel();
+            WorkspaceViewModel = new WorkspaceViewModel();
 
             ClickMeButtonCommand = new RelayCommand(ExecuteClickMe, CanExecuteClickMe);
         }

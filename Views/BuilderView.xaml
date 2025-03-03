@@ -22,9 +22,9 @@
             <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="X: "></Label>
-                    <Label Content="{Binding CanvasViewModel.MousePos.X, UpdateSourceTrigger=PropertyChanged}"></Label>
+                    <Label Content="{Binding WorkspaceViewModel.MousePos.X, UpdateSourceTrigger=PropertyChanged}"></Label>
                     <Label Content="Y: "></Label>
-                    <Label Content="{Binding CanvasViewModel.MousePos.Y, UpdateSourceTrigger=PropertyChanged}"></Label>
+                    <Label Content="{Binding WorkspaceViewModel.MousePos.Y, UpdateSourceTrigger=PropertyChanged}"></Label>
 
                 </StackPanel>
                 <!--<Button Content="Click Me!" Command="{Binding Path=ClickMeButtonCommand}"></Button>-->
@@ -32,13 +32,13 @@
             
             <Border BorderBrush="Black" BorderThickness="1" Margin="20">
                 <Border ClipToBounds="True">
-                    <ItemsControl ItemsSource="{Binding CanvasViewModel.CanvasItems, UpdateSourceTrigger=PropertyChanged}">
+                    <ItemsControl ItemsSource="{Binding WorkspaceViewModel.CanvasItems, UpdateSourceTrigger=PropertyChanged}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <Canvas>
                                     <Canvas.Background>
                                         <DrawingBrush TileMode="Tile"
-                                          Viewport="{Binding CanvasViewModel.CanvasViewPortPos, 
+                                          Viewport="{Binding WorkspaceViewModel.CanvasViewPortPos, 
                                                      Converter={StaticResource RectConverter},
                                                      ConverterParameter='50,50'}" ViewportUnits="Absolute"
                                           Viewbox="0,0,50,50" ViewboxUnits="Absolute">      
@@ -72,9 +72,9 @@
                     </ItemsControl>
 
                     <i:Interaction.Behaviors>
-                        <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding CanvasViewModel.MouseMoveCommand}" />
-                        <commands:EventToCommandBehavior EventName="PreviewMouseLeftButtonDown" Command="{Binding CanvasViewModel.MouseLeftButtonDownCommand}" />
-                        <commands:EventToCommandBehavior EventName="MouseLeftButtonUp" Command="{Binding CanvasViewModel.MouseLeftButtonUpCommand}" />
+                        <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding WorkspaceViewModel.MouseMoveCommand}" />
+                        <commands:EventToCommandBehavior EventName="PreviewMouseLeftButtonDown" Command="{Binding WorkspaceViewModel.MouseLeftButtonDownCommand}" />
+                        <commands:EventToCommandBehavior EventName="MouseLeftButtonUp" Command="{Binding WorkspaceViewModel.MouseLeftButtonUpCommand}" />
                     </i:Interaction.Behaviors>
                 </Border>
                 

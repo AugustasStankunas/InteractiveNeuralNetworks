@@ -9,7 +9,7 @@ using System.Windows.Navigation;
 
 namespace InteractiveNeuralNetworks.ViewModels
 {
-    internal class CanvasItemViewModel : ViewModelBase
+    internal class WorkspaceItemViewModel : ViewModelBase
     {
         private bool _IsSelected;
         public bool IsSelected
@@ -93,7 +93,7 @@ namespace InteractiveNeuralNetworks.ViewModels
             }
         }
 
-        public CanvasItemViewModel(double x, double y, int width, int height, string color)
+        public WorkspaceItemViewModel(double x, double y, int width, int height, string color)
         {
             Position = new Point(x, y);
             StablePosition = new Point(x, y);

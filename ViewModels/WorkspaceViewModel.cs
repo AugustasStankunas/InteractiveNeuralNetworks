@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace InteractiveNeuralNetworks.ViewModels
 {
-    internal class CanvasViewModel : ViewModelBase
+    internal class WorkspaceViewModel : ViewModelBase
     {
         public ICommand MouseMoveCommand { get; }
         public ICommand MouseLeftButtonDownCommand { get; }
@@ -75,9 +75,9 @@ namespace InteractiveNeuralNetworks.ViewModels
         private Point _mouseStart;
         private bool mouseLeftButtonDown = false;
 
-        public ObservableCollection<CanvasItemViewModel> CanvasItems { get; set; } = new ObservableCollection<CanvasItemViewModel>();
+        public ObservableCollection<WorkspaceItemViewModel> CanvasItems { get; set; } = new ObservableCollection<WorkspaceItemViewModel>();
 
-        public CanvasViewModel()
+        public WorkspaceViewModel()
         {
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
             MouseLeftButtonDownCommand = new RelayCommand<MouseEventArgs>(OnMouseLeftButtonDown);
@@ -86,9 +86,9 @@ namespace InteractiveNeuralNetworks.ViewModels
             CanvasViewPortPos = new Point(0, 0);
             _CanvasViewPortStablePos = new Point(0, 0);
 
-            CanvasItems.Add(new CanvasItemViewModel(0, 0, 60, 60, "Orange"));
-            CanvasItems.Add(new CanvasItemViewModel(105, 123, 50, 50, "Pink"));
-            CanvasItems.Add(new CanvasItemViewModel(220, 330, 75, 75, "LightBlue"));
+            CanvasItems.Add(new WorkspaceItemViewModel(0, 0, 60, 60, "Orange"));
+            CanvasItems.Add(new WorkspaceItemViewModel(105, 123, 50, 50, "Pink"));
+            CanvasItems.Add(new WorkspaceItemViewModel(220, 330, 75, 75, "LightBlue"));
         }
 
         // Mouse 
