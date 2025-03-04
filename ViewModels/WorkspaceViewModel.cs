@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Shapes;
 
 namespace InteractiveNeuralNetworks.ViewModels
 {
@@ -16,40 +18,9 @@ namespace InteractiveNeuralNetworks.ViewModels
     {
         public ICommand MouseMoveCommand { get; }
         public ICommand DragOverCommand { get; }
-        public ICommand ClickMeButtonComand { get; }
-
-        private Point _MousePos;
-        public Point MousePos
-        {
-            get => _MousePos;
-            set
-            {
-                _MousePos = value;
-                OnPropertyChanged(nameof(MousePos));
-            }
-        }
-
-        private Point _CurrentPos;
-        public Point CurrentPos
-        {
-            get => _CurrentPos;
-            set
-            {
-                _CurrentPos = value;
-                OnPropertyChanged(nameof(CurrentPos));
-            }
-        }
-
-        private Point _MouseMoveVector;
-        public Point MouseMoveVector
-        {
-            get => _MouseMoveVector;
-            set
-            {
-                _MouseMoveVector = value;
-                OnPropertyChanged(nameof(MouseMoveVector));
-            }
-        }
+        public ICommand MouseWheelCommand { get; }
+        public ICommand MouseLeftButtonDownCommand { get; }
+        public ICommand MouseLeftButtonUpCommand { get; }
 
         private Point _CanvasViewPortStablePos;
         private Point _CanvasViewPortPos;
@@ -63,7 +34,25 @@ namespace InteractiveNeuralNetworks.ViewModels
             }
         }
 
+        private double _zoomFactor = 1.0;
+        public double ZoomFactor
+        {
+            get => _zoomFactor;
+            set { _zoomFactor = value; OnPropertyChanged(nameof(ZoomFactor)); }
+        }
+
+        private Point _canvasPanOffset;
+        public Point CanvasPanOffset
+        {
+            get => _canvasPanOffset;
+            set { _canvasPanOffset = value; OnPropertyChanged(nameof(CanvasPanOffset)); }
+        }
+
         private Point mouseOffset; // The offset of the mouse to the top left corner of the rectangle
+        
+        //For panning
+        private bool _isPanning;
+        private Point _panStart;
 
         public ObservableCollection<WorkspaceItemViewModel> WorkspaceItems { get; set; } = new ObservableCollection<WorkspaceItemViewModel>();
 
@@ -77,22 +66,18 @@ namespace InteractiveNeuralNetworks.ViewModels
             WorkspaceItems.Add(new WorkspaceItemViewModel(105, 123, 50, 50, "Pink"));
             WorkspaceItems.Add(new WorkspaceItemViewModel(220, 330, 75, 75, "LightBlue"));
 
-            MouseMoveCommand = new RelayCommand<MouseEventArgs>(Rectangle_MouseMove);
-            DragOverCommand = new RelayCommand<DragEventArgs>(Rectangle_DragOver);
+            MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
+            DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);
+
+            MouseWheelCommand = new RelayCommand<MouseWheelEventArgs>(OnMouseWheel);
+            MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
+            MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
 
         }
         //fires when mouse moved, but action happens when mouse is pressed on a rectangle and then moved - drag action starts
-        private void Rectangle_MouseMove(MouseEventArgs e)
-        {
-            var data = e.OriginalSource as FrameworkElement;
-            if (data != null && e.LeftButton == MouseButtonState.Pressed && data.DataContext is WorkspaceItemViewModel)
-            {
-                mouseOffset = e.GetPosition(data); // mouse position relative to top-left of the rectangle
-                DragDrop.DoDragDrop(e.OriginalSource as UIElement, new DataObject(typeof(WorkspaceItemViewModel), data.DataContext), DragDropEffects.Move);
-            }
-        }
+        
 
-        private void Rectangle_DragOver(DragEventArgs e)
+        private void OnDragOver(DragEventArgs e)
         {
             if (e.Data.GetDataPresent(typeof(WorkspaceItemViewModel)))
             {
@@ -108,5 +93,61 @@ namespace InteractiveNeuralNetworks.ViewModels
             }
             
         }
+
+        private void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            Point mousePos;
+            if (e.OriginalSource is Rectangle)
+            {
+                mousePos = e.GetPosition(e.Source as IInputElement);
+            }
+            else
+            {
+                mousePos = e.GetPosition(e.OriginalSource as IInputElement);
+            }
+            double oldZoom = ZoomFactor;
+            double zoomDelta = e.Delta > 0 ? 0.1 : -0.1;
+            ZoomFactor = Math.Max(0.1, ZoomFactor + zoomDelta);
+
+            CanvasPanOffset = new Point(
+                CanvasPanOffset.X - mousePos.X * (ZoomFactor - oldZoom),
+                CanvasPanOffset.Y - mousePos.Y * (ZoomFactor - oldZoom));
+        }
+
+        private void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            if (e.OriginalSource is Rectangle)
+            {
+                var data = e.OriginalSource as FrameworkElement;
+                if (data != null && e.LeftButton == MouseButtonState.Pressed && data.DataContext is WorkspaceItemViewModel)
+                {
+                    mouseOffset = e.GetPosition(data); // mouse position relative to top-left of the rectangle
+                    DragDrop.DoDragDrop(e.OriginalSource as UIElement, new DataObject(typeof(WorkspaceItemViewModel), data.DataContext), DragDropEffects.Move);
+                }
+            }
+            else
+            {
+                _isPanning = true;
+                _panStart = e.GetPosition(null);
+            }
+            
+        }
+
+        private void OnMouseMove(MouseEventArgs e)
+        {
+            if (_isPanning)
+            {
+                Point currentPosition = e.GetPosition(null);
+                Vector delta = currentPosition - _panStart;
+                CanvasPanOffset = new Point(CanvasPanOffset.X + delta.X, CanvasPanOffset.Y + delta.Y);
+                _panStart = currentPosition;
+            }
+        }
+
+        private void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            _isPanning = false;
+        }
+
     }
 }
