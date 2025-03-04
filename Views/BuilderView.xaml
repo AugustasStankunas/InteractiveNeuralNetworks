@@ -21,7 +21,7 @@
     <Grid>
         <DockPanel>
             <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
-                <Button Content="Click Me!" Command="{Binding Path=ClickMeButtonCommand}"></Button>
+                <Button Content="Click Me!" Command="{Binding WorkspaceViewModel.ClickMeButtonCommand}"></Button>
             </StackPanel>
             <Border BorderBrush="Black" BorderThickness="1" Margin="20">
                 <Border ClipToBounds="True">

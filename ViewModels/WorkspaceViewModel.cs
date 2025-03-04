@@ -22,6 +22,8 @@ namespace InteractiveNeuralNetworks.ViewModels
         public ICommand MouseLeftButtonDownCommand { get; }
         public ICommand MouseLeftButtonUpCommand { get; }
 
+        public ICommand ClickMeButtonCommand { get; }
+
         private Point _CanvasViewPortStablePos;
         private Point _CanvasViewPortPos;
         public Point CanvasViewPortPos
@@ -72,12 +74,13 @@ namespace InteractiveNeuralNetworks.ViewModels
             MouseWheelCommand = new RelayCommand<MouseWheelEventArgs>(OnMouseWheel);
             MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
             MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
+			ClickMeButtonCommand = new RelayCommand<RoutedEvent>(ExecuteClickMeButton);
 
-        }
-        //fires when mouse moved, but action happens when mouse is pressed on a rectangle and then moved - drag action starts
-        
+		}
+		//fires when mouse moved, but action happens when mouse is pressed on a rectangle and then moved - drag action starts
 
-        private void OnDragOver(DragEventArgs e)
+
+		private void OnDragOver(DragEventArgs e)
         {
             if (e.Data.GetDataPresent(typeof(WorkspaceItemViewModel)))
             {
@@ -148,6 +151,25 @@ namespace InteractiveNeuralNetworks.ViewModels
         {
             _isPanning = false;
         }
+		private void ExecuteClickMeButton(RoutedEvent e)
+		{
+			try
+			{
 
-    }
+				string textFromPython = PythonTest.RunPythonHelloWorld();
+				MessageBox.Show($"Result from python test: {textFromPython}");
+				PythonTest.ShutdownEngine();
+
+
+			}
+			catch (Exception ex)
+			{
+
+				MessageBox.Show($"Error in button click: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+
+
+		}
+
+	}
 }
