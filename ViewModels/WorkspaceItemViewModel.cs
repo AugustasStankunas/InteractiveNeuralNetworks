@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
+using InteractiveNeuralNetworks.Commands;
 
-namespace InteractiveNeuralNetworks.Controls
+namespace InteractiveNeuralNetworks.ViewModels
 {
-    internal class CanvasItemViewModel : ViewModelBase
+    public class WorkspaceItemViewModel : ViewModelBase
     {
         private bool _IsSelected;
         public bool IsSelected
@@ -24,7 +26,7 @@ namespace InteractiveNeuralNetworks.Controls
             }
         }
 
-        public System.Windows.Point SelectionPosition { get; set; }
+        public Point SelectionPosition { get; set; }
 
         private int _Border;
         public int Border
@@ -38,8 +40,8 @@ namespace InteractiveNeuralNetworks.Controls
         }
 
 
-        private System.Windows.Point _Position;
-        public System.Windows.Point Position
+        private Point _Position;
+        public Point Position
         {
             get => _Position;
             set
@@ -49,8 +51,8 @@ namespace InteractiveNeuralNetworks.Controls
             }
         }
 
-        private System.Windows.Point _StablePosition;
-        public System.Windows.Point StablePosition
+        private Point _StablePosition;
+        public Point StablePosition
         {
             get => _StablePosition;
             set
@@ -93,25 +95,16 @@ namespace InteractiveNeuralNetworks.Controls
             }
         }
 
-        public CanvasItemViewModel(double x, double y, int width, int height, string color)
+        public WorkspaceItemViewModel(double x, double y, int width, int height, string color)
         {
-            Position = new System.Windows.Point(x, y);
-            StablePosition = new System.Windows.Point(x, y);
+            Position = new Point(x, y);
+            StablePosition = new Point(x, y);
             Color = color;
             Width = width;
             Height = height;
+
         }
 
-        public void CheckIfSelected(MouseEventArgs e)
-        {
-            System.Windows.Point mousePos = e.GetPosition((IInputElement)e.Source);
-            System.Windows.Point relativeMousePos = e.GetPosition((IInputElement)e.OriginalSource);
-            if (mousePos.X >= StablePosition.X && mousePos.X <= StablePosition.X + Width &&
-                mousePos.Y >= StablePosition.Y && mousePos.Y <= StablePosition.Y + Height)
-            {
-                IsSelected = true;
-                SelectionPosition = relativeMousePos;
-            }
-        }
+        public WorkspaceItemViewModel() : this(0, 0, 50, 50, "Red") { }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using InteractiveNeuralNetworks.Commands;
-using InteractiveNeuralNetworks.Controls;
+using InteractiveNeuralNetworks.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace InteractiveNeuralNetworks
+namespace InteractiveNeuralNetworks.ViewModels
 {
-    internal class BuilderViewModel : ViewModelBase
+    public class BuilderViewModel : ViewModelBase
     {
         public BuilderModel Model { get; set; }
-        public CanvasViewModel CanvasViewModel { get; set; }
+        public WorkspaceViewModel WorkspaceViewModel { get; set; }
 
         // Hello world
         public RelayCommand ClickMeButtonCommand { get; set; }
@@ -29,7 +29,7 @@ namespace InteractiveNeuralNetworks
         public BuilderViewModel()
         {
             Model = new BuilderModel();
-            CanvasViewModel = new CanvasViewModel();
+            WorkspaceViewModel = new WorkspaceViewModel();
 
             ClickMeButtonCommand = new RelayCommand(ExecuteClickMe, CanExecuteClickMe);
         }

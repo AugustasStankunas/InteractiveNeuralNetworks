@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
+using System.Windows.Data;
 
 namespace InteractiveNeuralNetworks.Commands
 {
@@ -48,9 +49,16 @@ namespace InteractiveNeuralNetworks.Commands
 
         private void OnEvent(object sender, EventArgs e)
         {
-            if (Command != null && Command.CanExecute(CommandParameter ?? e))
+            var multiBindingExpr = BindingOperations.GetMultiBindingExpression(this, CommandParameterProperty);
+            if (multiBindingExpr != null)
             {
-                Command.Execute(CommandParameter ?? e);
+                multiBindingExpr.UpdateTarget();
+            }
+
+            object parameter = CommandParameter ?? e;
+            if (Command != null && Command.CanExecute(parameter))
+            {
+                Command.Execute(parameter);
             }
         }
     }
