@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace InteractiveNeuralNetworks.ViewModels
 {
-    internal class BuilderViewModel : ViewModelBase
+    public class BuilderViewModel : ViewModelBase
     {
         public BuilderModel Model { get; set; }
         public WorkspaceViewModel WorkspaceViewModel { get; set; }

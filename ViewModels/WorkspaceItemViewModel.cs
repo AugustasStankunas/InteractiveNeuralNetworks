@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
+using InteractiveNeuralNetworks.Commands;
 
 namespace InteractiveNeuralNetworks.ViewModels
 {
-    internal class WorkspaceItemViewModel : ViewModelBase
+    public class WorkspaceItemViewModel : ViewModelBase
     {
         private bool _IsSelected;
         public bool IsSelected
@@ -100,18 +102,9 @@ namespace InteractiveNeuralNetworks.ViewModels
             Color = color;
             Width = width;
             Height = height;
+
         }
 
-        public void CheckIfSelected(MouseEventArgs e)
-        {
-            Point mousePos = e.GetPosition((IInputElement)e.Source);
-            Point relativeMousePos = e.GetPosition((IInputElement)e.OriginalSource);
-            if (mousePos.X >= StablePosition.X && mousePos.X <= StablePosition.X + Width &&
-                mousePos.Y >= StablePosition.Y && mousePos.Y <= StablePosition.Y + Height)
-            {
-                IsSelected = true;
-                SelectionPosition = relativeMousePos;
-            }
-        }
+        public WorkspaceItemViewModel() : this(0, 0, 50, 50, "Red") { }
     }
 }

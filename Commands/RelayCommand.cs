@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace InteractiveNeuralNetworks.Commands
 {
-    internal class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
         private readonly Action<object>? _Execute;
         private Predicate<object>? _CanExecute;
