@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows;
 
-namespace InteractiveNeuralNetworks.Utilities
+namespace InteractiveNeuralNetworks.Converters
 {
     public class RectConverter : IValueConverter
     {
