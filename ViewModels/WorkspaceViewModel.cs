@@ -1,4 +1,5 @@
 ﻿using InteractiveNeuralNetworks.Commands;
+using InteractiveNeuralNetworks.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,8 +15,10 @@ namespace InteractiveNeuralNetworks.ViewModels
     public class WorkspaceViewModel : ViewModelBase
     {
         public ICommand MouseMoveCommand { get; }
+        public ICommand DragOverCommand { get; }
+
         private Point _MousePos;
-        public Point MousePos 
+        public Point MousePos
         {
             get => _MousePos;
             set
@@ -59,6 +62,8 @@ namespace InteractiveNeuralNetworks.ViewModels
             }
         }
 
+        private Point mouseOffset; // The offset of the mouse to the top left corner of the rectangle
+
         public ObservableCollection<WorkspaceItemViewModel> WorkspaceItems { get; set; } = new ObservableCollection<WorkspaceItemViewModel>();
 
         public WorkspaceViewModel()
@@ -72,14 +77,34 @@ namespace InteractiveNeuralNetworks.ViewModels
             WorkspaceItems.Add(new WorkspaceItemViewModel(220, 330, 75, 75, "LightBlue"));
 
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(Rectangle_MouseMove);
+            DragOverCommand = new RelayCommand<DragEventArgs>(Rectangle_DragOver);
         }
+        //fires when mouse moved, but action happens when mouse is pressed on a rectangle and then moved - drag action starts
         private void Rectangle_MouseMove(MouseEventArgs e)
         {
-            var data = e.Source as UIElement;
-            if (data != null && e.LeftButton == MouseButtonState.Pressed)
+            var data = e.OriginalSource as FrameworkElement;
+            if (data != null && e.LeftButton == MouseButtonState.Pressed && data.DataContext is WorkspaceItemViewModel)
             {
-                DragDrop.DoDragDrop(data, new DataObject(data), DragDropEffects.Move);
+                mouseOffset = e.GetPosition(data); // mouse position relative to top-left of the rectangle
+                DragDrop.DoDragDrop(e.OriginalSource as UIElement, new DataObject(typeof(WorkspaceItemViewModel), data.DataContext), DragDropEffects.Move);
             }
+        }
+
+        private void Rectangle_DragOver(DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(WorkspaceItemViewModel)))
+            {
+                var draggedItem = e.Data.GetData(typeof(WorkspaceItemViewModel)) as WorkspaceItemViewModel;
+                Point dropPosition = e.GetPosition(e.Source as IInputElement);
+                if (draggedItem != null)
+                {
+                    dropPosition.X -= mouseOffset.X;
+                    dropPosition.Y -= mouseOffset.Y;
+                    draggedItem.Position = dropPosition;
+                }
+                    
+            }
+            
         }
     }
 }
