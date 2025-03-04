@@ -19,57 +19,62 @@
         <converters:DragDropParametersConverter x:Key="DragDropParametersConverter" />
     </Window.Resources>
     <Grid>
-        <Border BorderBrush="Black" BorderThickness="1" Margin="20">
-            <Border ClipToBounds="True">
-                <ItemsControl ItemsSource="{Binding WorkspaceViewModel.WorkspaceItems, UpdateSourceTrigger=PropertyChanged}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas x:Name="canvas"
+        <DockPanel>
+            <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+                <Button Content="Click Me!" Command="{Binding Path=ClickMeButtonCommand}"></Button>
+            </StackPanel>
+            <Border BorderBrush="Black" BorderThickness="1" Margin="20">
+                <Border ClipToBounds="True">
+                    <ItemsControl ItemsSource="{Binding WorkspaceViewModel.WorkspaceItems, UpdateSourceTrigger=PropertyChanged}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas x:Name="canvas"
                                 AllowDrop="True">
-                                <Canvas.Background>
-                                    <DrawingBrush TileMode="Tile"
+                                    <Canvas.Background>
+                                        <DrawingBrush TileMode="Tile"
                                               Viewport="{Binding WorkspaceViewModel.CanvasViewPortPos, 
                                                          Converter={StaticResource RectConverter},
                                                          ConverterParameter='50,50'}" ViewportUnits="Absolute"
                                               Viewbox="0,0,50,50" ViewboxUnits="Absolute">
-                                        <DrawingBrush.Drawing>
-                                            <DrawingGroup>
-                                                <GeometryDrawing Brush="Black">
-                                                    <GeometryDrawing.Geometry>
-                                                        <EllipseGeometry Center="25, 25" RadiusX="2" RadiusY="2"/>
-                                                    </GeometryDrawing.Geometry>
-                                                </GeometryDrawing>
-                                            </DrawingGroup>
-                                        </DrawingBrush.Drawing>
-                                    </DrawingBrush>
-                                </Canvas.Background>
-                            </Canvas>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style TargetType="ContentPresenter">
-                            <Setter Property="Canvas.Left" Value="{Binding Position.X}"/>
-                            <Setter Property="Canvas.Top" Value="{Binding Position.Y}"/>
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="Black" BorderThickness="{Binding Border, UpdateSourceTrigger=PropertyChanged}">
-                                <Rectangle 
+                                            <DrawingBrush.Drawing>
+                                                <DrawingGroup>
+                                                    <GeometryDrawing Brush="Black">
+                                                        <GeometryDrawing.Geometry>
+                                                            <EllipseGeometry Center="25, 25" RadiusX="2" RadiusY="2"/>
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                </DrawingGroup>
+                                            </DrawingBrush.Drawing>
+                                        </DrawingBrush>
+                                    </Canvas.Background>
+                                </Canvas>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Canvas.Left" Value="{Binding Position.X}"/>
+                                <Setter Property="Canvas.Top" Value="{Binding Position.Y}"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Black" BorderThickness="{Binding Border, UpdateSourceTrigger=PropertyChanged}">
+                                    <Rectangle 
                                         Width="{Binding Width}" 
                                         Height="{Binding Height}" 
                                         Fill="{Binding Color}"
                                         AllowDrop="True"/>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <i:Interaction.Behaviors>
-                    <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding WorkspaceViewModel.MouseMoveCommand}" />
-                    <commands:EventToCommandBehavior EventName="DragOver" Command="{Binding WorkspaceViewModel.DragOverCommand}"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <i:Interaction.Behaviors>
+                        <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding WorkspaceViewModel.MouseMoveCommand}" />
+                        <commands:EventToCommandBehavior EventName="DragOver" Command="{Binding WorkspaceViewModel.DragOverCommand}"/>
 
-                </i:Interaction.Behaviors>
+                    </i:Interaction.Behaviors>
+                </Border>
             </Border>
-        </Border>
+        </DockPanel>
     </Grid>
 </Window>

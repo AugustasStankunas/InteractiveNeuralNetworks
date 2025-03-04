@@ -16,6 +16,7 @@ namespace InteractiveNeuralNetworks.ViewModels
     {
         public ICommand MouseMoveCommand { get; }
         public ICommand DragOverCommand { get; }
+        public ICommand ClickMeButtonComand { get; }
 
         private Point _MousePos;
         public Point MousePos
@@ -78,6 +79,7 @@ namespace InteractiveNeuralNetworks.ViewModels
 
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(Rectangle_MouseMove);
             DragOverCommand = new RelayCommand<DragEventArgs>(Rectangle_DragOver);
+
         }
         //fires when mouse moved, but action happens when mouse is pressed on a rectangle and then moved - drag action starts
         private void Rectangle_MouseMove(MouseEventArgs e)
