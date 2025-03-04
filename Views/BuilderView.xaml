@@ -26,10 +26,10 @@
                             <Canvas AllowDrop="True">
                                 <Canvas.Background>
                                     <DrawingBrush TileMode="Tile"
-                                          Viewport="{Binding WorkspaceViewModel.CanvasViewPortPos, 
-                                                     Converter={StaticResource RectConverter},
-                                                     ConverterParameter='50,50'}" ViewportUnits="Absolute"
-                                          Viewbox="0,0,50,50" ViewboxUnits="Absolute">
+                                              Viewport="{Binding WorkspaceViewModel.CanvasViewPortPos, 
+                                                         Converter={StaticResource RectConverter},
+                                                         ConverterParameter='50,50'}" ViewportUnits="Absolute"
+                                              Viewbox="0,0,50,50" ViewboxUnits="Absolute">
                                         <DrawingBrush.Drawing>
                                             <DrawingGroup>
                                                 <GeometryDrawing Brush="Black">
@@ -54,10 +54,10 @@
                         <DataTemplate>
                             <Border BorderBrush="Black" BorderThickness="{Binding Border, UpdateSourceTrigger=PropertyChanged}">
                                 <Rectangle 
-                                    Width="{Binding Width}" 
-                                    Height="{Binding Height}" 
-                                    Fill="{Binding Color}"
-                                    AllowDrop="True"/>
+                                        Width="{Binding Width}" 
+                                        Height="{Binding Height}" 
+                                        Fill="{Binding Color}"
+                                        AllowDrop="True"/>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
