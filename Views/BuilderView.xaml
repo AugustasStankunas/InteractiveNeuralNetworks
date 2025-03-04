@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InteractiveNeuralNetworks"
         xmlns:commands="clr-namespace:InteractiveNeuralNetworks.Commands"
-        xmlns:utilities="clr-namespace:InteractiveNeuralNetworks.Utilities"
+        xmlns:converters="clr-namespace:InteractiveNeuralNetworks.Converters"
         xmlns:vm="clr-namespace:InteractiveNeuralNetworks.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800">
@@ -15,7 +15,8 @@
         <vm:BuilderViewModel />
     </Window.DataContext>
     <Window.Resources>
-        <utilities:RectConverter x:Key="RectConverter" />
+        <converters:RectConverter x:Key="RectConverter" />
+        <converters:DragDropParametersConverter x:Key="DragDropParametersConverter" />
     </Window.Resources>
     <Grid>
         <Border BorderBrush="Black" BorderThickness="1" Margin="20">
@@ -23,7 +24,8 @@
                 <ItemsControl ItemsSource="{Binding WorkspaceViewModel.WorkspaceItems, UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <Canvas AllowDrop="True">
+                            <Canvas x:Name="canvas"
+                                AllowDrop="True">
                                 <Canvas.Background>
                                     <DrawingBrush TileMode="Tile"
                                           Viewport="{Binding WorkspaceViewModel.CanvasViewPortPos, 
@@ -64,6 +66,8 @@
                 </ItemsControl>
                 <i:Interaction.Behaviors>
                     <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding WorkspaceViewModel.MouseMoveCommand}" />
+                    <commands:EventToCommandBehavior EventName="DragOver" Command="{Binding WorkspaceViewModel.DragOverCommand}"/>
+
                 </i:Interaction.Behaviors>
             </Border>
         </Border>
