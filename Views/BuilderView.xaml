@@ -23,7 +23,7 @@
                 <ItemsControl ItemsSource="{Binding WorkspaceViewModel.WorkspaceItems, UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <Canvas>
+                            <Canvas AllowDrop="True">
                                 <Canvas.Background>
                                     <DrawingBrush TileMode="Tile"
                                           Viewport="{Binding WorkspaceViewModel.CanvasViewPortPos, 
@@ -53,11 +53,18 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="Black" BorderThickness="{Binding Border, UpdateSourceTrigger=PropertyChanged}">
-                                <Rectangle Width="{Binding Width}" Height="{Binding Height}" Fill="{Binding Color}" />
+                                <Rectangle 
+                                    Width="{Binding Width}" 
+                                    Height="{Binding Height}" 
+                                    Fill="{Binding Color}"
+                                    AllowDrop="True"/>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+                <i:Interaction.Behaviors>
+                    <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding WorkspaceViewModel.MouseMoveCommand}" />
+                </i:Interaction.Behaviors>
             </Border>
         </Border>
     </Grid>

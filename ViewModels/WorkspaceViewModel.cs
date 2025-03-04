@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace InteractiveNeuralNetworks.ViewModels
 {
     public class WorkspaceViewModel : ViewModelBase
     {
+        public ICommand MouseMoveCommand { get; }
         private Point _MousePos;
         public Point MousePos 
         {
@@ -68,6 +70,16 @@ namespace InteractiveNeuralNetworks.ViewModels
             WorkspaceItems.Add(new WorkspaceItemViewModel(0, 0, 60, 60, "Orange"));
             WorkspaceItems.Add(new WorkspaceItemViewModel(105, 123, 50, 50, "Pink"));
             WorkspaceItems.Add(new WorkspaceItemViewModel(220, 330, 75, 75, "LightBlue"));
+
+            MouseMoveCommand = new RelayCommand<MouseEventArgs>(Rectangle_MouseMove);
+        }
+        private void Rectangle_MouseMove(MouseEventArgs e)
+        {
+            var data = e.Source as UIElement;
+            if (data != null && e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragDrop.DoDragDrop(data, new DataObject(data), DragDropEffects.Move);
+            }
         }
     }
 }

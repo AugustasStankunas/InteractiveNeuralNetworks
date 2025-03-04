@@ -103,15 +103,8 @@ namespace InteractiveNeuralNetworks.ViewModels
             Width = width;
             Height = height;
 
-            MouseMoveCommand = new RelayCommand(OnMouseMove);
         }
 
         public WorkspaceItemViewModel() : this(0, 0, 50, 50, "Red") { }
-
-        public ICommand MouseMoveCommand { get; }
-        private void OnMouseMove(MouseEventArgs e)
-        {
-            DragDrop.DoDragDrop(this, new DataObject(this), DragDropEffects.Move);
-        }
     }
 }
