@@ -30,6 +30,14 @@
                             <ItemsPanelTemplate>
                                 <Canvas x:Name="canvas"
                                 AllowDrop="True">
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="{Binding WorkspaceViewModel.ZoomFactor}"
+                                                            ScaleY="{Binding WorkspaceViewModel.ZoomFactor}"/>
+                                            <TranslateTransform X="{Binding WorkspaceViewModel.CanvasPanOffset.X}"
+                                                                Y="{Binding WorkspaceViewModel.CanvasPanOffset.Y}"/>
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
                                     <Canvas.Background>
                                         <DrawingBrush TileMode="Tile"
                                               Viewport="{Binding WorkspaceViewModel.CanvasViewPortPos, 
@@ -69,9 +77,11 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                     <i:Interaction.Behaviors>
+                        <commands:EventToCommandBehavior EventName="MouseLeftButtonDown" Command="{Binding WorkspaceViewModel.MouseLeftButtonDownCommand}" />
                         <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding WorkspaceViewModel.MouseMoveCommand}" />
                         <commands:EventToCommandBehavior EventName="DragOver" Command="{Binding WorkspaceViewModel.DragOverCommand}"/>
-
+                        <commands:EventToCommandBehavior EventName="MouseLeftButtonUp" Command="{Binding WorkspaceViewModel.MouseLeftButtonUpCommand}"/>
+                        <commands:EventToCommandBehavior EventName="MouseWheel" Command="{Binding WorkspaceViewModel.MouseWheelCommand}"/>
                     </i:Interaction.Behaviors>
                 </Border>
             </Border>
