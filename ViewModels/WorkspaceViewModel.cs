@@ -16,6 +16,9 @@ namespace InteractiveNeuralNetworks.ViewModels
 {
     public class WorkspaceViewModel : ViewModelBase
     {
+        public BuilderViewModel Builder { get; set; }
+        
+
         public ICommand MouseMoveCommand { get; }
         public ICommand DragOverCommand { get; }
         public ICommand MouseWheelCommand { get; }
@@ -56,15 +59,16 @@ namespace InteractiveNeuralNetworks.ViewModels
 
         public ObservableCollection<WorkspaceItemViewModel> WorkspaceItems { get; set; } = new ObservableCollection<WorkspaceItemViewModel>();
 
-        public WorkspaceViewModel()
+        public WorkspaceViewModel(BuilderViewModel builderViewModel)
         {
+            Builder = builderViewModel;
 
             CanvasViewPortPos = new Point(0, 0);
             _CanvasViewPortStablePos = new Point(0, 0);
 
-            WorkspaceItems.Add(new WorkspaceItemViewModel(0, 0, 60, 60, "Orange"));
-            WorkspaceItems.Add(new WorkspaceItemViewModel(105, 123, 50, 50, "Pink"));
-            WorkspaceItems.Add(new WorkspaceItemViewModel(220, 330, 75, 75, "LightBlue"));
+            WorkspaceItems.Add(new WorkspaceItemViewModel("OrangeControl", 0, 0, 60, 60, "Orange"));
+            WorkspaceItems.Add(new WorkspaceItemViewModel("PinkControl", 105, 123, 50, 50, "Pink"));
+            WorkspaceItems.Add(new WorkspaceItemViewModel("BlueControl", 220, 330, 75, 75, "LightBlue"));
 
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
             DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);
@@ -147,6 +151,12 @@ namespace InteractiveNeuralNetworks.ViewModels
         private void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             _isPanning = false;
+
+            if (Builder.WorkspaceItemSelected.Count > 0)
+            {
+                Point mousePos = e.GetPosition(e.OriginalSource as IInputElement);
+                WorkspaceItems.Add(WorkspaceItemCreator.GetWorkspaceItem(Builder.WorkspaceItemSelected[0].ControlType, mousePos));
+            }
         }
 
     }

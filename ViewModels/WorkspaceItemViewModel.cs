@@ -13,6 +13,8 @@ namespace InteractiveNeuralNetworks.ViewModels
 {
     public class WorkspaceItemViewModel : ViewModelBase
     {
+        public string ControlType { get; set; }
+
         private bool _IsSelected;
         public bool IsSelected
         {
@@ -95,16 +97,28 @@ namespace InteractiveNeuralNetworks.ViewModels
             }
         }
 
-        public WorkspaceItemViewModel(double x, double y, int width, int height, string color)
+        private double _Opacity;
+        public double Opacity
         {
+            get => _Opacity;
+            set
+            {
+                _Opacity = value;
+                OnPropertyChanged(nameof(Opacity));
+            }
+        }
+
+        public WorkspaceItemViewModel(string controlType, double x, double y, int width, int height, string color, double opacity = 1)
+        {
+            ControlType = controlType;
             Position = new Point(x, y);
             StablePosition = new Point(x, y);
             Color = color;
             Width = width;
             Height = height;
-
+            Opacity = opacity;
         }
 
-        public WorkspaceItemViewModel() : this(0, 0, 50, 50, "Red") { }
+        public WorkspaceItemViewModel() { }
     }
 }

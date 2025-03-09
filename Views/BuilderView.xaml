@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:InteractiveNeuralNetworks"
         xmlns:commands="clr-namespace:InteractiveNeuralNetworks.Commands"
         xmlns:converters="clr-namespace:InteractiveNeuralNetworks.Converters"
+        xmlns:views="clr-namespace:InteractiveNeuralNetworks.Views"
         xmlns:vm="clr-namespace:InteractiveNeuralNetworks.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800">
@@ -17,33 +18,70 @@
     <Window.Resources>
         <converters:RectConverter x:Key="RectConverter" />
         <converters:DragDropParametersConverter x:Key="DragDropParametersConverter" />
+        <DataTemplate DataType="{x:Type vm:ToolbarItemViewModel}">
+            <views:ToolbarItemView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:WorkspaceItemViewModel}">
+            <views:WorkspaceItemView/>
+        </DataTemplate>
     </Window.Resources>
-    <Grid>
-        <DockPanel>
+
+    <Canvas x:Name="MainCanvas">
+
+        <ItemsControl ItemsSource="{Binding WorkspaceItemSelected, UpdateSourceTrigger=PropertyChanged}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas x:Name="canvas"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding Position.X, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Position.Y, UpdateSourceTrigger=PropertyChanged}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+
+        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                   Width="{Binding ActualWidth, ElementName=MainCanvas}"
+                   Height="{Binding ActualHeight, ElementName=MainCanvas}">
             <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
                 <Button Content="Click Me!" Command="{Binding Path=ClickMeButtonCommand}"></Button>
             </StackPanel>
-            <Border BorderBrush="Black" BorderThickness="1" Margin="20">
+            
+            <Border BorderBrush="Black" BorderThickness="1" Margin="20, 20, 0, 20" DockPanel.Dock="Left">
+                <ItemsControl ItemsSource="{Binding ToolbarViewModel.ToolbarItems, UpdateSourceTrigger=PropertyChanged}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel AllowDrop="True" Orientation="Vertical">
+
+                            </StackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+                
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Margin="20" DockPanel.Dock="Right">
                 <Border ClipToBounds="True">
                     <ItemsControl ItemsSource="{Binding WorkspaceViewModel.WorkspaceItems, UpdateSourceTrigger=PropertyChanged}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <Canvas x:Name="canvas"
-                                AllowDrop="True">
+                        AllowDrop="True">
                                     <Canvas.RenderTransform>
                                         <TransformGroup>
                                             <ScaleTransform ScaleX="{Binding WorkspaceViewModel.ZoomFactor}"
-                                                            ScaleY="{Binding WorkspaceViewModel.ZoomFactor}"/>
+                                ScaleY="{Binding WorkspaceViewModel.ZoomFactor}"/>
                                             <TranslateTransform X="{Binding WorkspaceViewModel.CanvasPanOffset.X}"
-                                                                Y="{Binding WorkspaceViewModel.CanvasPanOffset.Y}"/>
+                                    Y="{Binding WorkspaceViewModel.CanvasPanOffset.Y}"/>
                                         </TransformGroup>
                                     </Canvas.RenderTransform>
                                     <Canvas.Background>
                                         <DrawingBrush TileMode="Tile"
-                                              Viewport="{Binding WorkspaceViewModel.CanvasViewPortPos, 
-                                                         Converter={StaticResource RectConverter},
-                                                         ConverterParameter='50,50'}" ViewportUnits="Absolute"
-                                              Viewbox="0,0,50,50" ViewboxUnits="Absolute">
+                  Viewport="{Binding WorkspaceViewModel.CanvasViewPortPos, 
+                             Converter={StaticResource RectConverter},
+                             ConverterParameter='50,50'}" ViewportUnits="Absolute"
+                  Viewbox="0,0,50,50" ViewboxUnits="Absolute">
                                             <DrawingBrush.Drawing>
                                                 <DrawingGroup>
                                                     <GeometryDrawing Brush="Black">
@@ -64,17 +102,11 @@
                                 <Setter Property="Canvas.Top" Value="{Binding Position.Y}"/>
                             </Style>
                         </ItemsControl.ItemContainerStyle>
-                        <ItemsControl.ItemTemplate>
+                        <!--<ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border BorderBrush="Black" BorderThickness="{Binding Border, UpdateSourceTrigger=PropertyChanged}">
-                                    <Rectangle 
-                                        Width="{Binding Width}" 
-                                        Height="{Binding Height}" 
-                                        Fill="{Binding Color}"
-                                        AllowDrop="True"/>
-                                </Border>
+                                
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
+                        </ItemsControl.ItemTemplate>-->
                     </ItemsControl>
                     <i:Interaction.Behaviors>
                         <commands:EventToCommandBehavior EventName="MouseLeftButtonDown" Command="{Binding WorkspaceViewModel.MouseLeftButtonDownCommand}" />
@@ -85,6 +117,15 @@
                     </i:Interaction.Behaviors>
                 </Border>
             </Border>
+
         </DockPanel>
-    </Grid>
+        <!--<i:Interaction.Behaviors>
+            <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding MouseMoveCommand}" />
+            <commands:EventToCommandBehavior EventName="MouseLeftButtonUp" Command="{Binding MouseLeftButtonUpCommand}" />
+        </i:Interaction.Behaviors>-->
+    </Canvas>
+    <i:Interaction.Behaviors>
+        <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding MouseMoveCommand}" />
+        <commands:EventToCommandBehavior EventName="MouseLeftButtonUp" Command="{Binding MouseLeftButtonUpCommand}"/>
+    </i:Interaction.Behaviors>
 </Window>
