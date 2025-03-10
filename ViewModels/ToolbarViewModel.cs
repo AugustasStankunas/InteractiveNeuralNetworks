@@ -16,6 +16,7 @@ namespace InteractiveNeuralNetworks.ViewModels
             ToolbarItems.Add(new TBActivationFunctionViewModel(this));
             ToolbarItems.Add(new TBConvolutionViewModel(this));
             ToolbarItems.Add(new TBPoolingViewModel(this));
+            ToolbarItems.Add(new TBConnectionViewModel(this));
         }
     }
 }

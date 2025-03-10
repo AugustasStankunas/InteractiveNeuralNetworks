@@ -44,7 +44,7 @@ namespace InteractiveNeuralNetworks.ViewModels
         public virtual void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             Point mousePos = e.GetPosition(null);
-            WorkspaceItemViewModel selectedItem = new WorkspaceItemViewModel(mousePos.X, mousePos.Y, 60, 60, "Neon");
+            WorkspaceItemViewModel selectedItem = new WorkspaceItemViewModel(mousePos.X, mousePos.Y, 60, 60, "Black");
             selectedItem.Opacity = 0.5;
             Toolbar.Builder.WorkspaceItemSelected.Add(selectedItem);
         }

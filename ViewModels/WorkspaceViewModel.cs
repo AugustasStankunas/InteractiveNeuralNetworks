@@ -1,5 +1,6 @@
 ﻿using InteractiveNeuralNetworks.Commands;
 using InteractiveNeuralNetworks.Helpers;
+using InteractiveNeuralNetworks.ViewModels.WorkspaceElements;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,18 +25,6 @@ namespace InteractiveNeuralNetworks.ViewModels
         public ICommand MouseLeftButtonDownCommand { get; }
         public ICommand MouseLeftButtonUpCommand { get; }
 
-        private Point _CanvasViewPortStablePos;
-        private Point _CanvasViewPortPos;
-        public Point CanvasViewPortPos
-        {
-            get => _CanvasViewPortPos;
-            set
-            {
-                _CanvasViewPortPos = value;
-                OnPropertyChanged(nameof(CanvasViewPortPos));
-            }
-        }
-
         private double _zoomFactor = 1.0;
         public double ZoomFactor
         {
@@ -57,17 +46,20 @@ namespace InteractiveNeuralNetworks.ViewModels
         private Point _panStart;
 
         public ObservableCollection<WorkspaceItemViewModel> WorkspaceItems { get; set; } = new ObservableCollection<WorkspaceItemViewModel>();
+        public ObservableCollection<WSConnectionViewModel> WorkspaceConnections { get; set; } = new ObservableCollection<WSConnectionViewModel>();
 
         public WorkspaceViewModel(BuilderViewModel builderViewModel)
         {
             Builder = builderViewModel;
 
-            CanvasViewPortPos = new Point(0, 0);
-            _CanvasViewPortStablePos = new Point(0, 0);
+            CanvasPanOffset = new Point(0, 0);
 
             WorkspaceItems.Add(new WorkspaceItemViewModel(0, 0, 60, 60, "Orange"));
             WorkspaceItems.Add(new WorkspaceItemViewModel(105, 123, 50, 50, "Pink"));
             WorkspaceItems.Add(new WorkspaceItemViewModel(220, 330, 75, 75, "LightBlue"));
+
+            WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[0], WorkspaceItems[1]));
+            WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
 
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
             DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);

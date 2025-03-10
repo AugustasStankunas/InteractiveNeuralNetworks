@@ -9,6 +9,7 @@
         xmlns:converters="clr-namespace:InteractiveNeuralNetworks.Converters"
         xmlns:views="clr-namespace:InteractiveNeuralNetworks.Views"
         xmlns:vm="clr-namespace:InteractiveNeuralNetworks.ViewModels"
+        xmlns:wvm="clr-namespace:InteractiveNeuralNetworks.ViewModels.WorkspaceElements"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800">
 
@@ -23,6 +24,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:WorkspaceItemViewModel}">
             <views:WorkspaceItemView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type wvm:WSConnectionViewModel}">
+            <views:ConnectionView/>
         </DataTemplate>
     </Window.Resources>
 
@@ -48,7 +52,7 @@
             <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
                 <Button Content="Click Me!" Command="{Binding Path=ClickMeButtonCommand}"></Button>
             </StackPanel>
-            
+
             <Border BorderBrush="Black" BorderThickness="1" Margin="20, 20, 0, 20" DockPanel.Dock="Left">
                 <ItemsControl ItemsSource="{Binding ToolbarViewModel.ToolbarItems, UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl.ItemsPanel>
@@ -57,55 +61,68 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
-                
+
             </Border>
-            <Border BorderBrush="Black" BorderThickness="1" Margin="20" DockPanel.Dock="Right">
-                <Border ClipToBounds="True">
-                    <ItemsControl ItemsSource="{Binding WorkspaceViewModel.WorkspaceItems, UpdateSourceTrigger=PropertyChanged}">
+            <Border BorderBrush="Black" BorderThickness="1" Margin="20" DockPanel.Dock="Right" ClipToBounds="True">
+                <Canvas x:Name="Canvas" Height="10000" Width="10000">
+                    <Canvas.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform 
+                                    ScaleX="{Binding WorkspaceViewModel.ZoomFactor}" 
+                                    ScaleY="{Binding WorkspaceViewModel.ZoomFactor}"/>
+                            <TranslateTransform 
+                                    X="{Binding WorkspaceViewModel.CanvasPanOffset.X}" 
+                                    Y="{Binding WorkspaceViewModel.CanvasPanOffset.Y}"/>
+                        </TransformGroup>
+                    </Canvas.RenderTransform>
+
+                    <Canvas.Background>
+                        <DrawingBrush TileMode="Tile"
+                                      Viewport="0,0,100,100" 
+                                      ViewportUnits="Absolute"
+                                      Viewbox="0,0,2,2"
+                                      ViewboxUnits="Absolute"
+                          Stretch="None">
+                            <DrawingBrush.Drawing>
+                                <DrawingGroup>
+                                    <GeometryDrawing Brush="Black">
+                                        <GeometryDrawing.Geometry>
+                                            <EllipseGeometry Center="10,10" RadiusX="3" RadiusY="3"/>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup>
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Canvas.Background>
+
+                    <ItemsControl ItemsSource="{Binding WorkspaceViewModel.WorkspaceConnections}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <Canvas x:Name="canvas"
-                        AllowDrop="True">
-                                    <Canvas.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform ScaleX="{Binding WorkspaceViewModel.ZoomFactor}"
-                                ScaleY="{Binding WorkspaceViewModel.ZoomFactor}"/>
-                                            <TranslateTransform X="{Binding WorkspaceViewModel.CanvasPanOffset.X}"
-                                    Y="{Binding WorkspaceViewModel.CanvasPanOffset.Y}"/>
-                                        </TransformGroup>
-                                    </Canvas.RenderTransform>
-                                    <Canvas.Background>
-                                        <DrawingBrush TileMode="Tile"
-                  Viewport="{Binding WorkspaceViewModel.CanvasViewPortPos, 
-                             Converter={StaticResource RectConverter},
-                             ConverterParameter='50,50'}" ViewportUnits="Absolute"
-                  Viewbox="0,0,50,50" ViewboxUnits="Absolute">
-                                            <DrawingBrush.Drawing>
-                                                <DrawingGroup>
-                                                    <GeometryDrawing Brush="Black">
-                                                        <GeometryDrawing.Geometry>
-                                                            <EllipseGeometry Center="25, 25" RadiusX="2" RadiusY="2"/>
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                </DrawingGroup>
-                                            </DrawingBrush.Drawing>
-                                        </DrawingBrush>
-                                    </Canvas.Background>
-                                </Canvas>
+                                <Canvas />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Panel.ZIndex" Value="0"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ItemsControl>
+
+                    <ItemsControl ItemsSource="{Binding WorkspaceViewModel.WorkspaceItems}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemContainerStyle>
                             <Style TargetType="ContentPresenter">
                                 <Setter Property="Canvas.Left" Value="{Binding Position.X}"/>
                                 <Setter Property="Canvas.Top" Value="{Binding Position.Y}"/>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
                             </Style>
                         </ItemsControl.ItemContainerStyle>
-                        <!--<ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>-->
                     </ItemsControl>
+
                     <i:Interaction.Behaviors>
                         <commands:EventToCommandBehavior EventName="MouseLeftButtonDown" Command="{Binding WorkspaceViewModel.MouseLeftButtonDownCommand}" />
                         <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding WorkspaceViewModel.MouseMoveCommand}" />
@@ -113,14 +130,10 @@
                         <commands:EventToCommandBehavior EventName="MouseLeftButtonUp" Command="{Binding WorkspaceViewModel.MouseLeftButtonUpCommand}"/>
                         <commands:EventToCommandBehavior EventName="MouseWheel" Command="{Binding WorkspaceViewModel.MouseWheelCommand}"/>
                     </i:Interaction.Behaviors>
-                </Border>
+                </Canvas>
             </Border>
 
         </DockPanel>
-        <!--<i:Interaction.Behaviors>
-            <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding MouseMoveCommand}" />
-            <commands:EventToCommandBehavior EventName="MouseLeftButtonUp" Command="{Binding MouseLeftButtonUpCommand}" />
-        </i:Interaction.Behaviors>-->
     </Canvas>
     <i:Interaction.Behaviors>
         <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding MouseMoveCommand}" />
