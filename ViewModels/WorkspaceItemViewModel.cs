@@ -108,9 +108,8 @@ namespace InteractiveNeuralNetworks.ViewModels
             }
         }
 
-        public WorkspaceItemViewModel(string controlType, double x, double y, int width, int height, string color, double opacity = 1)
+        public WorkspaceItemViewModel(double x, double y, int width, int height, string color, double opacity = 1)
         {
-            ControlType = controlType;
             Position = new Point(x, y);
             StablePosition = new Point(x, y);
             Color = color;

@@ -17,7 +17,6 @@ namespace InteractiveNeuralNetworks.ViewModels
     public class WorkspaceViewModel : ViewModelBase
     {
         public BuilderViewModel Builder { get; set; }
-        
 
         public ICommand MouseMoveCommand { get; }
         public ICommand DragOverCommand { get; }
@@ -66,9 +65,9 @@ namespace InteractiveNeuralNetworks.ViewModels
             CanvasViewPortPos = new Point(0, 0);
             _CanvasViewPortStablePos = new Point(0, 0);
 
-            WorkspaceItems.Add(new WorkspaceItemViewModel("OrangeControl", 0, 0, 60, 60, "Orange"));
-            WorkspaceItems.Add(new WorkspaceItemViewModel("PinkControl", 105, 123, 50, 50, "Pink"));
-            WorkspaceItems.Add(new WorkspaceItemViewModel("BlueControl", 220, 330, 75, 75, "LightBlue"));
+            WorkspaceItems.Add(new WorkspaceItemViewModel(0, 0, 60, 60, "Orange"));
+            WorkspaceItems.Add(new WorkspaceItemViewModel(105, 123, 50, 50, "Pink"));
+            WorkspaceItems.Add(new WorkspaceItemViewModel(220, 330, 75, 75, "LightBlue"));
 
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
             DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);
@@ -155,7 +154,9 @@ namespace InteractiveNeuralNetworks.ViewModels
             if (Builder.WorkspaceItemSelected.Count > 0)
             {
                 Point mousePos = e.GetPosition(e.OriginalSource as IInputElement);
-                WorkspaceItems.Add(WorkspaceItemCreator.GetWorkspaceItem(Builder.WorkspaceItemSelected[0].ControlType, mousePos));
+                Builder.WorkspaceItemSelected[0].Opacity = 1;
+                Builder.WorkspaceItemSelected[0].Position = mousePos;
+                WorkspaceItems.Add(Builder.WorkspaceItemSelected[0]);
             }
         }
 

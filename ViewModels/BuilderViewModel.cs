@@ -47,8 +47,6 @@ namespace InteractiveNeuralNetworks.ViewModels
         private void ExecuteClickMe(object obj)
         {
             Counter++;
-            //CanvasViewModel.CanvasItems.Add(new CanvasItemViewModel(50, 50, "Black"));
-
         }
         private bool CanExecuteClickMe(object obj)
         {

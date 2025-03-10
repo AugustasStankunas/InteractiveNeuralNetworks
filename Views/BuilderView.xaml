@@ -53,9 +53,7 @@
                 <ItemsControl ItemsSource="{Binding ToolbarViewModel.ToolbarItems, UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel AllowDrop="True" Orientation="Vertical">
-
-                            </StackPanel>
+                            <StackPanel AllowDrop="True" Orientation="Vertical"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>

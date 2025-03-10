@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace InteractiveNeuralNetworks.ViewModels
 {
-    public class ToolbarItemViewModel
+    public class ToolbarItemViewModel : ViewModelBase
     {
         public string ControlType { get; set; }
         public ToolbarViewModel Toolbar { get; set; }
@@ -25,6 +25,8 @@ namespace InteractiveNeuralNetworks.ViewModels
         public ToolbarItemViewModel(ToolbarViewModel toolbar) 
         { 
             Toolbar = toolbar;
+            MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
+            MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
         }
 
         public ToolbarItemViewModel(ToolbarViewModel toolbar, string controlType, string color, string name) 
@@ -35,43 +37,17 @@ namespace InteractiveNeuralNetworks.ViewModels
             Color = color;
             Name = name;
 
-            //MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
-            DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);
             MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
             MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
         }
 
-        private void OnDragOver(DragEventArgs e)
-        {
-            //if (e.Data.GetDataPresent(typeof(WorkspaceItemViewModel)))
-            //{
-            //    var draggedItem = e.Data.GetData(typeof(WorkspaceItemViewModel)) as WorkspaceItemViewModel;
-            //    Point dropPosition = e.GetPosition(e.Source as IInputElement);
-            //    if (draggedItem != null)
-            //    {
-            //        dropPosition.X -= mouseOffset.X;
-            //        dropPosition.Y -= mouseOffset.Y;
-            //        draggedItem.Position = dropPosition;
-            //    }
-
-            //}
-
-        }
-
-        private void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        public virtual void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             Point mousePos = e.GetPosition(null);
-            WorkspaceItemViewModel selectedItem = WorkspaceItemCreator.GetWorkspaceItem(ControlType, mousePos);
+            WorkspaceItemViewModel selectedItem = new WorkspaceItemViewModel(mousePos.X, mousePos.Y, 60, 60, "Neon");
             selectedItem.Opacity = 0.5;
             Toolbar.Builder.WorkspaceItemSelected.Add(selectedItem);
         }
-
-        //private void OnMouseMove(MouseEventArgs e)
-        //{
-        //    Point mousePos = e.GetPosition(null);
-        //    if (Toolbar.Builder.WorkspaceItemSelected.Count > 0)
-        //        Toolbar.Builder.WorkspaceItemSelected[0].Position = mousePos;
-        //}
 
         private void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
