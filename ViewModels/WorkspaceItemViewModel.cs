@@ -13,8 +13,6 @@ namespace InteractiveNeuralNetworks.ViewModels
 {
     public class WorkspaceItemViewModel : ViewModelBase
     {
-        public string ControlType { get; set; }
-
         private bool _IsSelected;
         public bool IsSelected
         {
