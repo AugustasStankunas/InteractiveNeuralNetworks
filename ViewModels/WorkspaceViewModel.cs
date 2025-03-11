@@ -111,9 +111,21 @@ namespace InteractiveNeuralNetworks.ViewModels
 
         private void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            if (e.OriginalSource is Rectangle)
+            if (e.OriginalSource is Image)
             {
                 var data = e.OriginalSource as FrameworkElement;
+                if (data != null && Builder.isMakingConnection && data.DataContext is WorkspaceItemViewModel)
+                {
+                    if (Builder.connectionInProgress.Source == null)
+                        Builder.connectionInProgress.Source = data.DataContext as WorkspaceItemViewModel;
+                    else
+                    {
+                        Builder.connectionInProgress.Target = data.DataContext as WorkspaceItemViewModel;
+                        WorkspaceConnections.Add(Builder.connectionInProgress);
+                        Builder.connectionInProgress = new WSConnectionViewModel();
+                        Builder.isMakingConnection = false;
+                    }
+                }
                 if (data != null && e.LeftButton == MouseButtonState.Pressed && data.DataContext is WorkspaceItemViewModel)
                 {
                     mouseOffset = e.GetPosition(data); // mouse position relative to top-left of the rectangle

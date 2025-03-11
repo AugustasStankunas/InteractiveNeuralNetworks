@@ -9,15 +9,11 @@
              d:DataContext="{d:DesignInstance Type=vm:WorkspaceItemViewModel}">
     <Grid>
         <Border BorderBrush="Black" BorderThickness="{Binding Border, UpdateSourceTrigger=PropertyChanged}">
-            <Rectangle 
-                Width="{Binding Width}" 
-                Height="{Binding Height}" 
-                Opacity="{Binding Opacity}"
-                AllowDrop="True">
-                <Rectangle.Fill>
-                    <ImageBrush ImageSource="{Binding IconPath}" Stretch="Uniform"/>
-                </Rectangle.Fill>
-            </Rectangle>
+            <Image Width="{Binding Width}" 
+                    Height="{Binding Height}" 
+                    Opacity="{Binding Opacity}"
+                    AllowDrop="True"
+                    Source="{Binding IconPath}"/>
         </Border>
     </Grid>
 </UserControl>

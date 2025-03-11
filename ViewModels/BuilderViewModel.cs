@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
+using InteractiveNeuralNetworks.ViewModels.WorkspaceElements;
 
 namespace InteractiveNeuralNetworks.ViewModels
 {
@@ -15,6 +16,10 @@ namespace InteractiveNeuralNetworks.ViewModels
     {
         public ICommand MouseMoveCommand { get; }
         public ICommand MouseLeftButtonUpCommand { get; }
+
+        internal bool isMakingConnection = false;
+        internal WSConnectionViewModel connectionInProgress;
+
         public BuilderModel Model { get; set; }
         public WorkspaceViewModel WorkspaceViewModel { get; set; }
         public ToolbarViewModel ToolbarViewModel { get; set; }
@@ -37,6 +42,7 @@ namespace InteractiveNeuralNetworks.ViewModels
             Model = new BuilderModel();
             WorkspaceViewModel = new WorkspaceViewModel(this);
             ToolbarViewModel = new ToolbarViewModel(this);
+            connectionInProgress = new WSConnectionViewModel();
 
             ClickMeButtonCommand = new RelayCommand(ExecuteClickMe, CanExecuteClickMe);
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);

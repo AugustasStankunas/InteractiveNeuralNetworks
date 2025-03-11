@@ -10,7 +10,6 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
 {
     class WSConvolutionViewModel : WorkspaceItemViewModel
     {
-        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "conv.png");
         private int _inputChannels;
         public int InputChannels
         {
@@ -58,7 +57,7 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
             OutputChannels = outputChannels;
             KernelSize = kernelSize;
             Stride = stride;
-            IconPath = filePath;
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "conv.png"); ;
         }
     }
 }

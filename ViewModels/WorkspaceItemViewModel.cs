@@ -14,6 +14,7 @@ namespace InteractiveNeuralNetworks.ViewModels
 {
     public class WorkspaceItemViewModel : ViewModelBase
     {
+
         private bool _IsSelected;
         public bool IsSelected
         {
@@ -117,7 +118,7 @@ namespace InteractiveNeuralNetworks.ViewModels
             }
         }
 
-        public WorkspaceItemViewModel(double x, double y, int width, int height, string color,  double opacity = 1)
+        public WorkspaceItemViewModel(double x, double y, int width, int height, string color, double opacity = 1)
         {
             Position = new Point(x, y);
             StablePosition = new Point(x, y);
@@ -125,7 +126,7 @@ namespace InteractiveNeuralNetworks.ViewModels
             Width = width;
             Height = height;
             Opacity = opacity;
-          //  IconPath = iconName;
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png"); ;
         }
        
         public WorkspaceItemViewModel() { }

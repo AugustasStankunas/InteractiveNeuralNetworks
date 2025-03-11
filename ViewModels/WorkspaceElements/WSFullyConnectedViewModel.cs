@@ -9,8 +9,6 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
 {
     class WSFullyConnectedViewModel : WorkspaceItemViewModel
     {
-        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png");
-
         private int _inputNeurons;
         public int InputNeurons
         {
@@ -38,7 +36,7 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
         {
             InputNeurons = inputNeurons;
             OutputNeurons = outputNeurons;
-            IconPath = filePath;
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png"); ;
         }
     }
 }
