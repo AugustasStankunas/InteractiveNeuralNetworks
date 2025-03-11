@@ -12,6 +12,7 @@
     <None Remove="Resources\Icons\activationFunction.png" />
     <None Remove="Resources\Icons\conv.png" />
     <None Remove="Resources\Icons\defaultIcon.png" />
+    <None Remove="Resources\Icons\fullyConnected.png" />
     <None Remove="Resources\Icons\pooling.png" />
   </ItemGroup>
 
@@ -23,6 +24,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\defaultIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\fullyConnected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\pooling.png">

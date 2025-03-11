@@ -8,7 +8,7 @@ namespace InteractiveNeuralNetworks.ViewModels.ToolbarElements
 {
     class TBFullyConnectedViewModel : ToolbarItemViewModel
     {
-        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png");
+        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "fullyConnected.png");
          private string _iconPath;
         public string IconPath
         {

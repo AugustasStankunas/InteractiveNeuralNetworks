@@ -36,7 +36,7 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
         {
             InputNeurons = inputNeurons;
             OutputNeurons = outputNeurons;
-            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png"); ;
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "fullyConnected.png"); ;
         }
     }
 }
