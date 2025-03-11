@@ -1,15 +1,30 @@
 ﻿using System.Windows.Input;
 using System.Windows;
 using InteractiveNeuralNetworks.ViewModels.WorkspaceElements;
+using System.IO;
+
 
 namespace InteractiveNeuralNetworks.ViewModels.ToolbarElements
 {
     class TBFullyConnectedViewModel : ToolbarItemViewModel
     {
+        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png");
+         private string _iconPath;
+        public string IconPath
+        {
+            get => _iconPath;
+            set
+            {
+                _iconPath = value;
+                OnPropertyChanged(nameof(IconPath));
+            }
+        }
+
         public TBFullyConnectedViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
             Name = "Fully Connected layer";
             Color = "Orange";
+            IconPath = filePath;
         }
 
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

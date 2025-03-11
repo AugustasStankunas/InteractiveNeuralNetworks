@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
 {
     class WSFullyConnectedViewModel : WorkspaceItemViewModel
     {
+        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png");
 
         private int _inputNeurons;
         public int InputNeurons
@@ -36,6 +38,7 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
         {
             InputNeurons = inputNeurons;
             OutputNeurons = outputNeurons;
+            IconPath = filePath;
         }
     }
 }

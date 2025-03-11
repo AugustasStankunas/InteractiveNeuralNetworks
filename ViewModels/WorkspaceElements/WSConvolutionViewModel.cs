@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+
 
 namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
 {
     class WSConvolutionViewModel : WorkspaceItemViewModel
     {
+        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "conv.png");
         private int _inputChannels;
         public int InputChannels
         {
@@ -49,12 +52,13 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
             }
         }
         public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, double x, double y, int width, int height, string color, double opacity = 1)
-            : base(x, y, width, height, color, opacity)
+            : base(x, y, width, height, color,  opacity)
         {
             InputChannels = inputChannels;
             OutputChannels = outputChannels;
             KernelSize = kernelSize;
             Stride = stride;
+            IconPath = filePath;
         }
     }
 }

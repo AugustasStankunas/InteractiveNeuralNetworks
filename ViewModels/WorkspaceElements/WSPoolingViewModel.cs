@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+
 
 namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
 {
     class WSPoolingViewModel : WorkspaceItemViewModel
     {
+        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "pooling.png");
         private int _kernelSize;
         public int KernelSize
         {
@@ -35,6 +38,7 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
         {
             KernelSize = kernelSize;
             Stride = stride;
+            IconPath = filePath;
         }
     }
 }

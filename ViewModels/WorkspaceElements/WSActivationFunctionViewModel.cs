@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+
 
 namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
 {
     class WSActivationFunctionViewModel : WorkspaceItemViewModel
     {
+        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "activationFunction.png");
         private string _activationFunction;
         public string ActivationFunction
         {
@@ -23,6 +26,8 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
             : base(x, y, width, height, color, opacity)
         {
             ActivationFunction = activationFunction;
+            IconPath = filePath;
         }
+       
     }
 }

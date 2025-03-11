@@ -12,9 +12,12 @@
             <Rectangle 
                 Width="{Binding Width}" 
                 Height="{Binding Height}" 
-                Fill="{Binding Color}"
                 Opacity="{Binding Opacity}"
-                AllowDrop="True"/>
+                AllowDrop="True">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="{Binding IconPath}" Stretch="Uniform"/>
+                </Rectangle.Fill>
+            </Rectangle>
         </Border>
     </Grid>
 </UserControl>

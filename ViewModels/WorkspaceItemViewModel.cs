@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using InteractiveNeuralNetworks.Commands;
+using System.IO;
 
 namespace InteractiveNeuralNetworks.ViewModels
 {
@@ -61,7 +62,6 @@ namespace InteractiveNeuralNetworks.ViewModels
                 OnPropertyChanged(nameof(StablePosition));
             }
         }
-
         private string _Color;
         public string Color
         {
@@ -70,6 +70,17 @@ namespace InteractiveNeuralNetworks.ViewModels
             {
                 _Color = value;
                 OnPropertyChanged(nameof(Color));
+            }
+        }
+
+        private string _iconPath;
+        public string IconPath
+        {
+            get => _iconPath;
+            set
+            {
+                _iconPath = value;
+                OnPropertyChanged(nameof(IconPath));
             }
         }
 
@@ -106,7 +117,7 @@ namespace InteractiveNeuralNetworks.ViewModels
             }
         }
 
-        public WorkspaceItemViewModel(double x, double y, int width, int height, string color, double opacity = 1)
+        public WorkspaceItemViewModel(double x, double y, int width, int height, string color,  double opacity = 1)
         {
             Position = new Point(x, y);
             StablePosition = new Point(x, y);
@@ -114,8 +125,9 @@ namespace InteractiveNeuralNetworks.ViewModels
             Width = width;
             Height = height;
             Opacity = opacity;
+          //  IconPath = iconName;
         }
-
+       
         public WorkspaceItemViewModel() { }
     }
 }

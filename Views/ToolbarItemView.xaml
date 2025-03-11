@@ -12,11 +12,10 @@
              MinWidth="200" MinHeight="75">
     
     <Grid Background="Transparent">
+        <Image Source="{Binding IconPath}" Width="52" Height="52" Margin="5" HorizontalAlignment="Center"/>
+               
+        <Label Content="{Binding Name}"/>
         <Border BorderBrush="Black" BorderThickness="1" Margin="2">
-            <StackPanel Orientation="Horizontal">
-                <Rectangle MinWidth="50" MinHeight="50" Fill="{Binding Color}"/>
-                <Label Content="{Binding Name}"/>
-            </StackPanel>
         </Border>
     </Grid>
     <i:Interaction.Behaviors>
