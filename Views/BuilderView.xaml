@@ -41,11 +41,13 @@
                    Height="{Binding ActualHeight, ElementName=MainCanvas}">
             <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
                 <Button Content="Click Me!" Command="{Binding Path=ClickMeButtonCommand}"></Button>
+                <Label Content="{Binding WorkspaceViewModel.CanvasPanOffset}" />
+                <Label Content="{Binding WorkspaceViewModel.ZoomFactor}"/>
             </StackPanel>
 
             <views:ToolbarView DataContext="{Binding ToolbarViewModel}" DockPanel.Dock="Left"/>
 
-            <views:WorkspaceView DataContext="{Binding WorkspaceViewModel}" DockPanel.Dock="Right"/>
+            <views:WorkspaceView DataContext="{Binding WorkspaceViewModel}" DockPanel.Dock="Right" />
 
         </DockPanel>
     </Canvas>

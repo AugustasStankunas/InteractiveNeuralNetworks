@@ -20,10 +20,39 @@ namespace InteractiveNeuralNetworks.ViewModels
         public BuilderViewModel Builder { get; set; }
 
         public ICommand MouseMoveCommand { get; }
+        public ICommand MouseLeaveCommand { get; }
         public ICommand DragOverCommand { get; }
         public ICommand MouseWheelCommand { get; }
         public ICommand MouseLeftButtonDownCommand { get; }
         public ICommand MouseLeftButtonUpCommand { get; }
+
+        private double _visibleWidth; //Border actual width
+        public double VisibleWidth
+        {
+            get => _visibleWidth;
+            set { _visibleWidth = value; OnPropertyChanged(nameof(VisibleWidth)); }
+        }
+
+        private double _visibleHeight; //Border actual height
+        public double VisibleHeight
+        {
+            get => _visibleHeight;
+            set { _visibleHeight = value; OnPropertyChanged(nameof(VisibleHeight)); }
+        }
+
+        private int _width = 1000; //Canvas width
+        public int Width
+        {
+            get => _width;
+            set { _width = value; OnPropertyChanged(nameof(Width)); }
+        }
+
+        private int _height = 1000; //Canvas height
+        public int Height
+        {
+            get => _height;
+            set { _height = value; OnPropertyChanged(nameof(Height)); }
+        }
 
         private double _zoomFactor = 1.0;
         public double ZoomFactor
@@ -62,15 +91,14 @@ namespace InteractiveNeuralNetworks.ViewModels
             WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
 
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
+            MouseLeaveCommand = new RelayCommand<MouseEventArgs>(e => _isPanning = false);
             DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);
 
             MouseWheelCommand = new RelayCommand<MouseWheelEventArgs>(OnMouseWheel);
             MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
             MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
 
-        }
-        //fires when mouse moved, but action happens when mouse is pressed on a rectangle and then moved - drag action starts
-        
+        }        
 
         private void OnDragOver(DragEventArgs e)
         {
@@ -83,30 +111,41 @@ namespace InteractiveNeuralNetworks.ViewModels
                     dropPosition.X -= mouseOffset.X;
                     dropPosition.Y -= mouseOffset.Y;
                     draggedItem.Position = dropPosition;
-                }
-                    
-            }
-            
+                }  
+            } 
         }
 
         private void OnMouseWheel(MouseWheelEventArgs e)
         {
+            // Get the mouse position relative to the event source.
             Point mousePos;
             if (e.OriginalSource is Rectangle)
-            {
                 mousePos = e.GetPosition(e.Source as IInputElement);
-            }
             else
-            {
                 mousePos = e.GetPosition(e.OriginalSource as IInputElement);
-            }
+
             double oldZoom = ZoomFactor;
             double zoomDelta = e.Delta > 0 ? 0.1 : -0.1;
-            ZoomFactor = Math.Max(0.1, ZoomFactor + zoomDelta);
 
+            // Assume container dimensions (you can replace these with actual values or properties)
+
+
+            // Calculate minimum zoom so that the visible (viewport) size does not exceed the canvas.
+            double minZoom = Math.Max(VisibleWidth / Width, VisibleHeight / Height);
+            double maxZoom = 3.0; // You can set this as desired
+
+            // Clamp the new zoom value.
+            double newZoom = Math.Max(minZoom, Math.Min(maxZoom, ZoomFactor + zoomDelta));
+            ZoomFactor = newZoom;
+
+            // Adjust the pan offset so that the point under the mouse stays stable.
             CanvasPanOffset = new Point(
-                CanvasPanOffset.X - mousePos.X * (ZoomFactor - oldZoom),
-                CanvasPanOffset.Y - mousePos.Y * (ZoomFactor - oldZoom));
+                CanvasPanOffset.X - mousePos.X * (newZoom - oldZoom),
+                CanvasPanOffset.Y - mousePos.Y * (newZoom - oldZoom)
+            );
+
+            // Optionally, reapply your clipping:
+            CanvasPanOffset = ClipCanvasPan(CanvasPanOffset);
         }
 
         private void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -146,7 +185,7 @@ namespace InteractiveNeuralNetworks.ViewModels
             {
                 Point currentPosition = e.GetPosition(null);
                 Vector delta = currentPosition - _panStart;
-                CanvasPanOffset = new Point(CanvasPanOffset.X + delta.X, CanvasPanOffset.Y + delta.Y);
+                CanvasPanOffset = ClipCanvasPan(new Point(CanvasPanOffset.X + delta.X, CanvasPanOffset.Y + delta.Y));
                 _panStart = currentPosition;
             }
         }
@@ -162,6 +201,26 @@ namespace InteractiveNeuralNetworks.ViewModels
                 Builder.WorkspaceItemSelected[0].Position = mousePos;
                 WorkspaceItems.Add(Builder.WorkspaceItemSelected[0]);
             }
+        }
+
+        private Point ClipCanvasPan(Point point)
+        {
+            double effectiveVisibleWidth = VisibleWidth / ZoomFactor;
+            double effectiveVisibleHeight = VisibleHeight / ZoomFactor;
+
+            // Extra space available for panning (the part of the canvas not visible)
+            double extraWidth = Width - effectiveVisibleWidth;
+            double extraHeight = Height - effectiveVisibleHeight;
+
+            // Allowed pan offset (to keep the canvas centered, you can only move half of the extra space)
+            double allowedX = extraWidth;
+            double allowedY = extraHeight;
+
+            // Since panning right/down produces negative offsets, clamp X and Y between 0 and -allowedX / -allowedY
+            double clampedX = Math.Max(Math.Min(point.X, 0), -allowedX);
+            double clampedY = Math.Max(Math.Min(point.Y, 0), -allowedY);
+
+            return new Point(clampedX, clampedY);
         }
 
     }
