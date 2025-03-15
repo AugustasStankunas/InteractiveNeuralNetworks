@@ -18,12 +18,40 @@
                 <Label Content="{Binding Name}"/>
             </StackPanel>
         </Border>
+        <!-- Hover efektas -->
+        <Border BorderBrush="#C1A9F7" BorderThickness="0" Margin="2">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsHovered}" Value="True">
+                            <Setter Property="Background" Value="#4DC1A9F7"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+        
+        <!-- Select efektas -->
+        <Border BorderBrush="#C1A9F7" BorderThickness="0" Margin="2">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                            <Setter Property="Background" Value="#4D5A1EB3"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+
     </Grid>
     <i:Interaction.Behaviors>
         <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding MouseMoveCommand}" />
         <commands:EventToCommandBehavior EventName="DragOver" Command="{Binding DragOverCommand}"/>
-        <commands:EventToCommandBehavior EventName="MouseLeftButtonDown" Command="{Binding MouseLeftButtonDownCommand}" />
+        <commands:EventToCommandBehavior EventName="MouseLeftButtonDown" Command="{Binding MouseLeftButtonDownCommand}"/>
         <commands:EventToCommandBehavior EventName="MouseLeftButtonUp" Command="{Binding MouseLeftButtonUpCommand}"/>
+        <commands:EventToCommandBehavior EventName="MouseEnter" Command="{Binding MouseEnterCommand}"/>
+        <commands:EventToCommandBehavior EventName="MouseLeave" Command="{Binding MouseLeaveCommand}"/>
     </i:Interaction.Behaviors>
 
 </UserControl>

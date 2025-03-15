@@ -1,5 +1,7 @@
 ﻿using InteractiveNeuralNetworks.ViewModels.ToolbarElements;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using System.Windows;
 
 namespace InteractiveNeuralNetworks.ViewModels
 {
@@ -8,7 +10,7 @@ namespace InteractiveNeuralNetworks.ViewModels
         public BuilderViewModel Builder { get; set; }
 
         public ObservableCollection<ToolbarItemViewModel> ToolbarItems { get; set; } = new();
-        public ToolbarViewModel(BuilderViewModel builder) 
+		public ToolbarViewModel(BuilderViewModel builder) 
         {
             Builder = builder; 
 
@@ -18,5 +20,5 @@ namespace InteractiveNeuralNetworks.ViewModels
             ToolbarItems.Add(new TBPoolingViewModel(this));
             ToolbarItems.Add(new TBConnectionViewModel(this));
         }
-    }
+	}
 }

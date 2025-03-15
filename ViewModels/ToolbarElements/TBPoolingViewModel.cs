@@ -28,7 +28,8 @@ namespace InteractiveNeuralNetworks.ViewModels.ToolbarElements
 
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            Point mousePos = e.GetPosition(null);
+			IsSelected = true;
+			Point mousePos = e.GetPosition(null);
             WorkspaceItemViewModel workspaceItem = new WSPoolingViewModel(128, 128, mousePos.X, mousePos.Y, 60, 60, "Red");
             workspaceItem.Opacity = 0.5;
             Toolbar.Builder.WorkspaceItemSelected.Add(workspaceItem);
