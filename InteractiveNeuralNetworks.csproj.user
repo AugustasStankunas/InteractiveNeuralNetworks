@@ -13,7 +13,13 @@
     <Compile Update="Views\ToolbarItemView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\ToolbarView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\WorkspaceItemView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\WorkspaceView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
