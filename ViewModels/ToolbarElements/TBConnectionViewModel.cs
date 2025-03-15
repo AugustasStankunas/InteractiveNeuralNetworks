@@ -19,7 +19,8 @@ namespace InteractiveNeuralNetworks.ViewModels.ToolbarElements
 
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            Toolbar.Builder.isMakingConnection = true;
+			IsSelected = true;
+			Toolbar.Builder.isMakingConnection = true;
             Toolbar.Builder.connectionInProgress = new WSConnectionViewModel();
         }
     }

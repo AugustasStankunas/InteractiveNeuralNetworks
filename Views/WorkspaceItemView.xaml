@@ -8,7 +8,7 @@
              xmlns:vm="clr-namespace:InteractiveNeuralNetworks.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:WorkspaceItemViewModel}">
     <Grid>
-        <Border BorderBrush="Black" BorderThickness="{Binding Border, UpdateSourceTrigger=PropertyChanged}">
+        <Border BorderBrush="#C1A9F7" BorderThickness="{Binding Border, UpdateSourceTrigger=PropertyChanged}">
             <Image Width="{Binding Width}" 
                     Height="{Binding Height}" 
                     Opacity="{Binding Opacity}"
