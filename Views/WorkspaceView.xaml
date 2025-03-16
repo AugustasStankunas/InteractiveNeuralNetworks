@@ -17,7 +17,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-        <Border x:Name="CanvasBorder" BorderBrush="Black" BorderThickness="1" Margin="20" ClipToBounds="True" commands:SizeObserverBehavior.Observe="True">
+        <Border x:Name="CanvasBorder" BorderBrush="Black" BorderThickness="1" Margin="20" ClipToBounds="True">
         <Canvas x:Name="WorkspaceCanvas" Height="{Binding Height}" Width="{Binding Width}" ClipToBounds="True">
             <Canvas.RenderTransform>
                 <TransformGroup>
@@ -86,5 +86,8 @@
                 <commands:EventToCommandBehavior EventName="MouseLeave" Command="{Binding MouseLeaveCommand}"/>
             </i:Interaction.Behaviors>
         </Canvas>
+        <i:Interaction.Behaviors>
+            <commands:EventToCommandBehavior EventName="SizeChanged" Command="{Binding RenderSizeChangedCommand}" />
+        </i:Interaction.Behaviors>
     </Border>
 </UserControl>

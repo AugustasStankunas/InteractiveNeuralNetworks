@@ -18,6 +18,7 @@ namespace InteractiveNeuralNetworks.ViewModels
         public ICommand MouseWheelCommand { get; }
         public ICommand MouseLeftButtonDownCommand { get; }
         public ICommand MouseLeftButtonUpCommand { get; }
+        public ICommand RenderSizeChangedCommand { get; }
 
         private double _visibleWidth; //Border actual width
         public double VisibleWidth
@@ -109,6 +110,7 @@ namespace InteractiveNeuralNetworks.ViewModels
 			MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
 			MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
 
+            RenderSizeChangedCommand = new RelayCommand<SizeChangedEventArgs>(OnRenderSizeChanged);
         }        
 
         private void OnDragOver(DragEventArgs e)
@@ -216,6 +218,13 @@ namespace InteractiveNeuralNetworks.ViewModels
                     WorkspaceItems.Add(Builder.WorkspaceItemSelected[0]);
                 }
             }
+        }
+
+        private void OnRenderSizeChanged(SizeChangedEventArgs e)
+        {
+            VisibleWidth = e.NewSize.Width;
+            VisibleHeight = e.NewSize.Height;
+            CanvasPanOffset = ClipCanvasPan(CanvasPanOffset);
         }
 
         private Point ClipCanvasPan(Point point)
