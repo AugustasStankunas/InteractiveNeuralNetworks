@@ -32,8 +32,8 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
             }
         }
 
-        public WSPoolingViewModel(int kernelSize, int stride, double x, double y, int width, int height, string color, double opacity = 1)
-            : base(x, y, width, height, color, opacity)
+        public WSPoolingViewModel(int kernelSize, int stride, double x, double y, int width, int height, double opacity = 1)
+            : base(x, y, width, height, opacity)
         {
             KernelSize = kernelSize;
             Stride = stride;

@@ -92,7 +92,7 @@ namespace InteractiveNeuralNetworks.ViewModels
 		{
 			//IsSelected = true;  //ToolbarElement ant kiekvieno atskirai reikia ideti atm.
 			Point mousePos = e.GetPosition(null);
-			WorkspaceItemViewModel selectedItem = new WorkspaceItemViewModel(mousePos.X, mousePos.Y, 60, 60, "Black");
+			WorkspaceItemViewModel selectedItem = new WorkspaceItemViewModel(mousePos.X, mousePos.Y, 60, 60);
 			selectedItem.Opacity = 0.5;
 			Toolbar.Builder.WorkspaceItemSelected.Add(selectedItem);
 		}

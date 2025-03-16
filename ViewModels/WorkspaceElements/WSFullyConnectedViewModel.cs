@@ -31,8 +31,8 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
             }
         }
 
-        public WSFullyConnectedViewModel(int inputNeurons, int outputNeurons, double x, double y, int width, int height, string color, double opacity = 1)
-            : base(x, y, width, height, color, opacity)
+        public WSFullyConnectedViewModel(int inputNeurons, int outputNeurons, double x, double y, int width, int height, double opacity = 1)
+            : base(x, y, width, height, opacity)
         {
             InputNeurons = inputNeurons;
             OutputNeurons = outputNeurons;
