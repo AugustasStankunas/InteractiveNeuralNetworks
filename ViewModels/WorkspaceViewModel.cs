@@ -33,14 +33,14 @@ namespace InteractiveNeuralNetworks.ViewModels
             set { _visibleHeight = value; OnPropertyChanged(nameof(VisibleHeight)); }
         }
 
-        private int _width = 1000; //Canvas width
+        private int _width = 10000; //Canvas width
         public int Width
         {
             get => _width;
             set { _width = value; OnPropertyChanged(nameof(Width)); }
         }
 
-        private int _height = 1000; //Canvas height
+        private int _height = 10000; //Canvas height
         public int Height
         {
             get => _height;
@@ -128,7 +128,6 @@ namespace InteractiveNeuralNetworks.ViewModels
 
         private void OnMouseWheel(MouseWheelEventArgs e)
         {
-            // Get the mouse position relative to the event source.
             Point mousePos;
             if (e.OriginalSource is Rectangle)
                 mousePos = e.GetPosition(e.Source as IInputElement);
@@ -138,24 +137,17 @@ namespace InteractiveNeuralNetworks.ViewModels
             double oldZoom = ZoomFactor;
             double zoomDelta = e.Delta > 0 ? 0.1 : -0.1;
 
-            // Assume container dimensions (you can replace these with actual values or properties)
-
-
-            // Calculate minimum zoom so that the visible (viewport) size does not exceed the canvas.
             double minZoom = Math.Max(VisibleWidth / Width, VisibleHeight / Height);
-            double maxZoom = 3.0; // You can set this as desired
+            double maxZoom = 3.0;
 
-            // Clamp the new zoom value.
             double newZoom = Math.Max(minZoom, Math.Min(maxZoom, ZoomFactor + zoomDelta));
             ZoomFactor = newZoom;
 
-            // Adjust the pan offset so that the point under the mouse stays stable.
             CanvasPanOffset = new Point(
                 CanvasPanOffset.X - mousePos.X * (newZoom - oldZoom),
                 CanvasPanOffset.Y - mousePos.Y * (newZoom - oldZoom)
             );
 
-            // Optionally, reapply your clipping:
             CanvasPanOffset = ClipCanvasPan(CanvasPanOffset);
         }
 
@@ -224,18 +216,9 @@ namespace InteractiveNeuralNetworks.ViewModels
 
         private Point ClipCanvasPan(Point point)
         {
-            double effectiveVisibleWidth = VisibleWidth / ZoomFactor;
-            double effectiveVisibleHeight = VisibleHeight / ZoomFactor;
+            double allowedX = Width * ZoomFactor - VisibleWidth;
+            double allowedY = Height * ZoomFactor - VisibleHeight;
 
-            // Extra space available for panning (the part of the canvas not visible)
-            double extraWidth = Width - effectiveVisibleWidth;
-            double extraHeight = Height - effectiveVisibleHeight;
-
-            // Allowed pan offset (to keep the canvas centered, you can only move half of the extra space)
-            double allowedX = extraWidth;
-            double allowedY = extraHeight;
-
-            // Since panning right/down produces negative offsets, clamp X and Y between 0 and -allowedX / -allowedY
             double clampedX = Math.Max(Math.Min(point.X, 0), -allowedX);
             double clampedY = Math.Max(Math.Min(point.Y, 0), -allowedY);
 
