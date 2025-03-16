@@ -31,7 +31,7 @@ namespace InteractiveNeuralNetworks.ViewModels.ToolbarElements
         {
 			IsSelected = true;
 			Point mousePos = e.GetPosition(null);
-            WorkspaceItemViewModel workspaceItem = new WSFullyConnectedViewModel(128, 128, mousePos.X, mousePos.Y, 60, 60, "Orange");
+            WorkspaceItemViewModel workspaceItem = new WSFullyConnectedViewModel(128, 128, mousePos.X, mousePos.Y, 60, 60);
             workspaceItem.Opacity = 0.5;
             Toolbar.Builder.WorkspaceItemSelected.Add(workspaceItem);
         }

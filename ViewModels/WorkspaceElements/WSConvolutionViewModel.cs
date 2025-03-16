@@ -50,8 +50,8 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
                 OnPropertyChanged(nameof(Stride));
             }
         }
-        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, double x, double y, int width, int height, string color, double opacity = 1)
-            : base(x, y, width, height, color,  opacity)
+        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, double x, double y, int width, int height, double opacity = 1)
+            : base(x, y, width, height,  opacity)
         {
             InputChannels = inputChannels;
             OutputChannels = outputChannels;

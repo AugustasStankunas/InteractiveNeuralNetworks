@@ -21,8 +21,8 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
             }
         }
 
-        public WSActivationFunctionViewModel(string activationFunction, double x, double y, int width, int height, string color, double opacity = 1)
-            : base(x, y, width, height, color, opacity)
+        public WSActivationFunctionViewModel(string activationFunction, double x, double y, int width, int height, double opacity = 1)
+            : base(x, y, width, height, opacity)
         {
             ActivationFunction = activationFunction;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "activationFunction.png"); ;

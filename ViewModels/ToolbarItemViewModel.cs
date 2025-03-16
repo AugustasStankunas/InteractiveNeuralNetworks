@@ -33,11 +33,27 @@ namespace InteractiveNeuralNetworks.ViewModels
 			{
 				_isSelected = value;
 				OnPropertyChanged(nameof(IsSelected));
+
+				if (value)
+				{
+					Mouse.AddMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
+				}
+			}
+		}
+
+		public void GlobalMouseUpHandler(object sender, MouseButtonEventArgs e)
+		{
+
+			if (e.ChangedButton == MouseButton.Left)
+			{
+				IsSelected = false;
+				Toolbar.Builder.WorkspaceItemSelected.Clear();
+				Mouse.RemoveMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
 			}
 		}
 
 
-        public bool _isHovered;
+		public bool _isHovered;
 		public bool IsHovered
 		{
 			get => _isHovered;
@@ -49,7 +65,7 @@ namespace InteractiveNeuralNetworks.ViewModels
 		}
 
 		public ToolbarItemViewModel(ToolbarViewModel toolbar) 
-        { 
+        {
             Toolbar = toolbar;
             MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
             MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
@@ -70,22 +86,22 @@ namespace InteractiveNeuralNetworks.ViewModels
 			MouseEnterCommand = new RelayCommand<MouseEventArgs>(OnMouseEnter);
 			MouseLeaveCommand = new RelayCommand<MouseEventArgs>(OnMouseLeave);
 		}
-		
+
 		// Overridina ToolbarElements 
 		public virtual void OnMouseLeftButtonDown(MouseButtonEventArgs e)
 		{
 			//IsSelected = true;  //ToolbarElement ant kiekvieno atskirai reikia ideti atm.
 			Point mousePos = e.GetPosition(null);
-			WorkspaceItemViewModel selectedItem = new WorkspaceItemViewModel(mousePos.X, mousePos.Y, 60, 60, "Black");
+			WorkspaceItemViewModel selectedItem = new WorkspaceItemViewModel(mousePos.X, mousePos.Y, 60, 60);
 			selectedItem.Opacity = 0.5;
 			Toolbar.Builder.WorkspaceItemSelected.Add(selectedItem);
 		}
 
 		private void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            Toolbar.Builder.WorkspaceItemSelected.Clear();
+        {		
+			Toolbar.Builder.WorkspaceItemSelected.Clear();
 			IsSelected = false;
-        }
+		}
 
 		private void OnMouseEnter(MouseEventArgs e)
 		{
@@ -94,7 +110,7 @@ namespace InteractiveNeuralNetworks.ViewModels
 
 		private void OnMouseLeave(MouseEventArgs e)
 		{
-			IsHovered = false;
+			IsHovered = false;		
 		}
 	}
 }

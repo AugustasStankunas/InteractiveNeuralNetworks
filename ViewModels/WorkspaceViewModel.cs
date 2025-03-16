@@ -94,9 +94,9 @@ namespace InteractiveNeuralNetworks.ViewModels
 
 			CanvasPanOffset = new Point(0, 0);
 
-			WorkspaceItems.Add(new WorkspaceItemViewModel(0, 0, 60, 60, "Orange"));
-			WorkspaceItems.Add(new WorkspaceItemViewModel(105, 123, 50, 50, "Pink"));
-			WorkspaceItems.Add(new WorkspaceItemViewModel(220, 330, 75, 75, "LightBlue"));
+			WorkspaceItems.Add(new WorkspaceItemViewModel(0, 0, 60, 60));
+			WorkspaceItems.Add(new WorkspaceItemViewModel(105, 123, 50, 50));
+			WorkspaceItems.Add(new WorkspaceItemViewModel(220, 330, 75, 75));
 
 			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[0], WorkspaceItems[1]));
 			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
@@ -207,10 +207,14 @@ namespace InteractiveNeuralNetworks.ViewModels
 
             if (Builder.WorkspaceItemSelected.Count > 0)
             {
-                Point mousePos = e.GetPosition(e.OriginalSource as IInputElement);
-                Builder.WorkspaceItemSelected[0].Opacity = 1;
-                Builder.WorkspaceItemSelected[0].Position = mousePos;
-                WorkspaceItems.Add(Builder.WorkspaceItemSelected[0]);
+                IInputElement mouseEventOriginalSource = e.OriginalSource as IInputElement;
+                if (e.OriginalSource is Canvas)
+                {
+                    Point mousePos = e.GetPosition(e.OriginalSource as IInputElement);
+                    Builder.WorkspaceItemSelected[0].Opacity = 1;
+                    Builder.WorkspaceItemSelected[0].Position = mousePos;
+                    WorkspaceItems.Add(Builder.WorkspaceItemSelected[0]);
+                }
             }
         }
 

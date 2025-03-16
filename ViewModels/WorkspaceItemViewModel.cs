@@ -63,16 +63,6 @@ namespace InteractiveNeuralNetworks.ViewModels
                 OnPropertyChanged(nameof(StablePosition));
             }
         }
-        private string _Color;
-        public string Color
-        {
-            get => _Color;
-            set
-            {
-                _Color = value;
-                OnPropertyChanged(nameof(Color));
-            }
-        }
 
         private string _iconPath;
         public string IconPath
@@ -118,11 +108,10 @@ namespace InteractiveNeuralNetworks.ViewModels
             }
         }
 
-        public WorkspaceItemViewModel(double x, double y, int width, int height, string color, double opacity = 1)
+        public WorkspaceItemViewModel(double x, double y, int width, int height, double opacity = 1)
         {
             Position = new Point(x, y);
             StablePosition = new Point(x, y);
-            Color = color;
             Width = width;
             Height = height;
             Opacity = opacity;
