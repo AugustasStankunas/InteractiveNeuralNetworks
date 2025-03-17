@@ -9,6 +9,7 @@ using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using InteractiveNeuralNetworks.Commands;
 using System.IO;
+using InteractiveNeuralNetworks.Enums;
 
 namespace InteractiveNeuralNetworks.ViewModels
 {
@@ -108,6 +109,17 @@ namespace InteractiveNeuralNetworks.ViewModels
             }
         }
 
+        private ActivationFunctionType _activationFunction;
+        public ActivationFunctionType ActivationFunction
+        {
+            get => _activationFunction;
+            set
+            {
+                _activationFunction = value;
+                OnPropertyChanged(nameof(ActivationFunction));
+            }
+        }
+
         public WorkspaceItemViewModel(double x, double y, int width, int height, double opacity = 1)
         {
             Position = new Point(x, y);
@@ -115,7 +127,8 @@ namespace InteractiveNeuralNetworks.ViewModels
             Width = width;
             Height = height;
             Opacity = opacity;
-            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png"); ;
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png");
+            ActivationFunction = ActivationFunctionType.None;
         }
        
         public WorkspaceItemViewModel() { }
