@@ -8,23 +8,9 @@ namespace InteractiveNeuralNetworks.ViewModels.ToolbarElements
 {
     class TBPoolingViewModel : ToolbarItemViewModel
     {
-        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "pooling.png");
-        public WorkspaceItemViewModel WorkspaceItem { get; set; }
-        private string _iconPath;
-        public string IconPath
-        {
-            get => _iconPath;
-            set
-            {
-                _iconPath = value;
-                OnPropertyChanged(nameof(IconPath));
-            }
-        }
         public TBPoolingViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
             Name = "Pooling layer";
-          //  Color = "Red";
-            IconPath = filePath;
             WorkspaceItem = new WSPoolingViewModel(128, 128, 0,0, 60, 60);
         }
 

@@ -8,24 +8,9 @@ namespace InteractiveNeuralNetworks.ViewModels.ToolbarElements
 {
     class TBFullyConnectedViewModel : ToolbarItemViewModel
     {
-        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "fullyConnected.png");
-        public WorkspaceItemViewModel WorkspaceItem { get; set; }
-        private string _iconPath;
-        public string IconPath
-        {
-            get => _iconPath;
-            set
-            {
-                _iconPath = value;
-                OnPropertyChanged(nameof(IconPath));
-            }
-        }
-
         public TBFullyConnectedViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
             Name = "Fully Connected layer";
-            Color = "Orange";
-            IconPath = filePath;
             WorkspaceItem = new WSFullyConnectedViewModel(128, 128, 0, 0, 60, 60);
         }
 
