@@ -17,6 +17,8 @@ namespace InteractiveNeuralNetworks.ViewModels
         public ToolbarViewModel Toolbar { get; set; }
         public string Color { get; set; }
         public string Name { get; set; }
+		public WorkspaceItemViewModel WorkspaceItem { get; set; }
+
 			
         public ICommand MouseMoveCommand { get; }
         public ICommand DragOverCommand { get; }
@@ -73,10 +75,11 @@ namespace InteractiveNeuralNetworks.ViewModels
 			MouseLeaveCommand = new RelayCommand<MouseEventArgs>(OnMouseLeave);
 		}
 
-        public ToolbarItemViewModel(ToolbarViewModel toolbar, string controlType, string color, string name) 
+		public ToolbarItemViewModel(ToolbarViewModel toolbar, WorkspaceItemViewModel workspaceItem, string controlType, string color, string name) 
         {
             Toolbar = toolbar;
             ControlType = controlType;
+			WorkspaceItem = workspaceItem;
 
             Color = color;
             Name = name;
@@ -112,5 +115,6 @@ namespace InteractiveNeuralNetworks.ViewModels
 		{
 			IsHovered = false;		
 		}
+
 	}
 }
