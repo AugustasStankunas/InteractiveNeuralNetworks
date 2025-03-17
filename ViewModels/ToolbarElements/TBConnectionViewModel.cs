@@ -11,10 +11,13 @@ namespace InteractiveNeuralNetworks.ViewModels.ToolbarElements
 {
     class TBConnectionViewModel : ToolbarItemViewModel
     {
+        public WorkspaceItemViewModel WorkspaceItem { get; set; }
+
         public TBConnectionViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
             Name = "Connection";
             Color = "Black";
+
         }
 
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

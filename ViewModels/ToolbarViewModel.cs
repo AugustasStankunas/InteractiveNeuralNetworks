@@ -8,7 +8,7 @@ namespace InteractiveNeuralNetworks.ViewModels
     public class ToolbarViewModel : ViewModelBase
     {
         public BuilderViewModel Builder { get; set; }
-
+        public WorkspaceItemViewModel WorkspaceItem { get; set; }
         public ObservableCollection<ToolbarItemViewModel> ToolbarItems { get; set; } = new();
 		public ToolbarViewModel(BuilderViewModel builder) 
         {

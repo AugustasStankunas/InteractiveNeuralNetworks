@@ -15,6 +15,7 @@ namespace InteractiveNeuralNetworks.ViewModels.ToolbarElements
     class TBActivationFunctionViewModel : ToolbarItemViewModel
     {
         string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "activationFunction.png");
+        public WorkspaceItemViewModel WorkspaceItem { get; set; }
         private string _iconPath;
         public string IconPath
         {
@@ -30,6 +31,8 @@ namespace InteractiveNeuralNetworks.ViewModels.ToolbarElements
              Name = "Activation Function";
            // Color = "Blue";
             IconPath = filePath;
+            WorkspaceItem = new WSActivationFunctionViewModel("ReLU", 0, 0, 60, 60);
+
         }
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
