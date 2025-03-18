@@ -1,7 +1,9 @@
-﻿using System;
+﻿using InteractiveNeuralNetworks.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,8 +25,15 @@ namespace InteractiveNeuralNetworks.ViewModels
                 ObservableCollection<PropertyInfoViewModel> propertiesVM = new();
                 foreach (var property in properties)
                 {
-                    propertiesVM.Add(new PropertyInfoViewModel(SelectedWorkspaceItem, property));
+                    if (((EditableProperty)Attribute.GetCustomAttribute(property, typeof(EditableProperty))).Priority)
+                        propertiesVM.Add(new PropertyInfoViewModel(SelectedWorkspaceItem, property));
                 }
+                foreach (var property in properties)
+                {
+                    if (!((EditableProperty)Attribute.GetCustomAttribute(property, typeof(EditableProperty))).Priority)
+                        propertiesVM.Add(new PropertyInfoViewModel(SelectedWorkspaceItem, property));
+                }
+
                 Properties = propertiesVM;
                 OnPropertyChanged(nameof(SelectedWorkspaceItem));
             }

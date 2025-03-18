@@ -10,9 +10,11 @@ namespace InteractiveNeuralNetworks.Attributes
     public class EditableProperty : Attribute 
     { 
         public string ControlType { get; set; }
-        public EditableProperty(string controlType = "TextBox")
+        public bool Priority { get; set; }
+        public EditableProperty(string controlType = "TextBox", bool priority = false)
         {
             ControlType = controlType;
+            Priority = priority;
         }
     }
 }

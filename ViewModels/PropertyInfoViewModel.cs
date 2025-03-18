@@ -35,6 +35,10 @@ namespace InteractiveNeuralNetworks.ViewModels
                 {
                     PropertyInfo.SetValue(WorkspaceItem, Enum.Parse(PropertyInfo.PropertyType, _Value));
                 }
+                else
+                {
+                    PropertyInfo.SetValue(WorkspaceItem, _Value);
+                }
 
                 OnPropertyChanged(Value);
             }

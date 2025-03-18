@@ -15,6 +15,17 @@ namespace InteractiveNeuralNetworks.ViewModels
 {
     public class WorkspaceItemViewModel : ViewModelBase
     {
+        private string _Name = "";
+        [Attributes.EditableProperty(Priority = true)]
+        public string Name
+        {
+            get => _Name;
+            set
+            {
+                _Name = value;
+                OnPropertyChanged(Name);
+            }
+        }
 
         private bool _IsSelected;
         public bool IsSelected
