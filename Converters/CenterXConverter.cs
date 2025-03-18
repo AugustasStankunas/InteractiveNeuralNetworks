@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using System.Globalization;
+
 
 namespace InteractiveNeuralNetworks.Converters
 {
-    class DragDropParametersConverter : IMultiValueConverter
+    /// <summary>
+    /// Used for creating connections between layers
+    /// </summary>
+    class CenterXConverter : IMultiValueConverter
+
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values.Length != 2)
-                return null;
-            return new Helpers.DragDropParameters
-            {
-                EventArgs = values[0] as System.Windows.DragEventArgs,
-                ReferenceCanvas = values[1] as System.Windows.Controls.Canvas
-            };
+            if (values.Length == 2 && values[0] is double x && values[1] is int width)
+                return x + (double) width / 2;
+            return Binding.DoNothing;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

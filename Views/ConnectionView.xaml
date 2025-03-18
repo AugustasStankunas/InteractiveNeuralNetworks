@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="InteractiveNeuralNetworks.Views.ConnectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:InteractiveNeuralNetworks.Views"
+             xmlns:converters="clr-namespace:InteractiveNeuralNetworks.Converters"
+             mc:Ignorable="d" >
+    <UserControl.Resources>
+        <converters:CenterXConverter x:Key="CenterXConverter"/>
+        <converters:CenterYConverter x:Key="CenterYConverter"/>
+    </UserControl.Resources>
+    <Canvas>
+        <Line Stroke="Black" StrokeThickness="2">
+               <Line.X1>
+            <MultiBinding Converter="{StaticResource CenterXConverter}">
+                <Binding Path="Source.Position.X"/>
+                <Binding Path="Source.Width"/>
+            </MultiBinding>
+            </Line.X1>
+            <Line.Y1>
+                <MultiBinding Converter="{StaticResource CenterYConverter}">
+                    <Binding Path="Source.Position.Y"/>
+                    <Binding Path="Source.Height"/>
+                </MultiBinding>
+            </Line.Y1>
+            <Line.X2>
+                <MultiBinding Converter="{StaticResource CenterXConverter}">
+                    <Binding Path="Target.Position.X"/>
+                    <Binding Path="Target.Width"/>
+                </MultiBinding>
+            </Line.X2>
+            <Line.Y2>
+                <MultiBinding Converter="{StaticResource CenterYConverter}">
+                    <Binding Path="Target.Position.Y"/>
+                    <Binding Path="Target.Height"/>
+                </MultiBinding>
+            </Line.Y2>
+        </Line>
+    </Canvas>
+</UserControl>

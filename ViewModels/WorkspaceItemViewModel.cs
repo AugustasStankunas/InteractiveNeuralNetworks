@@ -8,11 +8,25 @@ using System.Windows.Input;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using InteractiveNeuralNetworks.Commands;
+using System.IO;
+using InteractiveNeuralNetworks.Enums;
 
 namespace InteractiveNeuralNetworks.ViewModels
 {
     public class WorkspaceItemViewModel : ViewModelBase
     {
+        private string _Name = "";
+        [Attributes.EditableProperty(Priority = true)]
+        public string Name
+        {
+            get => _Name;
+            set
+            {
+                _Name = value;
+                OnPropertyChanged(Name);
+            }
+        }
+
         private bool _IsSelected;
         public bool IsSelected
         {
@@ -62,14 +76,14 @@ namespace InteractiveNeuralNetworks.ViewModels
             }
         }
 
-        private string _Color;
-        public string Color
+        private string _iconPath;
+        public string IconPath
         {
-            get => _Color;
+            get => _iconPath;
             set
             {
-                _Color = value;
-                OnPropertyChanged(nameof(Color));
+                _iconPath = value;
+                OnPropertyChanged(nameof(IconPath));
             }
         }
 
@@ -95,16 +109,41 @@ namespace InteractiveNeuralNetworks.ViewModels
             }
         }
 
-        public WorkspaceItemViewModel(double x, double y, int width, int height, string color)
+        private double _Opacity;
+        public double Opacity
+        {
+            get => _Opacity;
+            set
+            {
+                _Opacity = value;
+                OnPropertyChanged(nameof(Opacity));
+            }
+        }
+
+        private ActivationFunctionType _activationFunction;
+        [Attributes.EditableProperty("ComboBox")]
+        public ActivationFunctionType ActivationFunction
+        {
+            get => _activationFunction;
+            set
+            {
+                _activationFunction = value;
+                OnPropertyChanged(nameof(ActivationFunction));
+            }
+        }
+
+        public WorkspaceItemViewModel(double x, double y, int width, int height, double opacity = 1)
         {
             Position = new Point(x, y);
             StablePosition = new Point(x, y);
-            Color = color;
             Width = width;
             Height = height;
+            Opacity = opacity;
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png");
+            ActivationFunction = ActivationFunctionType.None;
 
         }
-
-        public WorkspaceItemViewModel() : this(0, 0, 50, 50, "Red") { }
+       
+        public WorkspaceItemViewModel() { }
     }
 }
