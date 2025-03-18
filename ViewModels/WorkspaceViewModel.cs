@@ -161,6 +161,7 @@ namespace InteractiveNeuralNetworks.ViewModels
 				if (data != null && data.DataContext is WorkspaceItemViewModel workspaceItem)
 				{
 					SelectedItem = workspaceItem;
+                    Builder.PropertiesWindowViewModel.SelectedWorkspaceItem = workspaceItem;
 
 					if (Builder.isMakingConnection)
 					{

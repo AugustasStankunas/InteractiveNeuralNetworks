@@ -23,6 +23,7 @@ namespace InteractiveNeuralNetworks.ViewModels
         public BuilderModel Model { get; set; }
         public WorkspaceViewModel WorkspaceViewModel { get; set; }
         public ToolbarViewModel ToolbarViewModel { get; set; }
+        public PropertiesWindowViewModel PropertiesWindowViewModel { get; set; }
         public ObservableCollection<WorkspaceItemViewModel> WorkspaceItemSelected { get; set; } = new();
 
         // Hello world
@@ -42,6 +43,8 @@ namespace InteractiveNeuralNetworks.ViewModels
             Model = new BuilderModel();
             WorkspaceViewModel = new WorkspaceViewModel(this);
             ToolbarViewModel = new ToolbarViewModel(this);
+            PropertiesWindowViewModel = new PropertiesWindowViewModel(this);
+
             connectionInProgress = new WSConnectionViewModel();
 
             ClickMeButtonCommand = new RelayCommand(ExecuteClickMe, CanExecuteClickMe);

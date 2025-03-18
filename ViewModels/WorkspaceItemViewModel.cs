@@ -110,6 +110,7 @@ namespace InteractiveNeuralNetworks.ViewModels
         }
 
         private ActivationFunctionType _activationFunction;
+        [Attributes.EditableProperty("ComboBox")]
         public ActivationFunctionType ActivationFunction
         {
             get => _activationFunction;
@@ -129,6 +130,7 @@ namespace InteractiveNeuralNetworks.ViewModels
             Opacity = opacity;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png");
             ActivationFunction = ActivationFunctionType.None;
+
         }
        
         public WorkspaceItemViewModel() { }

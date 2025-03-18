@@ -9,7 +9,7 @@
         xmlns:views="clr-namespace:InteractiveNeuralNetworks.Views"
         xmlns:vm="clr-namespace:InteractiveNeuralNetworks.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" Height="600" Width="1200">
 
     <Window.DataContext>
         <vm:BuilderViewModel />
@@ -44,8 +44,9 @@
             </StackPanel>
 
             <views:ToolbarView DataContext="{Binding ToolbarViewModel}" DockPanel.Dock="Left"/>
-
-            <views:WorkspaceView DataContext="{Binding WorkspaceViewModel}" DockPanel.Dock="Right" />
+            <views:PropertiesWindowView DataContext="{Binding PropertiesWindowViewModel}" DockPanel.Dock="Right"/>
+            <views:WorkspaceView DataContext="{Binding WorkspaceViewModel}"/>
+            
 
         </DockPanel>
     </Canvas>

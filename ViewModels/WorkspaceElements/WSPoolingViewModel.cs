@@ -11,6 +11,7 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
     class WSPoolingViewModel : WorkspaceItemViewModel
     {
         private int _kernelSize;
+        [Attributes.EditableProperty]
         public int KernelSize
         {
             get => _kernelSize;
@@ -22,6 +23,7 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
         }
 
         private int _stride;
+        [Attributes.EditableProperty]
         public int Stride
         {
             get => _stride;

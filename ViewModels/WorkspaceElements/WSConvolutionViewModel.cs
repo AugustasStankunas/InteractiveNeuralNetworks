@@ -11,6 +11,7 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
     class WSConvolutionViewModel : WorkspaceItemViewModel
     {
         private int _inputChannels;
+        [Attributes.EditableProperty]
         public int InputChannels
         {
             get => _inputChannels;
@@ -21,6 +22,7 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
             }
         }
         private int _outputChannels;
+        [Attributes.EditableProperty]
         public int OutputChannels
         {
             get => _outputChannels;
@@ -31,6 +33,7 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
             }
         }
         private int _kernelSize;
+        [Attributes.EditableProperty]
         public int KernelSize
         {
             get => _kernelSize;
@@ -41,6 +44,7 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
             }
         }
         private int _stride;
+        [Attributes.EditableProperty]
         public int Stride
         {
             get => _stride;

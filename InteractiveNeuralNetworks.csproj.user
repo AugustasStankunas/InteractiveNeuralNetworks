@@ -10,6 +10,9 @@
     <Compile Update="Views\ConnectionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\PropertiesWindowView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\ToolbarItemView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -24,6 +27,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\PropertiesWindowView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\ToolbarItemView.xaml">
       <SubType>Designer</SubType>
     </Page>

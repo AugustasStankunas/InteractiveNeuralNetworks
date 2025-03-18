@@ -10,6 +10,7 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
     class WSFullyConnectedViewModel : WorkspaceItemViewModel
     {
         private int _inputNeurons;
+        [Attributes.EditableProperty]
         public int InputNeurons
         {
             get => _inputNeurons;
@@ -21,6 +22,7 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
         }
 
         private int _outputNeurons;
+        [Attributes.EditableProperty]
         public int OutputNeurons
         {
             get => _outputNeurons;
