@@ -13,11 +13,9 @@ namespace InteractiveNeuralNetworks.ViewModels
 {
     public class ToolbarItemViewModel : ViewModelBase
     {
-        public string ControlType { get; set; }
         public ToolbarViewModel Toolbar { get; set; }
-        public string Color { get; set; }
         public string Name { get; set; }
-		//public WorkspaceItemViewModel WorkspaceItem { get; set; }
+		public WorkspaceItemViewModel WorkspaceItem { get; set; }
 
 			
         public ICommand MouseMoveCommand { get; }
@@ -78,10 +76,7 @@ namespace InteractiveNeuralNetworks.ViewModels
 		public ToolbarItemViewModel(ToolbarViewModel toolbar, string controlType, string color, string name) 
         {
             Toolbar = toolbar;
-            ControlType = controlType;
 
-
-            Color = color;
             Name = name;
 
             MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
