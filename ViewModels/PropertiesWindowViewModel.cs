@@ -1,13 +1,9 @@
-﻿using InteractiveNeuralNetworks.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using Builder.Attributes;
+using Shared.ViewModels;
 
-namespace InteractiveNeuralNetworks.ViewModels
+
+namespace Builder.ViewModels
 {
     public class PropertiesWindowViewModel : ViewModelBase
     {

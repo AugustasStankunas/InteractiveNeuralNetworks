@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="InteractiveNeuralNetworks.Views.WorkspaceItemView"
+﻿<UserControl x:Class="Builder.Views.WorkspaceItemView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:InteractiveNeuralNetworks.Views"
+             xmlns:local="clr-namespace:Builder.Views"
              mc:Ignorable="d" 
-             xmlns:vm="clr-namespace:InteractiveNeuralNetworks.ViewModels"
+             xmlns:vm="clr-namespace:Builder.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:WorkspaceItemViewModel}">
     <Grid>
         <Border BorderBrush="#C1A9F7" BorderThickness="{Binding Border, UpdateSourceTrigger=PropertyChanged}">

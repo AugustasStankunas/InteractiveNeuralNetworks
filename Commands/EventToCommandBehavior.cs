@@ -1,14 +1,9 @@
-﻿using Microsoft.Xaml.Behaviors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
+using Microsoft.Xaml.Behaviors;
 
-namespace InteractiveNeuralNetworks.Commands
+namespace Builder.Commands
 {
     public class EventToCommandBehavior : Behavior<UIElement>
     {

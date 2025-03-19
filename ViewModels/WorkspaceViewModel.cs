@@ -1,16 +1,20 @@
-﻿using InteractiveNeuralNetworks.Commands;
-using InteractiveNeuralNetworks.ViewModels.WorkspaceElements;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
+using Builder.Commands;
+using Builder.ViewModels.WorkspaceElements;
+using Shared.ViewModels;
+using Shared.Commands;
 
-namespace InteractiveNeuralNetworks.ViewModels
+
+
+namespace Builder.ViewModels
 {
-	public class WorkspaceViewModel : ViewModelBase
-	{
-		public BuilderViewModel Builder { get; set; }
+    public class WorkspaceViewModel : ViewModelBase
+    {
+        public BuilderViewModel Builder { get; set; }
 
         public ICommand MouseMoveCommand { get; }
         public ICommand MouseLeaveCommand { get; }
@@ -55,63 +59,63 @@ namespace InteractiveNeuralNetworks.ViewModels
             set { _zoomFactor = value; OnPropertyChanged(nameof(ZoomFactor)); }
         }
 
-		private Point _canvasPanOffset;
-		public Point CanvasPanOffset
-		{
-			get => _canvasPanOffset;
-			set { _canvasPanOffset = value; OnPropertyChanged(nameof(CanvasPanOffset)); }
-		}
+        private Point _canvasPanOffset;
+        public Point CanvasPanOffset
+        {
+            get => _canvasPanOffset;
+            set { _canvasPanOffset = value; OnPropertyChanged(nameof(CanvasPanOffset)); }
+        }
 
-		private Point mouseOffset; // The offset of the mouse to the top left corner of the rectangle
+        private Point mouseOffset; // The offset of the mouse to the top left corner of the rectangle
 
-		//For panning
-		private bool _isPanning;
-		private Point _panStart;
+        //For panning
+        private bool _isPanning;
+        private Point _panStart;
 
-		public ObservableCollection<WorkspaceItemViewModel> WorkspaceItems { get; set; } = new ObservableCollection<WorkspaceItemViewModel>();
-		public ObservableCollection<WSConnectionViewModel> WorkspaceConnections { get; set; } = new ObservableCollection<WSConnectionViewModel>();
+        public ObservableCollection<WorkspaceItemViewModel> WorkspaceItems { get; set; } = new ObservableCollection<WorkspaceItemViewModel>();
+        public ObservableCollection<WSConnectionViewModel> WorkspaceConnections { get; set; } = new ObservableCollection<WSConnectionViewModel>();
 
-		private WorkspaceItemViewModel _selectedItem;
-		public WorkspaceItemViewModel SelectedItem
-		{
-			get => _selectedItem;
-			set
-			{
-				if (_selectedItem != null)
-					_selectedItem.IsSelected = false;
+        private WorkspaceItemViewModel _selectedItem;
+        public WorkspaceItemViewModel SelectedItem
+        {
+            get => _selectedItem;
+            set
+            {
+                if (_selectedItem != null)
+                    _selectedItem.IsSelected = false;
 
-				_selectedItem = value;
+                _selectedItem = value;
 
-				if (_selectedItem != null)
-					_selectedItem.IsSelected = true;
+                if (_selectedItem != null)
+                    _selectedItem.IsSelected = true;
 
-				OnPropertyChanged(nameof(SelectedItem));
-			}
-		}
+                OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
 
-		public WorkspaceViewModel(BuilderViewModel builderViewModel)
-		{
-			Builder = builderViewModel;
+        public WorkspaceViewModel(BuilderViewModel builderViewModel)
+        {
+            Builder = builderViewModel;
 
-			CanvasPanOffset = new Point(0, 0);
+            CanvasPanOffset = new Point(0, 0);
 
-			WorkspaceItems.Add(new WorkspaceItemViewModel(0, 0, 60, 60));
-			WorkspaceItems.Add(new WorkspaceItemViewModel(105, 123, 50, 50));
-			WorkspaceItems.Add(new WorkspaceItemViewModel(220, 330, 75, 75));
+            WorkspaceItems.Add(new WorkspaceItemViewModel(0, 0, 60, 60));
+            WorkspaceItems.Add(new WorkspaceItemViewModel(105, 123, 50, 50));
+            WorkspaceItems.Add(new WorkspaceItemViewModel(220, 330, 75, 75));
 
-			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[0], WorkspaceItems[1]));
-			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
+            WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[0], WorkspaceItems[1]));
+            WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
 
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
             MouseLeaveCommand = new RelayCommand<MouseEventArgs>(e => _isPanning = false);
             DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);
 
-			MouseWheelCommand = new RelayCommand<MouseWheelEventArgs>(OnMouseWheel);
-			MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
-			MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
+            MouseWheelCommand = new RelayCommand<MouseWheelEventArgs>(OnMouseWheel);
+            MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
+            MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
 
             RenderSizeChangedCommand = new RelayCommand<SizeChangedEventArgs>(OnRenderSizeChanged);
-        }        
+        }
 
         private void OnDragOver(DragEventArgs e)
         {
@@ -124,8 +128,8 @@ namespace InteractiveNeuralNetworks.ViewModels
                     dropPosition.X -= mouseOffset.X;
                     dropPosition.Y -= mouseOffset.Y;
                     draggedItem.Position = dropPosition;
-                }  
-            } 
+                }
+            }
         }
 
         private void OnMouseWheel(MouseWheelEventArgs e)
@@ -153,45 +157,45 @@ namespace InteractiveNeuralNetworks.ViewModels
             CanvasPanOffset = ClipCanvasPan(CanvasPanOffset);
         }
 
-		private void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-		{
-			if (e.OriginalSource is Image)
-			{
-				var data = e.OriginalSource as FrameworkElement;
-				if (data != null && data.DataContext is WorkspaceItemViewModel workspaceItem)
-				{
-					SelectedItem = workspaceItem;
+        private void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            if (e.OriginalSource is Image)
+            {
+                var data = e.OriginalSource as FrameworkElement;
+                if (data != null && data.DataContext is WorkspaceItemViewModel workspaceItem)
+                {
+                    SelectedItem = workspaceItem;
                     Builder.PropertiesWindowViewModel.SelectedWorkspaceItem = workspaceItem;
 
-					if (Builder.isMakingConnection)
-					{
-						if (Builder.connectionInProgress.Source == null)
-							Builder.connectionInProgress.Source = data.DataContext as WorkspaceItemViewModel;
-						else
-						{
-							Builder.connectionInProgress.Target = data.DataContext as WorkspaceItemViewModel;
-							WorkspaceConnections.Add(Builder.connectionInProgress);
-							Builder.connectionInProgress = new WSConnectionViewModel();
-							Builder.isMakingConnection = false;
-						}
-						return;
-					}
+                    if (Builder.isMakingConnection)
+                    {
+                        if (Builder.connectionInProgress.Source == null)
+                            Builder.connectionInProgress.Source = data.DataContext as WorkspaceItemViewModel;
+                        else
+                        {
+                            Builder.connectionInProgress.Target = data.DataContext as WorkspaceItemViewModel;
+                            WorkspaceConnections.Add(Builder.connectionInProgress);
+                            Builder.connectionInProgress = new WSConnectionViewModel();
+                            Builder.isMakingConnection = false;
+                        }
+                        return;
+                    }
 
-				}
-				if (data != null && e.LeftButton == MouseButtonState.Pressed && data.DataContext is WorkspaceItemViewModel)
-				{
-					mouseOffset = e.GetPosition(data); // mouse position relative to top-left of the rectangle
-					DragDrop.DoDragDrop(e.OriginalSource as UIElement, new DataObject(typeof(WorkspaceItemViewModel), data.DataContext), DragDropEffects.Move);
-				}
+                }
+                if (data != null && e.LeftButton == MouseButtonState.Pressed && data.DataContext is WorkspaceItemViewModel)
+                {
+                    mouseOffset = e.GetPosition(data); // mouse position relative to top-left of the rectangle
+                    DragDrop.DoDragDrop(e.OriginalSource as UIElement, new DataObject(typeof(WorkspaceItemViewModel), data.DataContext), DragDropEffects.Move);
+                }
 
-			}
-			else
-			{
-				_isPanning = true;
-				_panStart = e.GetPosition(null);
-				SelectedItem = null;
-			}
-		}
+            }
+            else
+            {
+                _isPanning = true;
+                _panStart = e.GetPosition(null);
+                SelectedItem = null;
+            }
+        }
 
         private void OnMouseMove(MouseEventArgs e)
         {
@@ -204,9 +208,9 @@ namespace InteractiveNeuralNetworks.ViewModels
             }
         }
 
-		private void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-		{
-			_isPanning = false;
+        private void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            _isPanning = false;
 
             if (Builder.WorkspaceItemSelected.Count > 0)
             {
@@ -239,5 +243,5 @@ namespace InteractiveNeuralNetworks.ViewModels
             return new Point(clampedX, clampedY);
         }
 
-	}
+    }
 }

@@ -1,13 +1,13 @@
-﻿<UserControl x:Class="InteractiveNeuralNetworks.Views.ToolbarItemView"
+﻿<UserControl x:Class="Builder.Views.ToolbarItemView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:commands="clr-namespace:InteractiveNeuralNetworks.Commands"
-             xmlns:local="clr-namespace:InteractiveNeuralNetworks.Views"
+             xmlns:commands="clr-namespace:Builder.Commands"
+             xmlns:local="clr-namespace:Builder.Views"
              mc:Ignorable="d"
-             xmlns:vm="clr-namespace:InteractiveNeuralNetworks.ViewModels"
+             xmlns:vm="clr-namespace:Builder.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:ToolbarItemViewModel}"
              MinWidth="200" MinHeight="75">
 

@@ -1,16 +1,13 @@
-﻿using InteractiveNeuralNetworks.Commands;
-using InteractiveNeuralNetworks.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
-using InteractiveNeuralNetworks.ViewModels.WorkspaceElements;
+using System.Windows.Input;
+using Builder.Commands;
+using Builder.Models;
+using Builder.ViewModels.WorkspaceElements;
+using Shared.ViewModels;
+using Shared.Commands;
 
-namespace InteractiveNeuralNetworks.ViewModels
+namespace Builder.ViewModels
 {
     public class BuilderViewModel : ViewModelBase
     {
@@ -37,7 +34,7 @@ namespace InteractiveNeuralNetworks.ViewModels
                 OnPropertyChanged(nameof(Counter));
             }
         }
- 
+
         public BuilderViewModel()
         {
             Model = new BuilderModel();

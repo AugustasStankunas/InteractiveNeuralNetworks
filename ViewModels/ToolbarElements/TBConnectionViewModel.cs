@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using InteractiveNeuralNetworks.ViewModels.WorkspaceElements;
+﻿using System.Windows.Input;
+using Builder.ViewModels.WorkspaceElements;
 
-namespace InteractiveNeuralNetworks.ViewModels.ToolbarElements
+namespace Builder.ViewModels.ToolbarElements
 {
     class TBConnectionViewModel : ToolbarItemViewModel
     {
@@ -18,8 +12,8 @@ namespace InteractiveNeuralNetworks.ViewModels.ToolbarElements
 
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-			IsSelected = true;
-			Toolbar.Builder.isMakingConnection = true;
+            IsSelected = true;
+            Toolbar.Builder.isMakingConnection = true;
             Toolbar.Builder.connectionInProgress = new WSConnectionViewModel();
         }
     }

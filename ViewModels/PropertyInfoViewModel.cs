@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
-using InteractiveNeuralNetworks.Attributes;
-using InteractiveNeuralNetworks.Enums;
+﻿using System.Reflection;
+using Builder.Attributes;
+using Shared.ViewModels;
 
-namespace InteractiveNeuralNetworks.ViewModels
+
+namespace Builder.ViewModels
 {
     public class PropertyInfoViewModel : ViewModelBase
     {
@@ -17,9 +13,9 @@ namespace InteractiveNeuralNetworks.ViewModels
         public string Name { get; set; }
 
         string _Value;
-        public string Value 
-        { 
-            get => _Value; 
+        public string Value
+        {
+            get => _Value;
             set
             {
                 _Value = value;

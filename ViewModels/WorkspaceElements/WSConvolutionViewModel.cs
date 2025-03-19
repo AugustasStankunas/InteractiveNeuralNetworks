@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+﻿using System.IO;
 
 
-namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
+namespace Builder.ViewModels.WorkspaceElements
 {
     class WSConvolutionViewModel : WorkspaceItemViewModel
     {
@@ -55,7 +50,7 @@ namespace InteractiveNeuralNetworks.ViewModels.WorkspaceElements
             }
         }
         public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, double x, double y, int width, int height, double opacity = 1)
-            : base(x, y, width, height,  opacity)
+            : base(x, y, width, height, opacity)
         {
             InputChannels = inputChannels;
             OutputChannels = outputChannels;

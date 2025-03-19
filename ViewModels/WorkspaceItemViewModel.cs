@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
-using InteractiveNeuralNetworks.Commands;
-using System.IO;
-using InteractiveNeuralNetworks.Enums;
+using Builder.Enums;
+using Shared.ViewModels;
 
-namespace InteractiveNeuralNetworks.ViewModels
+
+namespace Builder.ViewModels
 {
     public class WorkspaceItemViewModel : ViewModelBase
     {
@@ -143,7 +136,7 @@ namespace InteractiveNeuralNetworks.ViewModels
             ActivationFunction = ActivationFunctionType.None;
 
         }
-       
+
         public WorkspaceItemViewModel() { }
     }
 }
