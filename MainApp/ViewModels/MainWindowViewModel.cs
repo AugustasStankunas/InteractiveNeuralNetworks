@@ -3,6 +3,9 @@ using Shared.ViewModels;
 using Shared.Commands;
 using System.Windows;
 using Builder.Models;
+using Builder.ViewModels;
+using Train.ViewModels;
+using Test.ViewModels;
 
 
 namespace MainApp.ViewModels
@@ -19,9 +22,9 @@ namespace MainApp.ViewModels
                 OnPropertyChanged(nameof(CurrentViewModel));
             }
         }
-        private Builder.ViewModels.BuilderViewModel Builder { get; set; }
-        private Train.ViewModels.TrainViewModel Train { get; set; }
-        private Test.ViewModels.TestViewModel Test { get; set; }
+        private BuilderViewModel Builder { get; set; }
+        private TrainViewModel Train { get; set; }
+        private TestViewModel Test { get; set; }
 
 
         public ICommand ShowBuilderCommand { get; }
@@ -30,9 +33,9 @@ namespace MainApp.ViewModels
 
         public MainWindowViewModel()
         {
-            Builder = new Builder.ViewModels.BuilderViewModel();
-            Train = new Train.ViewModels.TrainViewModel();
-            Test = new Test.ViewModels.TestViewModel();
+            Builder = new BuilderViewModel();
+            Train = new TrainViewModel();
+            Test = new TestViewModel();
 
             ShowBuilderCommand = new RelayCommand(_ => ShowBuilder());
             ShowTrainCommand = new RelayCommand(_ => ShowTrain());
