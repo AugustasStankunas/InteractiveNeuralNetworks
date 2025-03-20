@@ -11,9 +11,6 @@
         mc:Ignorable="d"
         Height="600" Width="1200">
 
-    <UserControl.DataContext>
-        <vm:BuilderViewModel />
-    </UserControl.DataContext>
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type vm:WorkspaceItemViewModel}">
             <views:WorkspaceItemView/>

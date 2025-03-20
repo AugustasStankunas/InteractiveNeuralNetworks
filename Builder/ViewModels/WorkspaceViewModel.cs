@@ -75,7 +75,7 @@ namespace Builder.ViewModels
         public ObservableCollection<WorkspaceItemViewModel> WorkspaceItems { get; set; } = new ObservableCollection<WorkspaceItemViewModel>();
         public ObservableCollection<WSConnectionViewModel> WorkspaceConnections { get; set; } = new ObservableCollection<WSConnectionViewModel>();
 
-        private WorkspaceItemViewModel _selectedItem;
+        private WorkspaceItemViewModel _selectedItem = default!;
         public WorkspaceItemViewModel SelectedItem
         {
             get => _selectedItem;
