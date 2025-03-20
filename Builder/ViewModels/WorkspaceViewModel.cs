@@ -92,8 +92,28 @@ namespace Builder.ViewModels
                 OnPropertyChanged(nameof(SelectedItem));
             }
         }
+        
+		private WSConnectionViewModel _selectedConnection;
+		public WSConnectionViewModel SelectedConnection
+		{
+			get => _selectedConnection;
+			set
+			{
+				if (_selectedConnection != null)
+					_selectedConnection.IsSelected = false;
 
-        public WorkspaceViewModel(BuilderViewModel builderViewModel)
+				_selectedConnection = value;
+
+				if (_selectedConnection != null)
+				{
+					_selectedConnection.IsSelected = true;
+				}
+
+				OnPropertyChanged(nameof(SelectedConnection));
+			}
+		}
+
+		public WorkspaceViewModel(BuilderViewModel builderViewModel)
         {
             Builder = builderViewModel;
 
@@ -103,9 +123,10 @@ namespace Builder.ViewModels
             WorkspaceItems.Add(new WorkspaceItemViewModel(105, 123, 50, 50));
             WorkspaceItems.Add(new WorkspaceItemViewModel(220, 330, 75, 75));
 
-            WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[0], WorkspaceItems[1]));
-            WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
+			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[0], WorkspaceItems[1]) { IsSelected = true });
+			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
 
+            SelectedConnection = WorkspaceConnections[0];
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
             MouseLeaveCommand = new RelayCommand<MouseEventArgs>(e => _isPanning = false);
             DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);
@@ -159,9 +180,10 @@ namespace Builder.ViewModels
 
         private void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            if (e.OriginalSource is Image)
+			var data = e.OriginalSource as FrameworkElement;
+			if (e.OriginalSource is Image)
             {
-                var data = e.OriginalSource as FrameworkElement;
+		        SelectedConnection = null;
                 if (data != null && data.DataContext is WorkspaceItemViewModel workspaceItem)
                 {
                     SelectedItem = workspaceItem;
@@ -189,12 +211,21 @@ namespace Builder.ViewModels
                 }
 
             }
-            else
+            else if(data != null && e.OriginalSource is Line && data.DataContext is WSConnectionViewModel connection)
             {
+                
+                SelectedItem = null;
+                SelectedConnection = connection; 
+                return;
+                
+			}
+             else
+             {
                 _isPanning = true;
                 _panStart = e.GetPosition(null);
                 SelectedItem = null;
-            }
+				SelectedConnection = null;
+			}
         }
 
         private void OnMouseMove(MouseEventArgs e)

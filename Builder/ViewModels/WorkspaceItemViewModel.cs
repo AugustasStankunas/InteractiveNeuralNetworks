@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using Builder.Enums;
 using Shared.ViewModels;
 
@@ -27,13 +29,28 @@ namespace Builder.ViewModels
             set
             {
                 _IsSelected = value;
-                if (IsSelected) Border = 1;
+                if (IsSelected) Border = 2;
                 else Border = 0;
                 OnPropertyChanged(nameof(IsSelected));
-            }
+
+                if (value)
+                {
+					Mouse.AddMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
+				}
+			}
         }
 
-        public Point SelectionPosition { get; set; }
+
+		public void GlobalMouseUpHandler(object sender, MouseButtonEventArgs e)
+		{
+
+			if (e.ChangedButton == MouseButton.Left)
+			{
+				Mouse.RemoveMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
+			}
+		}
+
+		public Point SelectionPosition { get; set; }
 
         private int _Border;
         public int Border
