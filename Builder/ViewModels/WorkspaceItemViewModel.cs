@@ -46,6 +46,7 @@ namespace Builder.ViewModels
 
 			if (e.ChangedButton == MouseButton.Left)
 			{
+				IsSelected = false;
 				Mouse.RemoveMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
 			}
 		}
