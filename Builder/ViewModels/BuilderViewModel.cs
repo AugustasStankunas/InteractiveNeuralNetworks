@@ -15,7 +15,6 @@ namespace Builder.ViewModels
         public ICommand MouseLeftButtonUpCommand { get; }
 
         internal bool isMakingConnection = false;
-        internal WSConnectionViewModel connectionInProgress;
 
         public BuilderModel Model { get; set; }
         public WorkspaceViewModel WorkspaceViewModel { get; set; }
@@ -41,8 +40,6 @@ namespace Builder.ViewModels
             WorkspaceViewModel = new WorkspaceViewModel(this);
             ToolbarViewModel = new ToolbarViewModel(this);
             PropertiesWindowViewModel = new PropertiesWindowViewModel(this);
-
-            connectionInProgress = new WSConnectionViewModel();
 
             ClickMeButtonCommand = new RelayCommand(ExecuteClickMe, CanExecuteClickMe);
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);

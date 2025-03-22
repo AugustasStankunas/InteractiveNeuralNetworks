@@ -11,10 +11,9 @@ namespace Builder.ViewModels.WorkspaceElements
 
     public class WSConnectionViewModel : ViewModelBase
     {
-        private WorkspaceItemViewModel _source;
-        public WorkspaceItemViewModel Source
+        private WorkspaceItemViewModel? _source;
+        public WorkspaceItemViewModel? Source
         {
-
             get => _source;
             set
             {
@@ -22,55 +21,95 @@ namespace Builder.ViewModels.WorkspaceElements
                 OnPropertyChanged(nameof(Source));
             }
         }
-        private WorkspaceItemViewModel _target;
-        public WorkspaceItemViewModel Target
+        private WorkspaceItemViewModel? _target;
+        public WorkspaceItemViewModel? Target
         {
             get => _target;
             set
             {
-                _target = value;
-                OnPropertyChanged(nameof(Target));
+                if (_target != value)
+                {
+                    if (_target != null)
+                        _target.PropertyChanged -= OnTargetPropertyChanged;
+                    _target = value;
+                    if (_target != null)
+                        _target.PropertyChanged += OnTargetPropertyChanged;
+                    OnPropertyChanged(nameof(Target));
+                    OnPropertyChanged(nameof(TargetPoint));
+                }
             }
         }
 
-		private bool _IsSelected; 
+        private Point? _currentMousePosition;
+        public Point? CurrentMousePosition
+        {
+            get => _currentMousePosition;
+            set
+            {
+                _currentMousePosition = value;
+                OnPropertyChanged(nameof(CurrentMousePosition));
+                OnPropertyChanged(nameof(TargetPoint));
+            }
+        }
 
-		public bool IsSelected
-		{
-			get => _IsSelected;
-			set
-			{
-				_IsSelected = value;
-				OnPropertyChanged(nameof(IsSelected));
+        public Point? TargetPoint => Target != null
+            ? new Point(Target.Position.X + Target.Width / 2, Target.Position.Y + Target.Height / 2)
+            : CurrentMousePosition;
 
-				if (value)
-					Mouse.AddMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
-				else
-					Mouse.RemoveMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
-				
-			}
-		}
-		public void GlobalMouseUpHandler(object sender, MouseButtonEventArgs e)
-		{
-			
-			if (e.ChangedButton == MouseButton.Left)
-			{
-				var element = e.OriginalSource as FrameworkElement;
-				if (element.DataContext != this)
-				{
-					IsSelected = false;
-				}
-			}
-		}
+        private bool _IsSelected;
+        public bool IsSelected
+        {
+            get => _IsSelected;
+            set
+            {
+                _IsSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
 
-		public WSConnectionViewModel(WorkspaceItemViewModel source, WorkspaceItemViewModel target)
+                if (value)
+                    Mouse.AddMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
+                else
+                    Mouse.RemoveMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
+            }
+        }
+
+        public WSConnectionViewModel(WorkspaceItemViewModel source, WorkspaceItemViewModel target)
         {
             Source = source;
             Target = target;
         }
 
-        public WSConnectionViewModel()
+        public WSConnectionViewModel() { }
+
+        public void GlobalMouseUpHandler(object sender, MouseButtonEventArgs e)
         {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                var element = e.OriginalSource as FrameworkElement;
+                if (element?.DataContext != this)
+                {
+                    IsSelected = false;
+                }
+            }
+        }
+
+        private void OnTargetPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(WorkspaceItemViewModel.Position) ||
+                e.PropertyName == nameof(WorkspaceItemViewModel.Width) ||
+                e.PropertyName == nameof(WorkspaceItemViewModel.Height))
+            {
+                OnPropertyChanged(nameof(TargetPoint));
+            }
+        }
+
+        public override bool Equals(object? obj)
+        {
+            WSConnectionViewModel? other = obj as WSConnectionViewModel;
+
+            if (other == null)
+                return false;
+            else
+                return Source == other.Source && Target == other.Target;
         }
     }
 }

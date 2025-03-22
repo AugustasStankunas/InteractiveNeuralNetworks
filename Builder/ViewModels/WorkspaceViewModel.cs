@@ -75,8 +75,8 @@ namespace Builder.ViewModels
         public ObservableCollection<WorkspaceItemViewModel> WorkspaceItems { get; set; } = new ObservableCollection<WorkspaceItemViewModel>();
         public ObservableCollection<WSConnectionViewModel> WorkspaceConnections { get; set; } = new ObservableCollection<WSConnectionViewModel>();
 
-        private WorkspaceItemViewModel _selectedItem = default!;
-        public WorkspaceItemViewModel SelectedItem
+        private WorkspaceItemViewModel? _selectedItem;
+        public WorkspaceItemViewModel? SelectedItem
         {
             get => _selectedItem;
             set
@@ -93,8 +93,8 @@ namespace Builder.ViewModels
             }
         }
         
-		private WSConnectionViewModel _selectedConnection;
-		public WSConnectionViewModel SelectedConnection
+		private WSConnectionViewModel? _selectedConnection;
+		public WSConnectionViewModel? SelectedConnection
 		{
 			get => _selectedConnection;
 			set
@@ -113,6 +113,8 @@ namespace Builder.ViewModels
 			}
 		}
 
+        private WSConnectionViewModel? connectionInProgress;
+
 		public WorkspaceViewModel(BuilderViewModel builderViewModel)
         {
             Builder = builderViewModel;
@@ -123,10 +125,9 @@ namespace Builder.ViewModels
             WorkspaceItems.Add(new WorkspaceItemViewModel(105, 123, 50, 50));
             WorkspaceItems.Add(new WorkspaceItemViewModel(220, 330, 75, 75));
 
-			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[0], WorkspaceItems[1]) { IsSelected = true });
+			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[0], WorkspaceItems[1]));
 			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
 
-            SelectedConnection = WorkspaceConnections[0];
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
             MouseLeaveCommand = new RelayCommand<MouseEventArgs>(e => _isPanning = false);
             DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);
@@ -191,15 +192,10 @@ namespace Builder.ViewModels
 
                     if (Builder.isMakingConnection)
                     {
-                        if (Builder.connectionInProgress.Source == null)
-                            Builder.connectionInProgress.Source = data.DataContext as WorkspaceItemViewModel;
-                        else
-                        {
-                            Builder.connectionInProgress.Target = data.DataContext as WorkspaceItemViewModel;
-                            WorkspaceConnections.Add(Builder.connectionInProgress);
-                            Builder.connectionInProgress = new WSConnectionViewModel();
-                            Builder.isMakingConnection = false;
-                        }
+                        connectionInProgress = new WSConnectionViewModel();
+                        connectionInProgress.Source = workspaceItem;
+                        connectionInProgress.CurrentMousePosition = e.GetPosition(e.Source as IInputElement);
+                        WorkspaceConnections.Add(connectionInProgress);
                         return;
                     }
 
@@ -230,6 +226,8 @@ namespace Builder.ViewModels
 
         private void OnMouseMove(MouseEventArgs e)
         {
+            if (connectionInProgress != null)
+                connectionInProgress.CurrentMousePosition = e.GetPosition(e.Source as IInputElement);
             if (_isPanning)
             {
                 Point currentPosition = e.GetPosition(null);
@@ -254,6 +252,24 @@ namespace Builder.ViewModels
                     WorkspaceItems.Add(Builder.WorkspaceItemSelected[0]);
                 }
             }
+            if (connectionInProgress != null)
+            {
+                if (e.OriginalSource is Image)
+                {
+                    var data = e.OriginalSource as FrameworkElement;
+
+                    if (data != null && data.DataContext is WorkspaceItemViewModel workspaceItem)
+                    {
+                        connectionInProgress.Target = workspaceItem;
+                        WorkspaceConnections.Remove(connectionInProgress);
+                        AddConnectionIfNotExists(connectionInProgress);
+                        connectionInProgress = null;
+                        return;
+                    }
+                }
+                else
+                    CancelConnectionInProgress(); 
+            }
         }
 
         private void OnRenderSizeChanged(SizeChangedEventArgs e)
@@ -272,6 +288,36 @@ namespace Builder.ViewModels
             double clampedY = Math.Max(Math.Min(point.Y, 0), -allowedY);
 
             return new Point(clampedX, clampedY);
+        }
+
+        private void CancelConnectionInProgress()
+        {
+            if (connectionInProgress != null)
+            {
+                WorkspaceConnections.Remove(connectionInProgress);
+                connectionInProgress = null;
+            }
+        }
+
+        /// <summary>
+        /// does deep copy of connection, checks if no such connections already exist or if the connection source and target is the same
+        /// </summary>
+        /// <param name="connection"></param>
+        private void AddConnectionIfNotExists(WSConnectionViewModel connection)
+        {
+            if (connection.Source == connection.Target || connection == null)
+                return;
+            WSConnectionViewModel newConnection = new WSConnectionViewModel(connection.Source, connection.Target);
+            if (WorkspaceConnections.Count == 0)
+                WorkspaceConnections.Add(newConnection);
+            else
+            {
+                foreach (var existingConnection in WorkspaceConnections)
+                    if (newConnection.Equals(existingConnection))
+                        return;
+
+                WorkspaceConnections.Add(newConnection);
+            }
         }
 
     }

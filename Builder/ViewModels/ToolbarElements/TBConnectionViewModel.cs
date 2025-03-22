@@ -12,9 +12,13 @@ namespace Builder.ViewModels.ToolbarElements
 
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
+            if (Toolbar.Builder.isMakingConnection)
+                Name = "Connection";
+            else
+                Name = "Connection ON";
+
             IsSelected = true;
-            Toolbar.Builder.isMakingConnection = true;
-            Toolbar.Builder.connectionInProgress = new WSConnectionViewModel();
+            Toolbar.Builder.isMakingConnection = !Toolbar.Builder.isMakingConnection;
         }
     }
 }

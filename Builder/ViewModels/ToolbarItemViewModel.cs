@@ -10,7 +10,7 @@ namespace Builder.ViewModels
     public class ToolbarItemViewModel : ViewModelBase
     {
         public ToolbarViewModel Toolbar { get; set; }
-        public string Name { get; set; }
+        
         public WorkspaceItemViewModel WorkspaceItem { get; set; }
 
 
@@ -20,6 +20,17 @@ namespace Builder.ViewModels
         public ICommand MouseLeftButtonUpCommand { get; }
         public ICommand MouseEnterCommand { get; }
         public ICommand MouseLeaveCommand { get; }
+
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
 
         public bool _isSelected;
         public bool IsSelected
