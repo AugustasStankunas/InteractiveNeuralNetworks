@@ -87,7 +87,7 @@ namespace Builder.ViewModels
             }
         }
 
-        private string _iconPath;
+        private string _iconPath = default!;
         public string IconPath
         {
             get => _iconPath;

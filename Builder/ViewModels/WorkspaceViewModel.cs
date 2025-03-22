@@ -243,7 +243,7 @@ namespace Builder.ViewModels
 
             if (Builder.WorkspaceItemSelected.Count > 0)
             {
-                IInputElement mouseEventOriginalSource = e.OriginalSource as IInputElement;
+                IInputElement? mouseEventOriginalSource = e.OriginalSource as IInputElement;
                 if (e.OriginalSource is Canvas)
                 {
                     Point mousePos = e.GetPosition(e.OriginalSource as IInputElement);

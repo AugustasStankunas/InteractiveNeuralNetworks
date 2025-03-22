@@ -13,15 +13,12 @@ namespace Builder.ViewModels
         
         public WorkspaceItemViewModel WorkspaceItem { get; set; }
 
-
-        public ICommand MouseMoveCommand { get; }
-        public ICommand DragOverCommand { get; }
         public ICommand MouseLeftButtonDownCommand { get; }
         public ICommand MouseLeftButtonUpCommand { get; }
         public ICommand MouseEnterCommand { get; }
         public ICommand MouseLeaveCommand { get; }
 
-        private string _name;
+        private string _name = default!;
         public string Name
         {
             get => _name;
@@ -74,6 +71,8 @@ namespace Builder.ViewModels
         public ToolbarItemViewModel(ToolbarViewModel toolbar)
         {
             Toolbar = toolbar;
+            WorkspaceItem = new WorkspaceItemViewModel();
+            Name = "ToolbarItem";
             MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
             MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
             MouseEnterCommand = new RelayCommand<MouseEventArgs>(OnMouseEnter);
@@ -85,6 +84,7 @@ namespace Builder.ViewModels
             Toolbar = toolbar;
 
             Name = name;
+            WorkspaceItem = new WorkspaceItemViewModel();
 
             MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
             MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);

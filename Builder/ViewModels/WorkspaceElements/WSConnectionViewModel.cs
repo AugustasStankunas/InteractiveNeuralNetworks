@@ -111,5 +111,10 @@ namespace Builder.ViewModels.WorkspaceElements
             else
                 return Source == other.Source && Target == other.Target;
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
