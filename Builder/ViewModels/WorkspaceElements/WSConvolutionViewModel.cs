@@ -6,17 +6,6 @@ namespace Builder.ViewModels.WorkspaceElements
 {
     class WSConvolutionViewModel : WorkspaceItemViewModel
     {
-        /*private string _name;
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                _name = value;
-                OnPropertyChanged(nameof(DisplayName));
-                DisplayName = $"{nameof(Name)}";
-            }
-        }*/
         private int _inputChannels;
         [Attributes.EditableProperty]
         public int InputChannels
@@ -26,7 +15,7 @@ namespace Builder.ViewModels.WorkspaceElements
             {
                 _inputChannels = value;
                 OnPropertyChanged(nameof(InputChannels));
-                DisplayName = $"{nameof(InputChannels)}";
+                OnPropertyChanged(nameof(DisplayName));
             }
         }
         private int _outputChannels;
@@ -38,7 +27,7 @@ namespace Builder.ViewModels.WorkspaceElements
             {
                 _outputChannels = value;
                 OnPropertyChanged(nameof(OutputChannels));
-                DisplayName = $"{nameof(OutputChannels)}";
+                OnPropertyChanged(nameof(DisplayName));
             }
         }
         private int _kernelSize;
@@ -50,7 +39,7 @@ namespace Builder.ViewModels.WorkspaceElements
             {
                 _kernelSize = value;
                 OnPropertyChanged(nameof(KernelSize));
-                DisplayName = $"{nameof(KernelSize)}";
+                OnPropertyChanged(nameof(DisplayName));
             }
         }
         private int _stride;
@@ -62,28 +51,19 @@ namespace Builder.ViewModels.WorkspaceElements
             {
                 _stride = value;
                 OnPropertyChanged(nameof(Stride));
-                DisplayName = $"{nameof(Stride)}";
-            }
-        }
-        private string _displayName;
-        public string DisplayName
-        {
-            get => _displayName;
-            set
-            {
-                _displayName = $"{Name}\nI:{InputChannels} O:{OutputChannels} \n K:{KernelSize} S:{Stride}";
                 OnPropertyChanged(nameof(DisplayName));
             }
         }
-        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, double x, double y, int width, int height, double opacity = 1, string displayName = "")
-            : base(x, y, width, height, opacity, displayName)
+        public override string DisplayName =>
+            $"{Name}\nI:{InputChannels} O:{OutputChannels} \n K:{KernelSize} S:{Stride}";
+
+        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, double x, double y, int width, int height, double opacity = 1, string name = "")
+            : base(x, y, width, height, opacity, name)
         {
-       //     Name = name;
             InputChannels = inputChannels;
             OutputChannels = outputChannels;
             KernelSize = kernelSize;
             Stride = stride;
-            DisplayName = displayName;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "convolutionall.jpg");
         }
     }

@@ -10,7 +10,7 @@ namespace Builder.ViewModels
 {
     public class WorkspaceItemViewModel : ViewModelBase
     {
-        private string _Name = "text";
+        public string _Name;
         [Attributes.EditableProperty(Priority = true)]
         public string Name
         {
@@ -19,7 +19,7 @@ namespace Builder.ViewModels
             {
                 _Name = value;
                 OnPropertyChanged(Name);
-                //DisplayName = $"{nameof(Name)}";
+                OnPropertyChanged(DisplayName);
             }
         }
 
@@ -129,16 +129,8 @@ namespace Builder.ViewModels
                 OnPropertyChanged(nameof(Opacity));
             }
         }
-        private string _DisplayName;
-        public string DisplayName
-        {
-            get => _DisplayName;
-            set
-            {
-                _DisplayName = value;
-                OnPropertyChanged(nameof(DisplayName));
-            }
-        }
+        public virtual string DisplayName =>
+            $"{Name}";
 
         private ActivationFunctionType _activationFunction;
         [Attributes.EditableProperty("ComboBox")]
@@ -152,15 +144,14 @@ namespace Builder.ViewModels
             }
         }
 
-        public WorkspaceItemViewModel(double x, double y, int width, int height, double opacity = 1, string displayName="")
+        public WorkspaceItemViewModel(double x, double y, int width, int height, double opacity = 1, string name="")
         {
             Position = new Point(x, y);
             StablePosition = new Point(x, y);
             Width = width;
             Height = height;
             Opacity = opacity;
-            DisplayName = displayName;
-           // Name = name;
+            Name = name;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png");
             ActivationFunction = ActivationFunctionType.None;
         }
