@@ -8,6 +8,7 @@ namespace Builder.ViewModels.ToolbarElements
         public TBConnectionViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
             Name = "Connection";
+            
         }
 
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

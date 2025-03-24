@@ -36,6 +36,6 @@
             <MenuItem Header="Test" Command="{Binding ShowTestCommand}"/>
         </Menu>
 
-        <ContentControl Content="{Binding CurrentViewModel}" />
+        <ContentControl Content="{Binding CurrentViewModel}"/>
     </DockPanel>
 </Window>

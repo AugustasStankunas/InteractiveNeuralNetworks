@@ -13,6 +13,7 @@ namespace Builder.ViewModels.WorkspaceElements
             {
                 _inputNeurons = value;
                 OnPropertyChanged(nameof(InputNeurons));
+                OnPropertyChanged(nameof(DisplayName));
             }
         }
 
@@ -25,15 +26,18 @@ namespace Builder.ViewModels.WorkspaceElements
             {
                 _outputNeurons = value;
                 OnPropertyChanged(nameof(OutputNeurons));
+                OnPropertyChanged(nameof(DisplayName));
             }
         }
+        public override string DisplayName =>
+            $"{Name}\nI:{InputNeurons} O:{OutputNeurons}";
 
-        public WSFullyConnectedViewModel(int inputNeurons, int outputNeurons, double x, double y, int width, int height, double opacity = 1)
-            : base(x, y, width, height, opacity)
+        public WSFullyConnectedViewModel(int inputNeurons, int outputNeurons, double x, double y, int width, int height, double opacity = 1, string displayName="")
+            : base(x, y, width, height, opacity, displayName)
         {
             InputNeurons = inputNeurons;
             OutputNeurons = outputNeurons;
-            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "fullyConnected.png"); ;
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "fullyConnectedl.png");
         }
     }
 }

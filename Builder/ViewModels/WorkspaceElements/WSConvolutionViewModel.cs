@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text.RegularExpressions;
 
 
 namespace Builder.ViewModels.WorkspaceElements
@@ -14,6 +15,7 @@ namespace Builder.ViewModels.WorkspaceElements
             {
                 _inputChannels = value;
                 OnPropertyChanged(nameof(InputChannels));
+                OnPropertyChanged(nameof(DisplayName));
             }
         }
         private int _outputChannels;
@@ -25,6 +27,7 @@ namespace Builder.ViewModels.WorkspaceElements
             {
                 _outputChannels = value;
                 OnPropertyChanged(nameof(OutputChannels));
+                OnPropertyChanged(nameof(DisplayName));
             }
         }
         private int _kernelSize;
@@ -36,6 +39,7 @@ namespace Builder.ViewModels.WorkspaceElements
             {
                 _kernelSize = value;
                 OnPropertyChanged(nameof(KernelSize));
+                OnPropertyChanged(nameof(DisplayName));
             }
         }
         private int _stride;
@@ -47,16 +51,20 @@ namespace Builder.ViewModels.WorkspaceElements
             {
                 _stride = value;
                 OnPropertyChanged(nameof(Stride));
+                OnPropertyChanged(nameof(DisplayName));
             }
         }
-        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, double x, double y, int width, int height, double opacity = 1)
-            : base(x, y, width, height, opacity)
+        public override string DisplayName =>
+            $"{Name}\nI:{InputChannels} O:{OutputChannels} \n K:{KernelSize} S:{Stride}";
+
+        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, double x, double y, int width, int height, double opacity = 1, string name = "")
+            : base(x, y, width, height, opacity, name)
         {
             InputChannels = inputChannels;
             OutputChannels = outputChannels;
             KernelSize = kernelSize;
             Stride = stride;
-            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "conv.png"); ;
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "convolutionall.jpg");
         }
     }
 }

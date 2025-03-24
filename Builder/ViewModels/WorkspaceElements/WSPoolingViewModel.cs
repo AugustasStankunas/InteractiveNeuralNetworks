@@ -14,6 +14,8 @@ namespace Builder.ViewModels.WorkspaceElements
             {
                 _kernelSize = value;
                 OnPropertyChanged(nameof(KernelSize));
+                OnPropertyChanged(nameof(DisplayName));
+
             }
         }
 
@@ -26,15 +28,18 @@ namespace Builder.ViewModels.WorkspaceElements
             {
                 _stride = value;
                 OnPropertyChanged(nameof(Stride));
+                OnPropertyChanged(nameof(DisplayName));
             }
         }
+        public override string DisplayName =>
+            $"{Name}\nK:{KernelSize} S:{Stride}";
 
-        public WSPoolingViewModel(int kernelSize, int stride, double x, double y, int width, int height, double opacity = 1)
-            : base(x, y, width, height, opacity)
+        public WSPoolingViewModel(int kernelSize, int stride, double x, double y, int width, int height, double opacity = 1, string name = "")
+            : base(x, y, width, height, opacity, name)
         {
             KernelSize = kernelSize;
             Stride = stride;
-            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "pooling.png"); ;
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "poolingl.jpg");
         }
     }
 }

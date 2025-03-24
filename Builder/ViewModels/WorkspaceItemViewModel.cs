@@ -10,7 +10,7 @@ namespace Builder.ViewModels
 {
     public class WorkspaceItemViewModel : ViewModelBase
     {
-        private string _Name = "";
+        public string _Name;
         [Attributes.EditableProperty(Priority = true)]
         public string Name
         {
@@ -19,6 +19,7 @@ namespace Builder.ViewModels
             {
                 _Name = value;
                 OnPropertyChanged(Name);
+                OnPropertyChanged(DisplayName);
             }
         }
 
@@ -35,23 +36,21 @@ namespace Builder.ViewModels
 
                 if (value)
                 {
-					Mouse.AddMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
-				}
-			}
+                    Mouse.AddMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
+                }
+            }
+        }
+        public void GlobalMouseUpHandler(object sender, MouseButtonEventArgs e)
+        {
+
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                IsSelected = false;
+                Mouse.RemoveMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
+            }
         }
 
-
-		public void GlobalMouseUpHandler(object sender, MouseButtonEventArgs e)
-		{
-
-			if (e.ChangedButton == MouseButton.Left)
-			{
-				IsSelected = false;
-				Mouse.RemoveMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
-			}
-		}
-
-		public Point SelectionPosition { get; set; }
+        public Point SelectionPosition { get; set; }
 
         private int _Border;
         public int Border
@@ -130,6 +129,8 @@ namespace Builder.ViewModels
                 OnPropertyChanged(nameof(Opacity));
             }
         }
+        public virtual string DisplayName =>
+            $"{Name}";
 
         private ActivationFunctionType _activationFunction;
         [Attributes.EditableProperty("ComboBox")]
@@ -143,16 +144,16 @@ namespace Builder.ViewModels
             }
         }
 
-        public WorkspaceItemViewModel(double x, double y, int width, int height, double opacity = 1)
+        public WorkspaceItemViewModel(double x, double y, int width, int height, double opacity = 1, string name="")
         {
             Position = new Point(x, y);
             StablePosition = new Point(x, y);
             Width = width;
             Height = height;
             Opacity = opacity;
+            Name = name;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png");
             ActivationFunction = ActivationFunctionType.None;
-
         }
 
         public WorkspaceItemViewModel() { }

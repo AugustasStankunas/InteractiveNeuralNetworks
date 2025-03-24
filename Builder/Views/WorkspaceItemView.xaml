@@ -7,13 +7,15 @@
              mc:Ignorable="d" 
              xmlns:vm="clr-namespace:Builder.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:WorkspaceItemViewModel}">
-    <Grid>
+    <StackPanel>
         <Border BorderBrush="#C1A9F7" BorderThickness="{Binding Border, UpdateSourceTrigger=PropertyChanged}">
             <Image Width="{Binding Width}" 
                     Height="{Binding Height}" 
                     Opacity="{Binding Opacity}"
                     AllowDrop="True"
-                    Source="{Binding IconPath}"/>
+                    Source="{Binding IconPath, UpdateSourceTrigger=PropertyChanged}"/>
         </Border>
-    </Grid>
+      <!--  <Label Content="{Binding Name}" />    -->
+        <Label Content="{Binding DisplayName}" />
+    </StackPanel>
 </UserControl>
