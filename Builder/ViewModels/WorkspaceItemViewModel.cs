@@ -73,7 +73,6 @@ namespace Builder.ViewModels
 
 
         private Point _Position;
-        [JsonIgnore]
         public Point Position
         {
             get => _Position;
@@ -85,6 +84,7 @@ namespace Builder.ViewModels
         }
 
         private Point _StablePosition;
+        [JsonIgnore]
         public Point StablePosition
         {
             get => _StablePosition;
