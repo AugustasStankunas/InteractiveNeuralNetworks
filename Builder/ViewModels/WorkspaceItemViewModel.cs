@@ -4,10 +4,16 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Builder.Enums;
 using Shared.ViewModels;
+using System.Text.Json.Serialization;
+using Builder.ViewModels.WorkspaceElements;
 
 
 namespace Builder.ViewModels
 {
+    [JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
+    [JsonDerivedType(typeof(WSConvolutionViewModel), "Conv2D")]
+    [JsonDerivedType(typeof(WSFullyConnectedViewModel), "Linear")]
+    [JsonDerivedType(typeof(WSPoolingViewModel), "Pool2D")]
     public class WorkspaceItemViewModel : ViewModelBase
     {
         public string _Name;
@@ -24,6 +30,7 @@ namespace Builder.ViewModels
         }
 
         private bool _IsSelected;
+        [JsonIgnore]
         public bool IsSelected
         {
             get => _IsSelected;
@@ -49,10 +56,11 @@ namespace Builder.ViewModels
                 Mouse.RemoveMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
             }
         }
-
+        [JsonIgnore]
         public Point SelectionPosition { get; set; }
 
         private int _Border;
+        [JsonIgnore]
         public int Border
         {
             get => _Border;
@@ -75,18 +83,10 @@ namespace Builder.ViewModels
             }
         }
 
-        private Point _StablePosition;
-        public Point StablePosition
-        {
-            get => _StablePosition;
-            set
-            {
-                _StablePosition = value;
-                OnPropertyChanged(nameof(StablePosition));
-            }
-        }
+  
 
         private string _iconPath = default!;
+        [JsonIgnore]
         public string IconPath
         {
             get => _iconPath;
@@ -98,6 +98,7 @@ namespace Builder.ViewModels
         }
 
         private int _Width;
+        [JsonIgnore]
         public int Width
         {
             get => _Width;
@@ -109,6 +110,7 @@ namespace Builder.ViewModels
         }
 
         private int _Height;
+        [JsonIgnore]
         public int Height
         {
             get => _Height;
@@ -120,6 +122,7 @@ namespace Builder.ViewModels
         }
 
         private double _Opacity;
+        [JsonIgnore]
         public double Opacity
         {
             get => _Opacity;
@@ -129,6 +132,7 @@ namespace Builder.ViewModels
                 OnPropertyChanged(nameof(Opacity));
             }
         }
+        [JsonIgnore]
         public virtual string DisplayName =>
             $"{Name}";
 
@@ -147,7 +151,6 @@ namespace Builder.ViewModels
         public WorkspaceItemViewModel(double x, double y, int width, int height, double opacity = 1, string name="")
         {
             Position = new Point(x, y);
-            StablePosition = new Point(x, y);
             Width = width;
             Height = height;
             Opacity = opacity;

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text.Json.Serialization;
 
 
 namespace Builder.ViewModels.WorkspaceElements
@@ -31,6 +32,7 @@ namespace Builder.ViewModels.WorkspaceElements
                 OnPropertyChanged(nameof(DisplayName));
             }
         }
+        [JsonIgnore]
         public override string DisplayName =>
             $"{Name}\nK:{KernelSize} S:{Stride}";
 

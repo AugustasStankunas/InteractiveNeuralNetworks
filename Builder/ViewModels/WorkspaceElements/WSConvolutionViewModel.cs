@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 
@@ -54,6 +55,7 @@ namespace Builder.ViewModels.WorkspaceElements
                 OnPropertyChanged(nameof(DisplayName));
             }
         }
+        [JsonIgnore]
         public override string DisplayName =>
             $"{Name}\nI:{InputChannels} O:{OutputChannels} \n K:{KernelSize} S:{Stride}";
 
