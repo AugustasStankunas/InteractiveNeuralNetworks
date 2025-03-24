@@ -18,8 +18,7 @@ namespace Builder.ViewModels.ToolbarElements
             else
                 Name = "Connection ON";
 
-            IsSelected = true;
-            Toolbar.Builder.isMakingConnection = !Toolbar.Builder.isMakingConnection;
+            IsSelected = true;            Toolbar.Builder.isMakingConnection = !Toolbar.Builder.isMakingConnection;
         }
     }
 }

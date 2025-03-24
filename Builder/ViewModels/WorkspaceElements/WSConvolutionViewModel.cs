@@ -66,7 +66,7 @@ namespace Builder.ViewModels.WorkspaceElements
             OutputChannels = outputChannels;
             KernelSize = kernelSize;
             Stride = stride;
-            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "convolutionall.jpg");
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Convolution.png");
         }
     }
 }

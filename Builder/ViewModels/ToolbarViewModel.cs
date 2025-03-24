@@ -16,6 +16,10 @@ namespace Builder.ViewModels
             ToolbarItems.Add(new TBFullyConnectedViewModel(this));
             ToolbarItems.Add(new TBConvolutionViewModel(this));
             ToolbarItems.Add(new TBPoolingViewModel(this));
+            ToolbarItems.Add(new TBBatchNormViewModel(this));
+            ToolbarItems.Add(new TBFlattenViewModel(this));
+            ToolbarItems.Add(new TBDropoutViewModel(this));
+            ToolbarItems.Add(new TBAddViewModel(this));
             ToolbarItems.Add(new TBConnectionViewModel(this));
         }
     }

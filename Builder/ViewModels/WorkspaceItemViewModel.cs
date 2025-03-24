@@ -14,6 +14,11 @@ namespace Builder.ViewModels
     [JsonDerivedType(typeof(WSConvolutionViewModel), "Conv2D")]
     [JsonDerivedType(typeof(WSFullyConnectedViewModel), "Linear")]
     [JsonDerivedType(typeof(WSPoolingViewModel), "Pool2D")]
+    [JsonDerivedType(typeof(WSAddViewModel), "Add")]
+    [JsonDerivedType(typeof(WSBatchNormViewModel), "BatchNorm")]
+    [JsonDerivedType(typeof(WSFlattenViewModel), "Flatten")]
+    [JsonDerivedType(typeof(WSDropoutViewModel), "Dropout")]
+
     public class WorkspaceItemViewModel : ViewModelBase
     {
         public string _Name;

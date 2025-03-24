@@ -15,7 +15,6 @@
                     AllowDrop="True"
                     Source="{Binding IconPath, UpdateSourceTrigger=PropertyChanged}"/>
         </Border>
-      <!--  <Label Content="{Binding Name}" />    -->
         <Label Content="{Binding DisplayName}" />
     </StackPanel>
 </UserControl>

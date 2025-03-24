@@ -41,7 +41,7 @@ namespace Builder.ViewModels.WorkspaceElements
         {
             KernelSize = kernelSize;
             Stride = stride;
-            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "poolingl.jpg");
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Poolingg.png");
         }
     }
 }
