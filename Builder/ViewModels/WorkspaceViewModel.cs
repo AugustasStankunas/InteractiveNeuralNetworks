@@ -337,14 +337,14 @@ namespace Builder.ViewModels
 			}
             else if (SelectedItem != null && e.Key == Key.Delete)
             {
-                RemoveConnections(SelectedItem);
+                RemoveElementConnections(SelectedItem);
 				WorkspaceItems.Remove(SelectedItem);
                 SelectedItem = null;                
                 return;
             }
 		}
 
-        private void RemoveConnections(WorkspaceItemViewModel SelectedItem)
+        private void RemoveElementConnections(WorkspaceItemViewModel SelectedItem)
         {
 
 			for (int i = 0; i < WorkspaceConnections.Count; i++)
