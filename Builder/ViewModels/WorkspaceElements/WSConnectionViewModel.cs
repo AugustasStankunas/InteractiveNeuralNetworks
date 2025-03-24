@@ -1,4 +1,5 @@
 ﻿using Shared.ViewModels;
+using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -41,6 +42,7 @@ namespace Builder.ViewModels.WorkspaceElements
         }
 
         private Point? _currentMousePosition;
+        [JsonIgnore]
         public Point? CurrentMousePosition
         {
             get => _currentMousePosition;
@@ -57,6 +59,7 @@ namespace Builder.ViewModels.WorkspaceElements
             : CurrentMousePosition;
 
         private bool _IsSelected;
+        [JsonIgnore]
         public bool IsSelected
         {
             get => _IsSelected;

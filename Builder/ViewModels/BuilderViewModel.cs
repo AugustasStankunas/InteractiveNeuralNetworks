@@ -6,6 +6,10 @@ using Builder.Models;
 using Builder.ViewModels.WorkspaceElements;
 using Shared.ViewModels;
 using Shared.Commands;
+using System.Text.Json;
+using System.IO;
+using Builder.Views;
+
 
 namespace Builder.ViewModels
 {
@@ -49,7 +53,10 @@ namespace Builder.ViewModels
         // Button methods
         private void ExecuteClickMe(object obj)
         {
-            Counter++;
+            string jsonItems = JsonSerializer.Serialize(WorkspaceViewModel.WorkspaceItems, new JsonSerializerOptions { WriteIndented = true });
+            string jsonConnections = JsonSerializer.Serialize(WorkspaceViewModel.WorkspaceConnections, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText("output.json", jsonItems);
+            File.AppendAllText("output.json", jsonConnections);
         }
         private bool CanExecuteClickMe(object obj)
         {
