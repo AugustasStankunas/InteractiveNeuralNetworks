@@ -83,17 +83,7 @@ namespace Builder.ViewModels
             }
         }
 
-        private Point _StablePosition;
-        [JsonIgnore]
-        public Point StablePosition
-        {
-            get => _StablePosition;
-            set
-            {
-                _StablePosition = value;
-                OnPropertyChanged(nameof(StablePosition));
-            }
-        }
+  
 
         private string _iconPath = default!;
         [JsonIgnore]
@@ -161,7 +151,6 @@ namespace Builder.ViewModels
         public WorkspaceItemViewModel(double x, double y, int width, int height, double opacity = 1, string name="")
         {
             Position = new Point(x, y);
-            StablePosition = new Point(x, y);
             Width = width;
             Height = height;
             Opacity = opacity;
