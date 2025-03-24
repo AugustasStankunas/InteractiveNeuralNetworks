@@ -53,7 +53,7 @@ namespace Builder.ViewModels.WorkspaceElements
                 OnPropertyChanged(nameof(TargetPoint));
             }
         }
-
+        [JsonIgnore]
         public Point? TargetPoint => Target != null
             ? new Point(Target.Position.X + Target.Width / 2, Target.Position.Y + Target.Height / 2)
             : CurrentMousePosition;
