@@ -23,6 +23,7 @@ namespace Builder.ViewModels
         public ICommand MouseLeftButtonDownCommand { get; }
         public ICommand MouseLeftButtonUpCommand { get; }
         public ICommand RenderSizeChangedCommand { get; }
+        public ICommand DeleteKeyDownCommand { get; }
 
         private double _visibleWidth; //Border actual width
         public double VisibleWidth
@@ -137,6 +138,7 @@ namespace Builder.ViewModels
             MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
 
             RenderSizeChangedCommand = new RelayCommand<SizeChangedEventArgs>(OnRenderSizeChanged);
+            DeleteKeyDownCommand = new RelayCommand<KeyEventArgs>(OnDeleteKeyDown);
         }
 
         private void OnDragOver(DragEventArgs e)
@@ -181,6 +183,10 @@ namespace Builder.ViewModels
 
         private void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
+			if (e.Source is FrameworkElement element)
+			{
+				Keyboard.Focus(element);
+			}
 			var data = e.OriginalSource as FrameworkElement;
 			if (e.OriginalSource is Image)
             {
@@ -320,5 +326,21 @@ namespace Builder.ViewModels
             }
         }
 
-    }
+		private void OnDeleteKeyDown(KeyEventArgs e)
+		{
+
+			if (SelectedConnection != null && e.Key == Key.Delete)
+			{
+				WorkspaceConnections.Remove(SelectedConnection);
+				SelectedConnection = null;
+                return;
+			}
+            else if (SelectedItem != null && e.Key == Key.Delete)
+            {
+				WorkspaceItems.Remove(SelectedItem);
+                SelectedItem = null;                
+                return;
+            }
+		}
+	}
 }
