@@ -153,7 +153,7 @@ namespace Builder.ViewModels
             }
         }
 
-        public WorkspaceItemViewModel(double x, double y, int width, int height, double opacity = 1, string name="")
+        public WorkspaceItemViewModel(double x, double y, int width = 60, int height = 60, double opacity = 1, string name="")
         {
             Position = new Point(x, y);
             Width = width;

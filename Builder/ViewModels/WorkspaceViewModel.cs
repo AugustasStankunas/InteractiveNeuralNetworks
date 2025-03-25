@@ -122,9 +122,9 @@ namespace Builder.ViewModels
 
             CanvasPanOffset = new Point(0, 0);
 
-            WorkspaceItems.Add(new WorkspaceItemViewModel(0, 0, 60, 60));
-            WorkspaceItems.Add(new WorkspaceItemViewModel(105, 123, 50, 50));
-            WorkspaceItems.Add(new WorkspaceItemViewModel(220, 330, 75, 75));
+            WorkspaceItems.Add(new WSConvolutionViewModel(3, 64, 3, 2, x: 20, y: 200, name: "conv1"));
+            WorkspaceItems.Add(new WSPoolingViewModel(3, 2, x: 120, y: 200, name: "pool1"));
+            WorkspaceItems.Add(new WSFullyConnectedViewModel(256, 512, x: 220, y: 200, name: "fc1"));
 
 			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[0], WorkspaceItems[1]));
 			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));

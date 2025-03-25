@@ -27,7 +27,7 @@ namespace Builder.ViewModels.WorkspaceElements
         public override string DisplayName =>
             $"{Name}\nR:{Rate}";
 
-        public WSDropoutViewModel(double rate, double x, double y, int width, int height, double opacity = 1, string name = "")
+        public WSDropoutViewModel(double rate, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
             : base(x, y, width, height, opacity, name)
         {
             Rate = rate;

@@ -59,7 +59,7 @@ namespace Builder.ViewModels.WorkspaceElements
         public override string DisplayName =>
             $"{Name}\nI:{InputChannels} O:{OutputChannels} \n K:{KernelSize} S:{Stride}";
 
-        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, double x, double y, int width, int height, double opacity = 1, string name = "")
+        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
             : base(x, y, width, height, opacity, name)
         {
             InputChannels = inputChannels;

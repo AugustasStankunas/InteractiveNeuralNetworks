@@ -12,7 +12,7 @@
         xmlns:TrainViews="clr-namespace:Train.Views;assembly=Train"
         xmlns:TestViews="clr-namespace:Test.Views;assembly=Test"
         mc:Ignorable="d"
-        Title="MainWindowView" Height="650" Width="1250">
+        Title="MainWindowView" Height="720" Width="1250">
     <Window.DataContext>
         <vm:MainWindowViewModel />
     </Window.DataContext>

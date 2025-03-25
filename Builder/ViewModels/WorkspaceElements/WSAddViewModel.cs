@@ -28,7 +28,7 @@ namespace Builder.ViewModels.WorkspaceElements
         public override string DisplayName =>
             $"{Name}\nN:{NumInputs}";
 
-        public WSAddViewModel(int numInputs, double x, double y, int width, int height, double opacity = 1, string name = "")
+        public WSAddViewModel(int numInputs, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
             : base(x, y, width, height, opacity, name)
         {
             NumInputs = numInputs;

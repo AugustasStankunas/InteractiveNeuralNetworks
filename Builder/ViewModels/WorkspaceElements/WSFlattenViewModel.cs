@@ -14,7 +14,7 @@ namespace Builder.ViewModels.WorkspaceElements
         public override string DisplayName =>
             $"{Name}";
 
-        public WSFlattenViewModel(double x, double y, int width, int height, double opacity = 1, string name = "")
+        public WSFlattenViewModel(double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
             : base(x, y, width, height, opacity, name)
         {
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Flatten.png");

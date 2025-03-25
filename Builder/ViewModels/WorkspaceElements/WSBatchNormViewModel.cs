@@ -39,7 +39,7 @@ namespace Builder.ViewModels.WorkspaceElements
         public override string DisplayName =>
             $"{Name}\nM:{Momentum} E:{Epsilon}";
 
-        public WSBatchNormViewModel(double momentum, double epsilon, double x, double y, int width, int height, double opacity = 1, string name = "")
+        public WSBatchNormViewModel(double momentum, double epsilon, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
             : base(x, y, width, height, opacity, name)
         {
             Momentum = momentum;
