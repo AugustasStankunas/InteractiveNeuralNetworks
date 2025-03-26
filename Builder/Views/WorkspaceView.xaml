@@ -17,77 +17,79 @@
     </UserControl.Resources>
 
     <Border x:Name="CanvasBorder" BorderBrush="Black" BorderThickness="1" Margin="20" ClipToBounds="True">
-        <Canvas x:Name="WorkspaceCanvas" Height="{Binding Height}" Width="{Binding Width}" ClipToBounds="True">
-            <Canvas.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform 
-                        ScaleX="{Binding ZoomFactor}" 
-                        ScaleY="{Binding ZoomFactor}"/>
-                    <TranslateTransform 
-                        X="{Binding CanvasPanOffset.X}" 
-                        Y="{Binding CanvasPanOffset.Y}"/>
-                </TransformGroup>
-            </Canvas.RenderTransform>
+        <Grid ClipToBounds="True"> <!-- Grido reikia, kad workspaceItem neuzeitu uz border ribu -->
+            <Canvas x:Name="WorkspaceCanvas" Height="{Binding Height}" Width="{Binding Width}" ClipToBounds="True">
+                <Canvas.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform 
+                ScaleX="{Binding ZoomFactor}" 
+                ScaleY="{Binding ZoomFactor}"/>
+                        <TranslateTransform 
+                X="{Binding CanvasPanOffset.X}" 
+                Y="{Binding CanvasPanOffset.Y}"/>
+                    </TransformGroup>
+                </Canvas.RenderTransform>
 
-            <Canvas.Background>
-                <DrawingBrush TileMode="Tile"
-                              Viewport="0,0,100,100" 
-                              ViewportUnits="Absolute"
-                              Viewbox="0,0,2,2"
-                              ViewboxUnits="Absolute"
-                              Stretch="None">
-                    <DrawingBrush.Drawing>
-                        <DrawingGroup>
-                            <GeometryDrawing Brush="Black">
-                                <GeometryDrawing.Geometry>
-                                    <EllipseGeometry Center="10,10" RadiusX="3" RadiusY="3"/>
-                                </GeometryDrawing.Geometry>
-                            </GeometryDrawing>
-                        </DrawingGroup>
-                    </DrawingBrush.Drawing>
-                </DrawingBrush>
-            </Canvas.Background>
+                <Canvas.Background>
+                    <DrawingBrush TileMode="Tile"
+                      Viewport="0,0,100,100" 
+                      ViewportUnits="Absolute"
+                      Viewbox="0,0,2,2"
+                      ViewboxUnits="Absolute"
+                      Stretch="None">
+                        <DrawingBrush.Drawing>
+                            <DrawingGroup>
+                                <GeometryDrawing Brush="Black">
+                                    <GeometryDrawing.Geometry>
+                                        <EllipseGeometry Center="10,10" RadiusX="3" RadiusY="3"/>
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                            </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Canvas.Background>
 
-            <ItemsControl ItemsSource="{Binding WorkspaceConnections}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemContainerStyle>
-                    <Style TargetType="ContentPresenter">
-                        <Setter Property="Panel.ZIndex" Value="0"/>
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
-            </ItemsControl>
+                <ItemsControl ItemsSource="{Binding WorkspaceConnections}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Panel.ZIndex" Value="0"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
 
-            <ItemsControl ItemsSource="{Binding WorkspaceItems}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemContainerStyle>
-                    <Style TargetType="ContentPresenter">
-                        <Setter Property="Canvas.Left" Value="{Binding Position.X}"/>
-                        <Setter Property="Canvas.Top" Value="{Binding Position.Y}"/>
-                        <Setter Property="Panel.ZIndex" Value="1"/>
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
-            </ItemsControl>
+                <ItemsControl ItemsSource="{Binding WorkspaceItems}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Canvas.Left" Value="{Binding Position.X}"/>
+                            <Setter Property="Canvas.Top" Value="{Binding Position.Y}"/>
+                            <Setter Property="Panel.ZIndex" Value="1"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
 
+                <i:Interaction.Behaviors>
+                    <commands:EventToCommandBehavior EventName="MouseLeftButtonDown" Command="{Binding MouseLeftButtonDownCommand}" />
+                    <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding MouseMoveCommand}" />
+                    <commands:EventToCommandBehavior EventName="DragOver" Command="{Binding DragOverCommand}"/>
+                    <commands:EventToCommandBehavior EventName="MouseLeftButtonUp" Command="{Binding MouseLeftButtonUpCommand}"/>
+                    <commands:EventToCommandBehavior EventName="MouseWheel" Command="{Binding MouseWheelCommand}"/>
+                    <commands:EventToCommandBehavior EventName="MouseLeave" Command="{Binding MouseLeaveCommand}"/>
+                    <commands:EventToCommandBehavior EventName="KeyDown" Command="{Binding DeleteKeyDownCommand}"/>
+                </i:Interaction.Behaviors>
+            </Canvas>
             <i:Interaction.Behaviors>
-                <commands:EventToCommandBehavior EventName="MouseLeftButtonDown" Command="{Binding MouseLeftButtonDownCommand}" />
-                <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding MouseMoveCommand}" />
-                <commands:EventToCommandBehavior EventName="DragOver" Command="{Binding DragOverCommand}"/>
-                <commands:EventToCommandBehavior EventName="MouseLeftButtonUp" Command="{Binding MouseLeftButtonUpCommand}"/>
-                <commands:EventToCommandBehavior EventName="MouseWheel" Command="{Binding MouseWheelCommand}"/>
-                <commands:EventToCommandBehavior EventName="MouseLeave" Command="{Binding MouseLeaveCommand}"/>
-                <commands:EventToCommandBehavior EventName="KeyDown" Command="{Binding DeleteKeyDownCommand}"/>
+                <commands:EventToCommandBehavior EventName="SizeChanged" Command="{Binding RenderSizeChangedCommand}" />
             </i:Interaction.Behaviors>
-        </Canvas>
-        <i:Interaction.Behaviors>
-            <commands:EventToCommandBehavior EventName="SizeChanged" Command="{Binding RenderSizeChangedCommand}" />
-        </i:Interaction.Behaviors>
+        </Grid>
     </Border>
 </UserControl>
