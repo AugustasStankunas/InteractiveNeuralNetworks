@@ -359,20 +359,19 @@ namespace Builder.ViewModels
             return;
 
         }
-		public string GenerateElementName(WorkspaceItemViewModel item)
-		{
-			string itemClass = item.GetType().Name;
+        public string GenerateElementName(WorkspaceItemViewModel item)
+        {
+            string itemClass = item.GetType().Name;
+            string acronym = itemClass.Substring(2,4);
 
-			int elementsInSameClass = 0;
+            int maxval = 0;
 			foreach (var existingItem in WorkspaceItems)
 			{
-					
-				if (existingItem.Name.StartsWith(itemClass))
-				{
-                    elementsInSameClass++;
-				}
+				if (existingItem.Name.StartsWith(acronym))
+					if (int.TryParse(existingItem.Name.Substring(acronym.Length), out int number))
+						maxval = Math.Max(maxval, number);
 			}
-			return $"{itemClass}{elementsInSameClass}";
+			return $"{acronym}{maxval + 1}";
 		}
 	}
 }
