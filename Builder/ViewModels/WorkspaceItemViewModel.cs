@@ -29,8 +29,8 @@ namespace Builder.ViewModels
             set
             {
                 _Name = value;
-                OnPropertyChanged(Name);
-                OnPropertyChanged(DisplayName);
+                OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(DisplayName));
             }
         }
 
