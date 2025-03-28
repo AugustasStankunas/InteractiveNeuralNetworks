@@ -255,6 +255,8 @@ namespace Builder.ViewModels
                     Point mousePos = e.GetPosition(e.OriginalSource as IInputElement);
                     Builder.WorkspaceItemSelected[0].Opacity = 1;
                     Builder.WorkspaceItemSelected[0].Position = mousePos;
+                    //Builder.WorkspaceItemSelected[0].Name = "";
+                    Builder.WorkspaceItemSelected[0].Name = GenerateElementName(Builder.WorkspaceItemSelected[0]); 
                     WorkspaceItems.Add(Builder.WorkspaceItemSelected[0]);
                 }
             }
@@ -357,5 +359,20 @@ namespace Builder.ViewModels
             return;
 
         }
+		public string GenerateElementName(WorkspaceItemViewModel item)
+		{
+			string itemClass = item.GetType().Name;
+
+			int elementsInSameClass = 0;
+			foreach (var existingItem in WorkspaceItems)
+			{
+					
+				if (existingItem.Name.StartsWith(itemClass))
+				{
+                    elementsInSameClass++;
+				}
+			}
+			return $"{itemClass}{elementsInSameClass}";
+		}
 	}
 }
