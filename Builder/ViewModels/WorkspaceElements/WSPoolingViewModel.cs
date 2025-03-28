@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Builder.Enums;
+using System.IO;
 using System.Text.Json.Serialization;
 
 
@@ -32,6 +33,17 @@ namespace Builder.ViewModels.WorkspaceElements
                 OnPropertyChanged(nameof(DisplayName));
             }
         }
+        private PoolingType _poolingType;
+        [Attributes.EditableProperty("ComboBox")]
+        public PoolingType PoolingType
+        {
+            get => _poolingType;
+            set
+            {
+                _poolingType = value;
+                OnPropertyChanged(nameof(PoolingType));
+            }
+        }
         [JsonIgnore]
         public override string DisplayName =>
             $"{Name}\nK:{KernelSize} S:{Stride}";
@@ -41,6 +53,7 @@ namespace Builder.ViewModels.WorkspaceElements
         {
             KernelSize = kernelSize;
             Stride = stride;
+            PoolingType = PoolingType.Average;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Poolingg.png");
         }
     }
