@@ -79,8 +79,10 @@ namespace MainApp.ViewModels
                 string filename = dialog.FileName;
                 string jsonItems = JsonSerializer.Serialize(Builder.WorkspaceViewModel.WorkspaceItems, new JsonSerializerOptions { WriteIndented = true });
                 string jsonConnections = JsonSerializer.Serialize(Builder.WorkspaceViewModel.WorkspaceConnections, new JsonSerializerOptions { WriteIndented = true });
+                string jsonHyperparameters = JsonSerializer.Serialize(Train, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(filename, jsonItems);
                 File.AppendAllText(filename, jsonConnections);
+                File.AppendAllText(filename, jsonHyperparameters);
             }
         }
 

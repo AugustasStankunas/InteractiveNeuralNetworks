@@ -7,6 +7,7 @@ using Shared.ViewModels;
 using Shared.Attributes;
 
 using Builder.Enums;
+using System.Text.Json.Serialization;
 
 namespace Train.ViewModels
 {
@@ -47,7 +48,7 @@ namespace Train.ViewModels
                 OnPropertyChanged(nameof(BatchSize));
             }
         }
-
+        [JsonIgnore]
         public HyperparametersWindowViewModel HyperparametersWindowViewModel { get; set; }
 
         public TrainViewModel()
