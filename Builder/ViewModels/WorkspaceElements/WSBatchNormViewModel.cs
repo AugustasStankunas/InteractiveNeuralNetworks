@@ -5,13 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Shared.Attributes;
+
 
 namespace Builder.ViewModels.WorkspaceElements
 {
      class WSBatchNormViewModel: WorkspaceItemViewModel
     {
         private double _momentum;
-        [Attributes.EditableProperty]
+        [EditableProperty]
         public double Momentum
         {
             get => _momentum;
@@ -23,7 +25,7 @@ namespace Builder.ViewModels.WorkspaceElements
             }
         }
         private double _epsilon;
-        [Attributes.EditableProperty]
+        [EditableProperty]
         public double Epsilon
         {
             get => _epsilon;

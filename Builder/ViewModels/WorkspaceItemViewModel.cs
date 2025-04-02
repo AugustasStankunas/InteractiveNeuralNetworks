@@ -6,6 +6,7 @@ using Builder.Enums;
 using Shared.ViewModels;
 using System.Text.Json.Serialization;
 using Builder.ViewModels.WorkspaceElements;
+using Shared.Attributes;
 
 
 namespace Builder.ViewModels
@@ -22,7 +23,7 @@ namespace Builder.ViewModels
     public class WorkspaceItemViewModel : ViewModelBase
     {
         public string _Name;
-        [Attributes.EditableProperty(Priority = true)]
+        [EditableProperty(Priority = true)]
         public string Name
         {
             get => _Name;
@@ -142,7 +143,7 @@ namespace Builder.ViewModels
             $"{Name}";
 
         private ActivationFunctionType _activationFunction;
-        [Attributes.EditableProperty("ComboBox")]
+        [EditableProperty("ComboBox")]
         public ActivationFunctionType ActivationFunction
         {
             get => _activationFunction;
@@ -153,7 +154,7 @@ namespace Builder.ViewModels
             }
         }
         private LayerType _layerType;
-        [Attributes.EditableProperty("ComboBox")]
+        [EditableProperty("ComboBox")]
         public LayerType Layer
         {
             get => _layerType;

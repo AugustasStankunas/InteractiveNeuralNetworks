@@ -1,4 +1,4 @@
-﻿namespace Builder.Attributes
+﻿namespace Shared.Attributes
 {
     [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
     public class EditableProperty : Attribute

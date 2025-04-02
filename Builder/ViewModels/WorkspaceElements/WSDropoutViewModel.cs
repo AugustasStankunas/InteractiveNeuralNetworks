@@ -5,13 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Shared.Attributes;
+
 
 namespace Builder.ViewModels.WorkspaceElements
 {
     class WSDropoutViewModel: WorkspaceItemViewModel
     {
         private double _rate;
-        [Attributes.EditableProperty]
+        [EditableProperty]
         public double Rate
         {
             get => _rate;

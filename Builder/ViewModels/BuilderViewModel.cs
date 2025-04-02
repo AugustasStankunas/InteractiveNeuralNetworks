@@ -43,7 +43,7 @@ namespace Builder.ViewModels
             Model = new BuilderModel();
             WorkspaceViewModel = new WorkspaceViewModel(this);
             ToolbarViewModel = new ToolbarViewModel(this);
-            PropertiesWindowViewModel = new PropertiesWindowViewModel(this);
+            PropertiesWindowViewModel = new PropertiesWindowViewModel();
 
             ClickMeButtonCommand = new RelayCommand(ExecuteClickMe, CanExecuteClickMe);
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);

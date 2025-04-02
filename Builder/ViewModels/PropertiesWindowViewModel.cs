@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Builder.Attributes;
+using Shared.Attributes;
 using Shared.ViewModels;
 
 
@@ -7,7 +7,6 @@ namespace Builder.ViewModels
 {
     public class PropertiesWindowViewModel : ViewModelBase
     {
-        public BuilderViewModel Builder { get; set; }
 
         WorkspaceItemViewModel _SelectedWorkspaceItem;
         public WorkspaceItemViewModel SelectedWorkspaceItem
@@ -17,7 +16,7 @@ namespace Builder.ViewModels
             {
                 _SelectedWorkspaceItem = value;
 
-                IEnumerable<System.Reflection.PropertyInfo> properties = SelectedWorkspaceItem.GetType().GetProperties().Where(p => Attribute.IsDefined(p, typeof(Attributes.EditableProperty)));
+                IEnumerable<System.Reflection.PropertyInfo> properties = SelectedWorkspaceItem.GetType().GetProperties().Where(p => Attribute.IsDefined(p, typeof(EditableProperty)));
                 ObservableCollection<PropertyInfoViewModel> propertiesVM = new();
                 foreach (var property in properties)
                 {
@@ -46,9 +45,8 @@ namespace Builder.ViewModels
             }
         }
 
-        public PropertiesWindowViewModel(BuilderViewModel builderViewModel)
+        public PropertiesWindowViewModel()
         {
-            Builder = builderViewModel;
         }
     }
 }

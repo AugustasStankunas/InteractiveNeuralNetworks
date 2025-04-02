@@ -1,6 +1,8 @@
 ﻿using Builder.Enums;
 using System.IO;
 using System.Text.Json.Serialization;
+using Shared.Attributes;
+
 
 
 namespace Builder.ViewModels.WorkspaceElements
@@ -8,7 +10,7 @@ namespace Builder.ViewModels.WorkspaceElements
     class WSPoolingViewModel : WorkspaceItemViewModel
     {
         private int _kernelSize;
-        [Attributes.EditableProperty]
+        [EditableProperty]
         public int KernelSize
         {
             get => _kernelSize;
@@ -22,7 +24,7 @@ namespace Builder.ViewModels.WorkspaceElements
         }
 
         private int _stride;
-        [Attributes.EditableProperty]
+        [EditableProperty]
         public int Stride
         {
             get => _stride;
@@ -34,7 +36,7 @@ namespace Builder.ViewModels.WorkspaceElements
             }
         }
         private PoolingType _poolingType;
-        [Attributes.EditableProperty("ComboBox")]
+        [EditableProperty("ComboBox")]
         public PoolingType PoolingType
         {
             get => _poolingType;

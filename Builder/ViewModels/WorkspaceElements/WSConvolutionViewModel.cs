@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using Shared.Attributes;
+
 
 
 namespace Builder.ViewModels.WorkspaceElements
@@ -8,7 +10,7 @@ namespace Builder.ViewModels.WorkspaceElements
     class WSConvolutionViewModel : WorkspaceItemViewModel
     {
         private int _inputChannels;
-        [Attributes.EditableProperty]
+        [EditableProperty]
         public int InputChannels
         {
             get => _inputChannels;
@@ -20,7 +22,7 @@ namespace Builder.ViewModels.WorkspaceElements
             }
         }
         private int _outputChannels;
-        [Attributes.EditableProperty]
+        [EditableProperty]
         public int OutputChannels
         {
             get => _outputChannels;
@@ -32,7 +34,7 @@ namespace Builder.ViewModels.WorkspaceElements
             }
         }
         private int _kernelSize;
-        [Attributes.EditableProperty]
+        [EditableProperty]
         public int KernelSize
         {
             get => _kernelSize;
@@ -44,7 +46,7 @@ namespace Builder.ViewModels.WorkspaceElements
             }
         }
         private int _stride;
-        [Attributes.EditableProperty]
+        [EditableProperty]
         public int Stride
         {
             get => _stride;

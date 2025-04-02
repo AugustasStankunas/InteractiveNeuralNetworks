@@ -1,12 +1,14 @@
 ﻿using System.IO;
 using System.Text.Json.Serialization;
+using Shared.Attributes;
+
 
 namespace Builder.ViewModels.WorkspaceElements
 {
     class WSFullyConnectedViewModel : WorkspaceItemViewModel
     {
         private int _inputNeurons;
-        [Attributes.EditableProperty]
+        [EditableProperty]
         public int InputNeurons
         {
             get => _inputNeurons;
@@ -19,7 +21,7 @@ namespace Builder.ViewModels.WorkspaceElements
         }
 
         private int _outputNeurons;
-        [Attributes.EditableProperty]
+        [EditableProperty]
         public int OutputNeurons
         {
             get => _outputNeurons;

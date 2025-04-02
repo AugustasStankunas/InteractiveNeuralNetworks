@@ -6,13 +6,14 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Shared.Attributes;
 
 namespace Builder.ViewModels.WorkspaceElements
 {
     class WSAddViewModel: WorkspaceItemViewModel
     {
         private int _numInputs;
-        [Attributes.EditableProperty]
+        [EditableProperty]
         public int NumInputs
         {
             get => _numInputs;

@@ -1,13 +1,12 @@
 ﻿using System.Reflection;
-using Shared.Attributes;
 using Shared.ViewModels;
+using Shared.Attributes;
 
-
-namespace Builder.ViewModels
+namespace Train.ViewModels
 {
-    public class PropertyInfoViewModel : ViewModelBase
+    public class HyperparameterInfoViewModel : ViewModelBase
     {
-        WorkspaceItemViewModel WorkspaceItem { get; set; }
+        TrainViewModel Trainer { get; set; }
         PropertyInfo PropertyInfo { get; set; }
         public string ControlType { get; set; }
         public string Name { get; set; }
@@ -21,19 +20,19 @@ namespace Builder.ViewModels
                 _Value = value;
                 if (PropertyInfo.PropertyType == typeof(int))
                 {
-                    PropertyInfo.SetValue(WorkspaceItem, int.Parse(_Value));
+                    PropertyInfo.SetValue(Trainer, int.Parse(_Value));
                 }
                 else if (PropertyInfo.PropertyType == typeof(double))
                 {
-                    PropertyInfo.SetValue(WorkspaceItem, double.Parse(_Value));
+                    PropertyInfo.SetValue(Trainer, double.Parse(_Value));
                 }
                 else if (PropertyInfo.PropertyType.IsEnum)
                 {
-                    PropertyInfo.SetValue(WorkspaceItem, Enum.Parse(PropertyInfo.PropertyType, _Value));
+                    PropertyInfo.SetValue(Trainer, Enum.Parse(PropertyInfo.PropertyType, _Value));
                 }
                 else
                 {
-                    PropertyInfo.SetValue(WorkspaceItem, _Value);
+                    PropertyInfo.SetValue(Trainer, _Value);
                 }
 
                 OnPropertyChanged(Value);
@@ -42,14 +41,14 @@ namespace Builder.ViewModels
 
         public string[] Options { get; set; }
 
-        public PropertyInfoViewModel(WorkspaceItemViewModel WorkspaceItem, PropertyInfo propertyInfo)
+        public HyperparameterInfoViewModel(TrainViewModel trainer, PropertyInfo propertyInfo)
         {
-            this.WorkspaceItem = WorkspaceItem;
+            Trainer = trainer;
             PropertyInfo = propertyInfo;
             ControlType = ((EditableProperty)Attribute.GetCustomAttribute(propertyInfo, typeof(EditableProperty))).ControlType;
 
             Name = propertyInfo.Name;
-            Value = propertyInfo.GetValue(WorkspaceItem).ToString();
+            Value = propertyInfo.GetValue(Trainer).ToString();
 
             if (ControlType == "ComboBox")
             {
