@@ -1,3 +1,5 @@
 /.vs
 bin/
 obj/
+Python-server/.venv/
+Python-server/log.txt

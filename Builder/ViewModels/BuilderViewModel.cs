@@ -9,6 +9,7 @@ using Shared.Commands;
 using System.Text.Json;
 using System.IO;
 using Builder.Views;
+using InteractiveNeuralNetworks;
 
 
 namespace Builder.ViewModels
@@ -55,8 +56,14 @@ namespace Builder.ViewModels
         {
             string jsonItems = JsonSerializer.Serialize(WorkspaceViewModel.WorkspaceItems, new JsonSerializerOptions { WriteIndented = true });
             string jsonConnections = JsonSerializer.Serialize(WorkspaceViewModel.WorkspaceConnections, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText("output.json", jsonItems);
+            File.WriteAllText("output.json", "{\n\"Items \":");
+            File.AppendAllText("output.json", jsonItems);
+            File.AppendAllText("output.json", ",\n");
+            File.AppendAllText("output.json", "\"Connections \": ");
             File.AppendAllText("output.json", jsonConnections);
+            File.AppendAllText("output.json", "\n}");
+
+            PythonRunner.RunScript();
         }
         private bool CanExecuteClickMe(object obj)
         {
