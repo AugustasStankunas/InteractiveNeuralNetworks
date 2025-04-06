@@ -1,16 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using System.Windows;
 using Builder.Enums;
 
 namespace Builder.ViewModels.WorkspaceElements
 {
-     class WSFlattenViewModel: WorkspaceItemViewModel
+    class WSFlattenViewModel : WorkspaceItemViewModel
     {
         [JsonIgnore]
         public override string DisplayName =>

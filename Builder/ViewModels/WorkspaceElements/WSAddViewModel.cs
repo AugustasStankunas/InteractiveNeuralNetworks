@@ -1,18 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Shared.Attributes;
-using Builder.Enums;
 using System.Windows;
+using Builder.Enums;
+using Shared.Attributes;
 
 namespace Builder.ViewModels.WorkspaceElements
 {
-    class WSAddViewModel: WorkspaceItemViewModel
+    class WSAddViewModel : WorkspaceItemViewModel
     {
         private int _numInputs;
         [EditableProperty]

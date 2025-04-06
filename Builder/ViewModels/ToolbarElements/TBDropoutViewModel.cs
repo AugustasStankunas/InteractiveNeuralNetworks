@@ -1,17 +1,10 @@
-﻿using Builder.ViewModels.WorkspaceElements;
-using System.Windows;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Xml.Linq;
+using Builder.ViewModels.WorkspaceElements;
 
 namespace Builder.ViewModels.ToolbarElements
 {
-    class TBDropoutViewModel: ToolbarItemViewModel
+    class TBDropoutViewModel : ToolbarItemViewModel
     {
         public TBDropoutViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {

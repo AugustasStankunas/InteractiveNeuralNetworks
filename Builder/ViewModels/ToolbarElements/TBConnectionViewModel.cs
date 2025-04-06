@@ -1,5 +1,4 @@
 ﻿using System.Windows.Input;
-using Builder.ViewModels.WorkspaceElements;
 
 namespace Builder.ViewModels.ToolbarElements
 {
@@ -8,7 +7,7 @@ namespace Builder.ViewModels.ToolbarElements
         public TBConnectionViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
             Name = "Connection";
-            
+
         }
 
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -18,7 +17,7 @@ namespace Builder.ViewModels.ToolbarElements
             else
                 Name = "Connection ON";
 
-            IsSelected = true;            Toolbar.Builder.isMakingConnection = !Toolbar.Builder.isMakingConnection;
+            IsSelected = true; Toolbar.Builder.isMakingConnection = !Toolbar.Builder.isMakingConnection;
         }
     }
 }

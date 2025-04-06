@@ -1,15 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
-using Builder.Commands;
 using Builder.Models;
-using Builder.ViewModels.WorkspaceElements;
-using Shared.ViewModels;
 using Shared.Commands;
-using System.Text.Json;
-using System.IO;
-using Builder.Views;
-using InteractiveNeuralNetworks;
+using Shared.ViewModels;
 
 
 namespace Builder.ViewModels

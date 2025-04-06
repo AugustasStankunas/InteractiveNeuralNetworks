@@ -1,18 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Shared.Attributes;
-using Builder.Enums;
 using System.Windows;
+using Builder.Enums;
+using Shared.Attributes;
 
 
 namespace Builder.ViewModels.WorkspaceElements
 {
-     class WSBatchNormViewModel: WorkspaceItemViewModel
+    class WSBatchNormViewModel : WorkspaceItemViewModel
     {
         private double _momentum;
         [EditableProperty]
@@ -38,7 +33,7 @@ namespace Builder.ViewModels.WorkspaceElements
                 OnPropertyChanged(nameof(DisplayName));
             }
         }
-      
+
         [JsonIgnore]
         public override string DisplayName =>
             $"{Name}\nM:{Momentum} E:{Epsilon}";

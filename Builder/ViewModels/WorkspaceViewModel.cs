@@ -3,10 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
-using Builder.Commands;
 using Builder.ViewModels.WorkspaceElements;
-using Shared.ViewModels;
 using Shared.Commands;
+using Shared.ViewModels;
 
 
 
@@ -93,30 +92,30 @@ namespace Builder.ViewModels
                 OnPropertyChanged(nameof(SelectedItem));
             }
         }
-        
-		private WSConnectionViewModel? _selectedConnection;
-		public WSConnectionViewModel? SelectedConnection
-		{
-			get => _selectedConnection;
-			set
-			{
-				if (_selectedConnection != null)
-					_selectedConnection.IsSelected = false;
 
-				_selectedConnection = value;
+        private WSConnectionViewModel? _selectedConnection;
+        public WSConnectionViewModel? SelectedConnection
+        {
+            get => _selectedConnection;
+            set
+            {
+                if (_selectedConnection != null)
+                    _selectedConnection.IsSelected = false;
 
-				if (_selectedConnection != null)
-				{
-					_selectedConnection.IsSelected = true;
-				}
+                _selectedConnection = value;
 
-				OnPropertyChanged(nameof(SelectedConnection));
-			}
-		}
+                if (_selectedConnection != null)
+                {
+                    _selectedConnection.IsSelected = true;
+                }
+
+                OnPropertyChanged(nameof(SelectedConnection));
+            }
+        }
 
         private WSConnectionViewModel? connectionInProgress;
 
-		public WorkspaceViewModel(BuilderViewModel builderViewModel)
+        public WorkspaceViewModel(BuilderViewModel builderViewModel)
         {
             Builder = builderViewModel;
 
@@ -126,8 +125,8 @@ namespace Builder.ViewModels
             WorkspaceItems.Add(new WSPoolingViewModel(3, 2, x: 120, y: 200, name: "pool1"));
             WorkspaceItems.Add(new WSFullyConnectedViewModel(256, 512, x: 220, y: 200, name: "fc1"));
 
-			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[0], WorkspaceItems[1]));
-			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
+            WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[0], WorkspaceItems[1]));
+            WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
 
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
             MouseLeaveCommand = new RelayCommand<MouseEventArgs>(e => _isPanning = false);
@@ -183,14 +182,14 @@ namespace Builder.ViewModels
 
         private void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-			if (e.Source is FrameworkElement element)
-			{
-				Keyboard.Focus(element);
-			}
-			var data = e.OriginalSource as FrameworkElement;
-			if (e.OriginalSource is Image)
+            if (e.Source is FrameworkElement element)
             {
-		        SelectedConnection = null;
+                Keyboard.Focus(element);
+            }
+            var data = e.OriginalSource as FrameworkElement;
+            if (e.OriginalSource is Image)
+            {
+                SelectedConnection = null;
                 if (data != null && data.DataContext is WorkspaceItemViewModel workspaceItem)
                 {
                     SelectedItem = workspaceItem;
@@ -213,21 +212,21 @@ namespace Builder.ViewModels
                 }
 
             }
-            else if(data != null && e.OriginalSource is Line && data.DataContext is WSConnectionViewModel connection)
+            else if (data != null && e.OriginalSource is Line && data.DataContext is WSConnectionViewModel connection)
             {
-                
+
                 SelectedItem = null;
-                SelectedConnection = connection; 
+                SelectedConnection = connection;
                 return;
-                
-			}
-             else
-             {
+
+            }
+            else
+            {
                 _isPanning = true;
                 _panStart = e.GetPosition(null);
                 SelectedItem = null;
-				SelectedConnection = null;
-			}
+                SelectedConnection = null;
+            }
         }
 
         private void OnMouseMove(MouseEventArgs e)
@@ -256,7 +255,7 @@ namespace Builder.ViewModels
                     Builder.WorkspaceItemSelected[0].Opacity = 1;
                     Builder.WorkspaceItemSelected[0].Position = mousePos;
                     //Builder.WorkspaceItemSelected[0].Name = "";
-                    Builder.WorkspaceItemSelected[0].Name = GenerateElementName(Builder.WorkspaceItemSelected[0]); 
+                    Builder.WorkspaceItemSelected[0].Name = GenerateElementName(Builder.WorkspaceItemSelected[0]);
                     WorkspaceItems.Add(Builder.WorkspaceItemSelected[0]);
                 }
             }
@@ -276,7 +275,7 @@ namespace Builder.ViewModels
                     }
                 }
                 else
-                    CancelConnectionInProgress(); 
+                    CancelConnectionInProgress();
             }
         }
 
@@ -328,51 +327,51 @@ namespace Builder.ViewModels
             }
         }
 
-		private void OnDeleteKeyDown(KeyEventArgs e)
-		{
+        private void OnDeleteKeyDown(KeyEventArgs e)
+        {
 
-			if (SelectedConnection != null && e.Key == Key.Delete)
-			{
-				WorkspaceConnections.Remove(SelectedConnection);
-				SelectedConnection = null;
+            if (SelectedConnection != null && e.Key == Key.Delete)
+            {
+                WorkspaceConnections.Remove(SelectedConnection);
+                SelectedConnection = null;
                 return;
-			}
+            }
             else if (SelectedItem != null && e.Key == Key.Delete)
             {
                 RemoveElementConnections(SelectedItem);
-				WorkspaceItems.Remove(SelectedItem);
-                SelectedItem = null;                
+                WorkspaceItems.Remove(SelectedItem);
+                SelectedItem = null;
                 return;
             }
-		}
+        }
 
         private void RemoveElementConnections(WorkspaceItemViewModel SelectedItem)
         {
 
-			for (int i = 0; i < WorkspaceConnections.Count; i++)
-			{
-				if (WorkspaceConnections[i].Source == SelectedItem || WorkspaceConnections[i].Target == SelectedItem)
-				{
-					WorkspaceConnections.Remove(WorkspaceConnections[i--]);
-				}
-			}
+            for (int i = 0; i < WorkspaceConnections.Count; i++)
+            {
+                if (WorkspaceConnections[i].Source == SelectedItem || WorkspaceConnections[i].Target == SelectedItem)
+                {
+                    WorkspaceConnections.Remove(WorkspaceConnections[i--]);
+                }
+            }
             return;
 
         }
         public string GenerateElementName(WorkspaceItemViewModel item)
         {
             string itemClass = item.GetType().Name;
-            string acronym = itemClass.Substring(2,4);
+            string acronym = itemClass.Substring(2, 4);
 
             int maxval = 0;
-			foreach (var existingItem in WorkspaceItems)
-			{
-				if (existingItem.Name.StartsWith(acronym))
-					if (int.TryParse(existingItem.Name.Substring(acronym.Length), out int number))
-						maxval = Math.Max(maxval, number);
-			}
-			return $"{acronym}{maxval + 1}";
-		}
+            foreach (var existingItem in WorkspaceItems)
+            {
+                if (existingItem.Name.StartsWith(acronym))
+                    if (int.TryParse(existingItem.Name.Substring(acronym.Length), out int number))
+                        maxval = Math.Max(maxval, number);
+            }
+            return $"{acronym}{maxval + 1}";
+        }
 
         public void UpdateItemsAndConnections(ObservableCollection<WorkspaceItemViewModel> items, ObservableCollection<WSConnectionViewModel> connections)
         {

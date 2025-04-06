@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Shared.ViewModels;
-using Shared.Attributes;
-
+﻿using System.Text.Json.Serialization;
 using Builder.Enums;
-using System.Text.Json.Serialization;
+using Shared.Attributes;
+using Shared.ViewModels;
 
 namespace Train.ViewModels
 {

@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Shared.Attributes;
 using Shared.ViewModels;
-using Train.ViewModels;
 
 
 namespace Train.ViewModels

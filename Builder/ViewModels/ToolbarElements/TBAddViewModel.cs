@@ -1,15 +1,10 @@
-﻿using Builder.ViewModels.WorkspaceElements;
-using System.Windows;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows;
 using System.Windows.Input;
+using Builder.ViewModels.WorkspaceElements;
 
 namespace Builder.ViewModels.ToolbarElements
 {
-    class TBAddViewModel: ToolbarItemViewModel
+    class TBAddViewModel : ToolbarItemViewModel
     {
         public TBAddViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {

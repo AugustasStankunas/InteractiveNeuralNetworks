@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
-using Shared.ViewModels;
 using Shared.Attributes;
+using Shared.ViewModels;
 
 namespace Train.ViewModels
 {

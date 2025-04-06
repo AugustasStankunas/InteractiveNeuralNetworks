@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Builder.Commands;
-using Shared.ViewModels;
 using Shared.Commands;
+using Shared.ViewModels;
 
 
 namespace Builder.ViewModels
@@ -10,7 +9,7 @@ namespace Builder.ViewModels
     public class ToolbarItemViewModel : ViewModelBase
     {
         public ToolbarViewModel Toolbar { get; set; }
-        
+
         public WorkspaceItemViewModel WorkspaceItem { get; set; }
 
         public ICommand MouseLeftButtonDownCommand { get; }

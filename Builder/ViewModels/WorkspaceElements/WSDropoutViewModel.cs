@@ -1,18 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Shared.Attributes;
 using System.Windows;
 using Builder.Enums;
+using Shared.Attributes;
 
 
 namespace Builder.ViewModels.WorkspaceElements
 {
-    class WSDropoutViewModel: WorkspaceItemViewModel
+    class WSDropoutViewModel : WorkspaceItemViewModel
     {
         private double _rate;
         [EditableProperty]

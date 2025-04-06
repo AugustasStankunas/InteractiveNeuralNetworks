@@ -1,12 +1,11 @@
 ﻿using System.IO;
+using System.Text.Json.Serialization;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Builder.Enums;
-using Shared.ViewModels;
-using System.Text.Json.Serialization;
 using Builder.ViewModels.WorkspaceElements;
 using Shared.Attributes;
+using Shared.ViewModels;
 
 
 namespace Builder.ViewModels
@@ -89,7 +88,7 @@ namespace Builder.ViewModels
             }
         }
 
-  
+
 
         private string _iconPath = default!;
         [JsonIgnore]
@@ -164,7 +163,7 @@ namespace Builder.ViewModels
                 OnPropertyChanged(nameof(Layer));
             }
         }
-        public WorkspaceItemViewModel(double x, double y, int width = 60, int height = 60, double opacity = 1, string name="", 
+        public WorkspaceItemViewModel(double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "",
                                       ActivationFunctionType activationFunction = ActivationFunctionType.None,
                                       LayerType layerType = LayerType.Hidden)
         {

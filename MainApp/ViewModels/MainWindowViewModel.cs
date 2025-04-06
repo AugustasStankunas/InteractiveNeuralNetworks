@@ -1,15 +1,14 @@
-﻿using System.Windows.Input;
-using Shared.ViewModels;
-using Shared.Commands;
-using System.Windows;
-using Builder.Models;
-using Builder.ViewModels;
-using Train.ViewModels;
-using Test.ViewModels;
-using Microsoft.Win32;
+﻿using System.IO;
 using System.Text.Json;
-using System.IO;
+using System.Windows;
+using System.Windows.Input;
+using Builder.ViewModels;
+using Microsoft.Win32;
+using Shared.Commands;
+using Shared.ViewModels;
+using Test.ViewModels;
 using Train.Helpers;
+using Train.ViewModels;
 
 
 namespace MainApp.ViewModels

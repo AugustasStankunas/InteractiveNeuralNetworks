@@ -1,17 +1,12 @@
-﻿using Builder.ViewModels.WorkspaceElements;
-using System.Windows;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows;
 using System.Windows.Input;
+using Builder.ViewModels.WorkspaceElements;
 
 namespace Builder.ViewModels.ToolbarElements
 {
     class TBBatchNormViewModel : ToolbarItemViewModel
     {
-        public TBBatchNormViewModel(ToolbarViewModel toolbar): base(toolbar)
+        public TBBatchNormViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
             Name = "Batch Normalization layer";
             WorkspaceItem = new WSBatchNormViewModel(0.1, 1e-3, 0, 0);

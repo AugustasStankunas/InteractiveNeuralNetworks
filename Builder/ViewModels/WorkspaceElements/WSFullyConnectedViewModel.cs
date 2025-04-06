@@ -38,7 +38,7 @@ namespace Builder.ViewModels.WorkspaceElements
         public override string DisplayName =>
             $"{Name}\nI:{InputNeurons} O:{OutputNeurons}";
 
-        public WSFullyConnectedViewModel(int inputNeurons, int outputNeurons, double x, double y, int width = 60, int height = 60, double opacity = 1, string name="")
+        public WSFullyConnectedViewModel(int inputNeurons, int outputNeurons, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
             : base(x, y, width, height, opacity, name)
         {
             InputNeurons = inputNeurons;

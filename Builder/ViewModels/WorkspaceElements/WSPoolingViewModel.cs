@@ -1,8 +1,8 @@
-﻿using Builder.Enums;
-using System.IO;
+﻿using System.IO;
 using System.Text.Json.Serialization;
-using Shared.Attributes;
 using System.Windows;
+using Builder.Enums;
+using Shared.Attributes;
 
 
 
@@ -60,7 +60,7 @@ namespace Builder.ViewModels.WorkspaceElements
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Poolingg.png");
         }
         [JsonConstructor]
-        public WSPoolingViewModel(int kernelSize, int stride, Point position, PoolingType poolingType, 
+        public WSPoolingViewModel(int kernelSize, int stride, Point position, PoolingType poolingType,
                                   string name, ActivationFunctionType activationFunction, LayerType layer)
             : base(position.X, position.Y, name: name, activationFunction: activationFunction, layerType: layer)
         {

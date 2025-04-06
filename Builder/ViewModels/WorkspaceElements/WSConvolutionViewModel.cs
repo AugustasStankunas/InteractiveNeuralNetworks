@@ -1,7 +1,6 @@
-﻿using System.Windows;
-using System.IO;
+﻿using System.IO;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
+using System.Windows;
 using Builder.Enums;
 using Shared.Attributes;
 
@@ -74,9 +73,9 @@ namespace Builder.ViewModels.WorkspaceElements
         }
 
         [JsonConstructor]
-        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, Point position, 
+        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, Point position,
                                       string name, ActivationFunctionType activationFunction, LayerType layer)
-            : base(position.X, position.Y, name:name, activationFunction:activationFunction, layerType:layer)
+            : base(position.X, position.Y, name: name, activationFunction: activationFunction, layerType: layer)
         {
             InputChannels = inputChannels;
             OutputChannels = outputChannels;
