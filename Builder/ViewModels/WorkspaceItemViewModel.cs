@@ -178,5 +178,14 @@ namespace Builder.ViewModels
         }
 
         public WorkspaceItemViewModel() { }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not WorkspaceItemViewModel other || obj == null)
+                return false;
+
+            WorkspaceItemViewModel otherItem = (WorkspaceItemViewModel)obj;
+            return Position == otherItem.Position && Name == otherItem.Name;
+        }
     }
 }

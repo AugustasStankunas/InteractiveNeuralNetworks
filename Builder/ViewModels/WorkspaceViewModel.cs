@@ -373,6 +373,9 @@ namespace Builder.ViewModels
             return $"{acronym}{maxval + 1}";
         }
 
+        /// <summary>
+        /// Clears current workspace items and connections and adds new ones
+        /// </summary>
         public void UpdateItemsAndConnections(ObservableCollection<WorkspaceItemViewModel> items, ObservableCollection<WSConnectionViewModel> connections)
         {
             WorkspaceItems.Clear();
@@ -385,7 +388,9 @@ namespace Builder.ViewModels
 
             foreach (var connection in connections)
             {
-                WorkspaceConnections.Add(connection);
+                WorkspaceItemViewModel source = WorkspaceItems.First(item => item.Equals(connection.Source));
+                WorkspaceItemViewModel target = WorkspaceItems.First(item => item.Equals(connection.Target));
+                WorkspaceConnections.Add(new WSConnectionViewModel(source, target));
             }
         }
     }

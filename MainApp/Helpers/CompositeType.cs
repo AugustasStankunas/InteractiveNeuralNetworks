@@ -5,6 +5,9 @@ using Train.ViewModels;
 
 namespace Train.Helpers
 {
+    /// <summary>
+    /// Used for JSON serialization and deserialization - contains workspace items, connections and instance of Train
+    /// </summary>
     internal class CompositeType
     {
         public ObservableCollection<WorkspaceItemViewModel> Items { get; set; } = new ObservableCollection<WorkspaceItemViewModel>();
