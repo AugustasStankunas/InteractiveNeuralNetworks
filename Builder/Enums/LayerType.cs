@@ -2,8 +2,8 @@
 {
     public enum LayerType
     {
-        Input,
-        Output,
-        Hidden
+        Input = 0,
+        Output = 1,
+        Hidden = 2
     }
 }

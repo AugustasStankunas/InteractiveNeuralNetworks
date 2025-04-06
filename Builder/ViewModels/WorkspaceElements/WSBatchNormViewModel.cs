@@ -6,6 +6,8 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Shared.Attributes;
+using Builder.Enums;
+using System.Windows;
 
 
 namespace Builder.ViewModels.WorkspaceElements
@@ -43,6 +45,15 @@ namespace Builder.ViewModels.WorkspaceElements
 
         public WSBatchNormViewModel(double momentum, double epsilon, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
             : base(x, y, width, height, opacity, name)
+        {
+            Momentum = momentum;
+            Epsilon = epsilon;
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "BatchNorm.png");
+        }
+
+        [JsonConstructor]
+        public WSBatchNormViewModel(double momentum, double epsilon, Point position, string name, ActivationFunctionType activationFunction, LayerType layer)
+            : base(position.X, position.Y, name: name, activationFunction: activationFunction, layerType: layer)
         {
             Momentum = momentum;
             Epsilon = epsilon;

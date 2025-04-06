@@ -7,6 +7,8 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Shared.Attributes;
+using Builder.Enums;
+using System.Windows;
 
 namespace Builder.ViewModels.WorkspaceElements
 {
@@ -31,6 +33,14 @@ namespace Builder.ViewModels.WorkspaceElements
 
         public WSAddViewModel(int numInputs, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
             : base(x, y, width, height, opacity, name)
+        {
+            NumInputs = numInputs;
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Add.png");
+        }
+
+        [JsonConstructor]
+        public WSAddViewModel(int numInputs, Point position, string name, ActivationFunctionType activationFunction, LayerType layer)
+            : base(position.X, position.Y, name: name, activationFunction: activationFunction, layerType: layer)
         {
             NumInputs = numInputs;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Add.png");

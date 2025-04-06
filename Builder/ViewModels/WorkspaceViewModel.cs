@@ -373,5 +373,21 @@ namespace Builder.ViewModels
 			}
 			return $"{acronym}{maxval + 1}";
 		}
-	}
+
+        public void UpdateItemsAndConnections(ObservableCollection<WorkspaceItemViewModel> items, ObservableCollection<WSConnectionViewModel> connections)
+        {
+            WorkspaceItems.Clear();
+            WorkspaceConnections.Clear();
+
+            foreach (var item in items)
+            {
+                WorkspaceItems.Add(item);
+            }
+
+            foreach (var connection in connections)
+            {
+                WorkspaceConnections.Add(connection);
+            }
+        }
+    }
 }

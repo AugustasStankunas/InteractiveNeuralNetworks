@@ -32,7 +32,7 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Open"/>
+                <MenuItem Header="Open" Command="{Binding LoadCommand}"/>
                 <MenuItem Header="Save" Command="{Binding SaveCommand}"/>
             </MenuItem>
             <MenuItem Header="Builder" Command="{Binding ShowBuilderCommand}"/>

@@ -9,13 +9,14 @@ using Test.ViewModels;
 using Microsoft.Win32;
 using System.Text.Json;
 using System.IO;
+using Train.Helpers;
 
 
 namespace MainApp.ViewModels
 {
     class MainWindowViewModel : ViewModelBase
     {
-        private object _currentViewModel;
+        private object _currentViewModel = default!;
         public object CurrentViewModel
         {
             get => _currentViewModel;
@@ -34,6 +35,7 @@ namespace MainApp.ViewModels
         public ICommand ShowTrainCommand { get; }
         public ICommand ShowTestCommand { get; }
         public ICommand SaveCommand { get; }
+        public ICommand LoadCommand { get; }
 
         public MainWindowViewModel()
         {
@@ -46,6 +48,7 @@ namespace MainApp.ViewModels
             ShowTestCommand = new RelayCommand(_ => ShowTest());
 
             SaveCommand = new RelayCommand(_ => Save());
+            LoadCommand = new RelayCommand(_ => Load());
 
             ShowBuilder();
         }
@@ -76,13 +79,45 @@ namespace MainApp.ViewModels
 
             if (result == true)
             {
-                string filename = dialog.FileName;
                 string jsonItems = JsonSerializer.Serialize(Builder.WorkspaceViewModel.WorkspaceItems, new JsonSerializerOptions { WriteIndented = true });
                 string jsonConnections = JsonSerializer.Serialize(Builder.WorkspaceViewModel.WorkspaceConnections, new JsonSerializerOptions { WriteIndented = true });
                 string jsonHyperparameters = JsonSerializer.Serialize(Train, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(filename, jsonItems);
-                File.AppendAllText(filename, jsonConnections);
-                File.AppendAllText(filename, jsonHyperparameters);
+                var data = new CompositeType
+                {
+                    Items = Builder.WorkspaceViewModel.WorkspaceItems,
+                    Connections = Builder.WorkspaceViewModel.WorkspaceConnections,
+                    Train = Train
+                };
+                string filename = dialog.FileName;
+                string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(filename, json);
+            }
+        }
+
+        private void Load()
+        {
+            var dialog = new OpenFileDialog();
+            dialog.FileName = "WorkspaceConfiguration";
+            dialog.DefaultExt = ".json";
+            dialog.Filter = "JSON documents (.json)|*.json";
+
+            bool? result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                string filename = dialog.FileName;
+                CompositeType? compositeObject = JsonSerializer.Deserialize<CompositeType>(File.ReadAllText(filename));
+
+                if (compositeObject != null)
+                {
+                    Builder.WorkspaceViewModel.UpdateItemsAndConnections(compositeObject.Items, compositeObject.Connections);
+                    Train = compositeObject.Train;
+                    ShowBuilder();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load workspace configuration.");
+                }
             }
         }
 

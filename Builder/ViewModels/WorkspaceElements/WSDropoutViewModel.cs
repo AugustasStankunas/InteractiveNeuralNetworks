@@ -6,6 +6,8 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Shared.Attributes;
+using System.Windows;
+using Builder.Enums;
 
 
 namespace Builder.ViewModels.WorkspaceElements
@@ -31,6 +33,14 @@ namespace Builder.ViewModels.WorkspaceElements
 
         public WSDropoutViewModel(double rate, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
             : base(x, y, width, height, opacity, name)
+        {
+            Rate = rate;
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Dropout.png");
+        }
+
+        [JsonConstructor]
+        public WSDropoutViewModel(double rate, Point position, string name, ActivationFunctionType activationFunction, LayerType layer)
+            : base(position.X, position.Y, name: name, activationFunction: activationFunction, layerType: layer)
         {
             Rate = rate;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Dropout.png");

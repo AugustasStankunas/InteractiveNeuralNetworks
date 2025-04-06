@@ -2,7 +2,7 @@
 {
     public enum PoolingType
     {
-        Average,
-        Max
+        Average = 0,
+        Max = 1
     }
 }

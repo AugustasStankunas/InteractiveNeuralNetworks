@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System.Windows;
+using System.IO;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using Builder.Enums;
 using Shared.Attributes;
 
 
@@ -63,6 +65,18 @@ namespace Builder.ViewModels.WorkspaceElements
 
         public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
             : base(x, y, width, height, opacity, name)
+        {
+            InputChannels = inputChannels;
+            OutputChannels = outputChannels;
+            KernelSize = kernelSize;
+            Stride = stride;
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Convolution.png");
+        }
+
+        [JsonConstructor]
+        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, Point position, 
+                                      string name, ActivationFunctionType activationFunction, LayerType layer)
+            : base(position.X, position.Y, name:name, activationFunction:activationFunction, layerType:layer)
         {
             InputChannels = inputChannels;
             OutputChannels = outputChannels;

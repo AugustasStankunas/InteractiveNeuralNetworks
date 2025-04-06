@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.Json.Serialization;
 using Shared.Attributes;
+using System.Windows;
 
 
 
@@ -52,6 +53,16 @@ namespace Builder.ViewModels.WorkspaceElements
 
         public WSPoolingViewModel(int kernelSize, int stride, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
             : base(x, y, width, height, opacity, name)
+        {
+            KernelSize = kernelSize;
+            Stride = stride;
+            PoolingType = PoolingType.Average;
+            IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Poolingg.png");
+        }
+        [JsonConstructor]
+        public WSPoolingViewModel(int kernelSize, int stride, Point position, PoolingType poolingType, 
+                                  string name, ActivationFunctionType activationFunction, LayerType layer)
+            : base(position.X, position.Y, name: name, activationFunction: activationFunction, layerType: layer)
         {
             KernelSize = kernelSize;
             Stride = stride;

@@ -164,7 +164,9 @@ namespace Builder.ViewModels
                 OnPropertyChanged(nameof(Layer));
             }
         }
-        public WorkspaceItemViewModel(double x, double y, int width = 60, int height = 60, double opacity = 1, string name="")
+        public WorkspaceItemViewModel(double x, double y, int width = 60, int height = 60, double opacity = 1, string name="", 
+                                      ActivationFunctionType activationFunction = ActivationFunctionType.None,
+                                      LayerType layerType = LayerType.Hidden)
         {
             Position = new Point(x, y);
             Width = width;
@@ -172,8 +174,8 @@ namespace Builder.ViewModels
             Opacity = opacity;
             Name = name;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png");
-            ActivationFunction = ActivationFunctionType.None;
-            Layer = LayerType.Hidden;
+            ActivationFunction = activationFunction;
+            Layer = layerType;
         }
 
         public WorkspaceItemViewModel() { }
