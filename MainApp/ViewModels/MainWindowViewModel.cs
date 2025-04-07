@@ -81,7 +81,7 @@ namespace MainApp.ViewModels
                 string jsonItems = JsonSerializer.Serialize(Builder.WorkspaceViewModel.WorkspaceItems, new JsonSerializerOptions { WriteIndented = true });
                 string jsonConnections = JsonSerializer.Serialize(Builder.WorkspaceViewModel.WorkspaceConnections, new JsonSerializerOptions { WriteIndented = true });
                 string jsonHyperparameters = JsonSerializer.Serialize(Train, new JsonSerializerOptions { WriteIndented = true });
-                var data = new CompositeType
+                var data = new CompositeType 
                 {
                     Items = Builder.WorkspaceViewModel.WorkspaceItems,
                     Connections = Builder.WorkspaceViewModel.WorkspaceConnections,

@@ -10,6 +10,9 @@
     
     <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" LastChildFill="False">
         <views:HyperparametersWindowView DataContext="{Binding HyperparametersWindowViewModel}" DockPanel.Dock="Left" Margin="20,0,0,0"/>
+        <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+            <Button Content="Choose image directory" Command="{Binding Path=GetDirectoryButtonCommand}"></Button>
+        </StackPanel>
     </DockPanel>
 
 </UserControl>

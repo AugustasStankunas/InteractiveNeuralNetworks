@@ -1,7 +1,18 @@
 ﻿using System.Text.Json.Serialization;
 using Builder.Enums;
 using Shared.Attributes;
+using Shared.Commands;
 using Shared.ViewModels;
+using System.IO;
+using Microsoft.Win32;
+using System.Text.Json;
+using System.Net.Http.Json;
+using System.Windows;
+using WinForms = System.Windows.Forms;
+using System.Windows.Controls;
+using Train.Helpers;
+
+
 
 namespace Train.ViewModels
 {
@@ -45,10 +56,13 @@ namespace Train.ViewModels
         [JsonIgnore]
         public HyperparametersWindowViewModel HyperparametersWindowViewModel { get; set; }
 
+        public RelayCommand GetDirectoryButtonCommand { get; set; }
+
         public TrainViewModel()
         {
             InitializeHyperparameters();
             HyperparametersWindowViewModel = new HyperparametersWindowViewModel(this);
+            GetDirectoryButtonCommand = new RelayCommand(ExecuteClickMe, CanExecuteClickMe);
         }
 
         private void InitializeHyperparameters()
@@ -56,6 +70,22 @@ namespace Train.ViewModels
             LearningRate = 0.01;
             LossFunction = LossFunctionType.MSE;
             BatchSize = 32;
+        }
+        public string TrainDataPath { get; set; }
+
+
+        private void ExecuteClickMe(object obj)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            DialogResult result = dialog.ShowDialog();
+            if (result == DialogResult.OK) //'TrainData': '../../' \n'ValData': '../../
+            {
+                TrainDataPath = dialog.SelectedPath;
+            }
+        }
+        private bool CanExecuteClickMe(object obj)
+        {
+            return true;
         }
     }
 }
