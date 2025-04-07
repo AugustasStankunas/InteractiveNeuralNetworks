@@ -16,7 +16,7 @@
     },
     {
       "$type": "Pool2D",
-      "KernelSize": 3,
+      "KernelSize": 2,
       "Stride": 2,
       "PoolingType": 0,
       "Name": "Pool1",
@@ -43,7 +43,7 @@
     },
     {
       "$type": "Pool2D",
-      "KernelSize": 3,
+      "KernelSize": 2,
       "Stride": 2,
       "PoolingType": 0,
       "Name": "Pool2",
@@ -66,7 +66,7 @@
     },
     {
       "$type": "Linear",
-      "InputNeurons": 100,
+      "InputNeurons": 4096,
       "OutputNeurons": 32,
       "Name": "Full1",
       "Position": {

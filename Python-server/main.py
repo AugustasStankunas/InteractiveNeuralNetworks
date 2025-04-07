@@ -5,6 +5,7 @@ from model import Model
 
 
 CONFIG_PATH = "config.json"
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def log(text):
@@ -23,7 +24,10 @@ def build_dnn(config):
 def main():
     with open(CONFIG_PATH, "r") as f:
         config = json.load(f)
-    model = Model(config)
+    dummy_input = torch.zeros((1, 1, 64, 64)).to(DEVICE)
+    model = Model(config).to(DEVICE)
+    output = model(dummy_input)
+    print(output)
 
 
 if __name__ == "__main__":
