@@ -38,29 +38,6 @@
         
         <Grid/>
         
-        <Border DockPanel.Dock="Bottom" BorderBrush="#CCCCCC" BorderThickness="1" 
-                Height="200" Margin="10,10,10,10"
-                VerticalAlignment="Bottom">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                
-                <Border Grid.Row="0" Background="#F0F0F0">
-                    <DockPanel LastChildFill="True">
-                        <TextBlock Text="Python Server Log" Margin="10,4" />
-                    </DockPanel>
-                </Border>
-                
-                <TextBox Grid.Row="1" 
-                        Text="{Binding OutputText, Mode=OneWay}" 
-                        IsReadOnly="True"
-                        TextWrapping="Wrap"/>
-            </Grid>
-        </Border>
-        
-        <Grid/>
     </DockPanel>
 
 </UserControl>
