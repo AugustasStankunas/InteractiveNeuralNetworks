@@ -38,14 +38,14 @@ namespace Builder.ViewModels
             set { _visibleHeight = value; OnPropertyChanged(nameof(VisibleHeight)); }
         }
 
-        private int _width = 10000; //Canvas width
+        private int _width = 100000; //Canvas width
         public int Width
         {
             get => _width;
             set { _width = value; OnPropertyChanged(nameof(Width)); }
         }
 
-        private int _height = 10000; //Canvas height
+        private int _height = 100000; //Canvas height
         public int Height
         {
             get => _height;
@@ -118,12 +118,10 @@ namespace Builder.ViewModels
         public WorkspaceViewModel(BuilderViewModel builderViewModel)
         {
             Builder = builderViewModel;
-
-            CanvasPanOffset = new Point(0, 0);
-
-            WorkspaceItems.Add(new WSConvolutionViewModel(3, 64, 3, 2, x: 20, y: 200, name: "conv1"));
-            WorkspaceItems.Add(new WSPoolingViewModel(3, 2, x: 120, y: 200, name: "pool1"));
-            WorkspaceItems.Add(new WSFullyConnectedViewModel(256, 512, x: 220, y: 200, name: "fc1"));
+            
+            WorkspaceItems.Add(new WSConvolutionViewModel(3, 64, 3, 2, x: 50020, y: 50200, name: "conv1"));
+            WorkspaceItems.Add(new WSPoolingViewModel(3, 2, x: 50120, y: 50200, name: "pool1"));
+            WorkspaceItems.Add(new WSFullyConnectedViewModel(256, 512, x: 50220, y: 50200, name: "fc1"));
 
             WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[0], WorkspaceItems[1]));
             WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
@@ -138,6 +136,8 @@ namespace Builder.ViewModels
 
             RenderSizeChangedCommand = new RelayCommand<SizeChangedEventArgs>(OnRenderSizeChanged);
             DeleteKeyDownCommand = new RelayCommand<KeyEventArgs>(OnDeleteKeyDown);
+
+            CanvasPanOffset = new Point(-Width / 2, -Height / 2);
         }
 
         private void OnDragOver(DragEventArgs e)
@@ -165,8 +165,7 @@ namespace Builder.ViewModels
 
             double oldZoom = ZoomFactor;
             double zoomDelta = e.Delta > 0 ? 0.1 : -0.1;
-
-            double minZoom = Math.Max(VisibleWidth / Width, VisibleHeight / Height);
+            double minZoom = Math.Max(0.2, Math.Max(VisibleWidth / Width, VisibleHeight / Height));
             double maxZoom = 3.0;
 
             double newZoom = Math.Max(minZoom, Math.Min(maxZoom, ZoomFactor + zoomDelta));
