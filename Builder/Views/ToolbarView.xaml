@@ -14,7 +14,7 @@
             <views:ToolbarItemView/>
         </DataTemplate>
     </UserControl.Resources>
-    
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
     <Border BorderBrush="Black" BorderThickness="1" Margin="20, 20, 0, 20">
         <ItemsControl ItemsSource="{Binding ToolbarItems, UpdateSourceTrigger=PropertyChanged}">
             <ItemsControl.ItemsPanel>
@@ -24,5 +24,5 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
     </Border>
-    
+    </ScrollViewer>
 </UserControl>
