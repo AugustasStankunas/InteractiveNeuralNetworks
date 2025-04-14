@@ -42,4 +42,8 @@
 
         <ContentControl Content="{Binding CurrentViewModel}"/>
     </DockPanel>
+
+    <Window.InputBindings>
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding SaveCommand}" />
+    </Window.InputBindings>
 </Window>

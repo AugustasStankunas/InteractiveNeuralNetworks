@@ -34,6 +34,7 @@ namespace MainApp.ViewModels
         public ICommand ShowTrainCommand { get; }
         public ICommand ShowTestCommand { get; }
         public ICommand SaveCommand { get; }
+        public ICommand KeyboardSaveCommand { get; }
         public ICommand LoadCommand { get; }
 
         public MainWindowViewModel()
@@ -47,6 +48,10 @@ namespace MainApp.ViewModels
             ShowTestCommand = new RelayCommand(_ => ShowTest());
 
             SaveCommand = new RelayCommand(_ => Save());
+			KeyboardSaveCommand = new RelayCommand<KeyEventArgs>(keyEvent => {
+				if (keyEvent != null && keyEvent.Key == Key.S && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+					Save();
+			});
             LoadCommand = new RelayCommand(_ => Load());
 
             ShowBuilder();

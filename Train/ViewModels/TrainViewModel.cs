@@ -61,6 +61,7 @@ namespace Train.ViewModels
         [JsonIgnore]
         public HyperparametersWindowViewModel HyperparametersWindowViewModel { get; set; }
 
+        [JsonIgnore]
         public RelayCommand GetDirectoryButtonCommand { get; set; }
         private string _outputText = "";
         [JsonIgnore]
@@ -77,9 +78,13 @@ namespace Train.ViewModels
         [JsonIgnore]
         public ICommand RefreshLogCommand { get; }
 
+        [JsonIgnore]
         private FileSystemWatcher _logFileWatcher;
+        [JsonIgnore]
         private string _logFilePath;
+        [JsonIgnore]
         private DispatcherTimer _refreshTimer;
+        [JsonIgnore]
         private DateTime _lastReadTime = DateTime.MinValue;
 
         public TrainViewModel()
@@ -102,6 +107,7 @@ namespace Train.ViewModels
             LossFunction = LossFunctionType.MSE;
             BatchSize = 32;
         }
+        [JsonIgnore]
         public string TrainDataPath { get; set; }
 
 
