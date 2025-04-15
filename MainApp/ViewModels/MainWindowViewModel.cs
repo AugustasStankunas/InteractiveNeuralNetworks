@@ -34,8 +34,20 @@ namespace MainApp.ViewModels
         public ICommand ShowTrainCommand { get; }
         public ICommand ShowTestCommand { get; }
         public ICommand SaveCommand { get; }
+        public ICommand SaveAsCommand { get; }
         public ICommand KeyboardSaveCommand { get; }
         public ICommand LoadCommand { get; }
+
+        private string _workingFilePath = "";
+        public string WorkingFilePath
+        {
+            get => _workingFilePath;
+            set
+            {
+                _workingFilePath = value;
+                OnPropertyChanged(nameof(WorkingFilePath));
+            }
+        }
 
         public MainWindowViewModel()
         {
@@ -48,6 +60,7 @@ namespace MainApp.ViewModels
             ShowTestCommand = new RelayCommand(_ => ShowTest());
 
             SaveCommand = new RelayCommand(_ => Save());
+            SaveAsCommand = new RelayCommand(_ => SaveAs());
 			KeyboardSaveCommand = new RelayCommand<KeyEventArgs>(keyEvent => {
 				if (keyEvent != null && keyEvent.Key == Key.S && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
 					Save();
@@ -72,7 +85,7 @@ namespace MainApp.ViewModels
             CurrentViewModel = Test;
         }
 
-        private void Save()
+        private void SaveAs()
         {
             var dialog = new SaveFileDialog();
             dialog.FileName = "WorkspaceConfiguration";
@@ -95,7 +108,27 @@ namespace MainApp.ViewModels
                 string filename = dialog.FileName;
                 string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(filename, json);
+                WorkingFilePath = filename;
             }
+        }
+
+        private void Save()
+        {
+
+            if (string.IsNullOrEmpty(WorkingFilePath))
+            {
+					SaveAs();
+                    return;
+            }
+
+			var data = new CompositeType 
+			{
+				Items = Builder.WorkspaceViewModel.WorkspaceItems,
+				Connections = Builder.WorkspaceViewModel.WorkspaceConnections,
+				Train = Train
+			};
+			string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+			File.WriteAllText(WorkingFilePath, json);
         }
 
         private void Load()
@@ -116,6 +149,7 @@ namespace MainApp.ViewModels
                 {
                     Builder.WorkspaceViewModel.UpdateItemsAndConnections(compositeObject.Items, compositeObject.Connections);
                     Train = compositeObject.Train;
+                    WorkingFilePath = filename;
                     ShowBuilder();
                 }
                 else
