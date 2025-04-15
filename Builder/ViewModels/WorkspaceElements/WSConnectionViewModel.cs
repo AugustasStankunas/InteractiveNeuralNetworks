@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using Shared.ViewModels;
+ using System.Windows.Media;
 
 
 namespace Builder.ViewModels.WorkspaceElements
@@ -15,8 +16,17 @@ namespace Builder.ViewModels.WorkspaceElements
             get => _source;
             set
             {
-                _source = value;
-                OnPropertyChanged(nameof(Source));
+                if (_source != value)
+                {
+                    if (_source != null)
+                        _source.PropertyChanged -= OnSourcePropertyChanged;
+                    _source = value;
+                    if (_source != null)
+                        _source.PropertyChanged += OnSourcePropertyChanged;
+
+                    OnPropertyChanged(nameof(Source));
+                    UpdatePolyline();
+                }
             }
         }
         private WorkspaceItemViewModel? _target;
@@ -34,13 +44,14 @@ namespace Builder.ViewModels.WorkspaceElements
                         _target.PropertyChanged += OnTargetPropertyChanged;
                     OnPropertyChanged(nameof(Target));
                     OnPropertyChanged(nameof(TargetPoint));
+                    UpdatePolyline();
                 }
             }
         }
 
-        private Point? _currentMousePosition;
+        private Point _currentMousePosition;
         [JsonIgnore]
-        public Point? CurrentMousePosition
+        public Point CurrentMousePosition
         {
             get => _currentMousePosition;
             set
@@ -48,10 +59,11 @@ namespace Builder.ViewModels.WorkspaceElements
                 _currentMousePosition = value;
                 OnPropertyChanged(nameof(CurrentMousePosition));
                 OnPropertyChanged(nameof(TargetPoint));
+                UpdatePolyline();
             }
         }
         [JsonIgnore]
-        public Point? TargetPoint => Target != null
+        public Point TargetPoint => Target != null
             ? new Point(Target.Position.X + Target.Width / 2, Target.Position.Y + Target.Height / 2)
             : CurrentMousePosition;
 
@@ -72,10 +84,23 @@ namespace Builder.ViewModels.WorkspaceElements
             }
         }
 
+        private PointCollection _points;
+        [JsonIgnore]
+        public PointCollection Points
+        {
+            get => _points;
+            set
+            {
+                _points = value;
+                OnPropertyChanged(nameof(Points));
+            }
+        }
+
         public WSConnectionViewModel(WorkspaceItemViewModel source, WorkspaceItemViewModel target)
         {
             Source = source;
             Target = target;
+            UpdatePolyline();
         }
 
         public WSConnectionViewModel() { }
@@ -99,7 +124,35 @@ namespace Builder.ViewModels.WorkspaceElements
                 e.PropertyName == nameof(WorkspaceItemViewModel.Height))
             {
                 OnPropertyChanged(nameof(TargetPoint));
+                UpdatePolyline();
             }
+        }
+
+        private void OnSourcePropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(WorkspaceItemViewModel.Position) ||
+                e.PropertyName == nameof(WorkspaceItemViewModel.Width) ||
+                e.PropertyName == nameof(WorkspaceItemViewModel.Height))
+            {
+                OnPropertyChanged(nameof(Source));
+                UpdatePolyline();
+            }
+        }
+
+        private void UpdatePolyline()
+        {
+            Point sourcePos = new Point(Source.Position.X + Source.Width / 2, Source.Position.Y + Source.Height / 2);
+            Point targetPos = new Point(TargetPoint.X, TargetPoint.Y);
+            PointCollection points = new PointCollection();
+
+            points.Add(sourcePos);
+
+            Point midpoint = new Point(targetPos.X, sourcePos.Y);
+            points.Add(midpoint);
+
+            points.Add(targetPos);
+
+            Points = points;
         }
 
         public override bool Equals(object? obj)
