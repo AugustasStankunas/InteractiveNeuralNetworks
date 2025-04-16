@@ -8,13 +8,54 @@
              xmlns:vm="clr-namespace:Builder.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:WorkspaceItemViewModel}">
     <StackPanel>
-        <Border BorderBrush="#C1A9F7" BorderThickness="{Binding Border, UpdateSourceTrigger=PropertyChanged}">
-            <Image Width="{Binding Width}" 
-                    Height="{Binding Height}" 
-                    Opacity="{Binding Opacity}"
-                    AllowDrop="True"
-                    Source="{Binding IconPath, UpdateSourceTrigger=PropertyChanged}"/>
-        </Border>
+        <Grid>
+            <Border BorderBrush="#C1A9F7" BorderThickness="{Binding Border, UpdateSourceTrigger=PropertyChanged}">
+                <Image Width="{Binding Width}" 
+            Height="{Binding Height}" 
+            Opacity="{Binding Opacity}"
+            AllowDrop="True"
+            Source="{Binding IconPath, UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
+            <Ellipse Width="10" Height="10" Fill="Transparent" Stroke="Gray" StrokeThickness="3">
+                <Ellipse.Style>
+                    <Style TargetType="Ellipse">
+                        <!-- Initially, hide it -->
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <!-- When the marker is null, hide it -->
+                            <DataTrigger Binding="{Binding MarkerDirection}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <!-- When a marker should be shown, make it visible and according direction-->
+                            <DataTrigger Binding="{Binding MarkerDirection}" Value="Top">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Top"/>
+                                <Setter Property="Margin" Value="0,0,0,0"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MarkerDirection}" Value="Bottom">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                                <Setter Property="Margin" Value="0,0,0,0"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MarkerDirection}" Value="Left">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="0,0,0,0"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MarkerDirection}" Value="Right">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="0,0,0,0"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Ellipse.Style>
+            </Ellipse>
+        </Grid>
         <Label Content="{Binding DisplayName}" />
     </StackPanel>
 </UserControl>

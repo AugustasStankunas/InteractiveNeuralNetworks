@@ -137,6 +137,19 @@ namespace Builder.ViewModels
                 OnPropertyChanged(nameof(Opacity));
             }
         }
+
+        private FaceDirection? _markerDirection;
+        [JsonIgnore]
+        public FaceDirection? MarkerDirection
+        {
+            get => _markerDirection;
+            set
+            {
+                _markerDirection = value;
+                OnPropertyChanged(nameof(MarkerDirection));
+            }
+        }
+
         [JsonIgnore]
         public virtual string DisplayName =>
             $"{Name}";
@@ -175,6 +188,7 @@ namespace Builder.ViewModels
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png");
             ActivationFunction = activationFunction;
             Layer = layerType;
+            MarkerDirection = null;
         }
 
         public WorkspaceItemViewModel() { }

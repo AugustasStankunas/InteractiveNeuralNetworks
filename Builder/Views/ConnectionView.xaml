@@ -11,28 +11,9 @@
         <converters:CenterYConverter x:Key="CenterYConverter"/>
     </UserControl.Resources>
     <Canvas>
-        <Line StrokeThickness="2">
-            <Line.X1>
-                <MultiBinding Converter="{StaticResource CenterXConverter}">
-                    <Binding Path="Source.Position.X"/>
-                    <Binding Path="Source.Width"/>
-                </MultiBinding>
-            </Line.X1>
-            <Line.Y1>
-                <MultiBinding Converter="{StaticResource CenterYConverter}">
-                    <Binding Path="Source.Position.Y"/>
-                    <Binding Path="Source.Height"/>
-                </MultiBinding>
-            </Line.Y1>
-            <Line.X2>
-                <Binding Path="TargetPoint.X"/>
-            </Line.X2>
-            <Line.Y2>
-                <Binding Path="TargetPoint.Y"/>
-            </Line.Y2>
-            <Line.Style>
-                <Style TargetType="Line">
-                    <Setter Property="Stroke" Value="Black"/>
+        <Polyline Stroke="Black" StrokeThickness="2" Points="{Binding Points}">
+            <Polyline.Style>
+                <Style TargetType="Polyline">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsSelected}" Value="True">
                             <Setter Property="Stroke" Value="#C1A9F7"/>
@@ -40,7 +21,7 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </Line.Style>
-        </Line>
+            </Polyline.Style>
+        </Polyline>
     </Canvas>
 </UserControl>
