@@ -184,10 +184,6 @@ namespace Builder.ViewModels.WorkspaceElements
                 pointBeforeEnd = new Point(TargetPoint.X, TargetPoint.Y);
 
             Point midpoint = new Point(pointAfterStart.X, pointBeforeEnd.Y);
-            //if (pointBeforeEnd.Y > pointAfterStart.Y)
-            //    midpoint = new Point(pointAfterStart.X, pointBeforeEnd.Y);
-            //else
-            //    midpoint = new Point(pointBeforeEnd.X, pointAfterStart.Y);
 
             points.Add(sourcePos);
             points.Add(pointAfterStart);
