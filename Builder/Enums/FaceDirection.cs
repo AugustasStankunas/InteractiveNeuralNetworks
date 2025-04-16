@@ -10,7 +10,7 @@ namespace Builder.Enums
     {
         Left,
         Right,
-        Up,
-        Down,
+        Top,
+        Bottom,
     }
 }

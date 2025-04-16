@@ -2,7 +2,8 @@
 using System.Windows;
 using System.Windows.Input;
 using Shared.ViewModels;
- using System.Windows.Media;
+using System.Windows.Media;
+using Builder.Enums;
 
 
 namespace Builder.ViewModels.WorkspaceElements
@@ -10,6 +11,18 @@ namespace Builder.ViewModels.WorkspaceElements
 
     public class WSConnectionViewModel : ViewModelBase
     {
+        public WSConnectionViewModel(WorkspaceItemViewModel source, WorkspaceItemViewModel target, FaceDirection sourceFaceDirection = FaceDirection.Right, 
+                                     FaceDirection targetFaceDirection = FaceDirection.Left)
+        {
+            Source = source;
+            Target = target;
+            SourceFaceDirection = sourceFaceDirection;
+            TargetFaceDirection = targetFaceDirection;
+            UpdatePolyline();
+        }
+
+        public WSConnectionViewModel() { }
+
         private WorkspaceItemViewModel? _source;
         public WorkspaceItemViewModel? Source
         {
@@ -46,6 +59,30 @@ namespace Builder.ViewModels.WorkspaceElements
                     OnPropertyChanged(nameof(TargetPoint));
                     UpdatePolyline();
                 }
+            }
+        }
+
+        private FaceDirection _sourceFaceDirection;
+        public FaceDirection SourceFaceDirection
+        {
+            get => _sourceFaceDirection;
+            set
+            {
+                _sourceFaceDirection = value;
+                OnPropertyChanged(nameof(SourceFaceDirection));
+                UpdatePolyline();
+            }
+        }
+
+        private FaceDirection _targetFaceDirection;
+        public FaceDirection TargetFaceDirection
+        {
+            get => _targetFaceDirection;
+            set
+            {
+                _targetFaceDirection = value;
+                OnPropertyChanged(nameof(TargetFaceDirection));
+                UpdatePolyline();
             }
         }
 
@@ -96,14 +133,7 @@ namespace Builder.ViewModels.WorkspaceElements
             }
         }
 
-        public WSConnectionViewModel(WorkspaceItemViewModel source, WorkspaceItemViewModel target)
-        {
-            Source = source;
-            Target = target;
-            UpdatePolyline();
-        }
-
-        public WSConnectionViewModel() { }
+        
 
         public void GlobalMouseUpHandler(object sender, MouseButtonEventArgs e)
         {
@@ -145,14 +175,57 @@ namespace Builder.ViewModels.WorkspaceElements
             Point targetPos = new Point(TargetPoint.X, TargetPoint.Y);
             PointCollection points = new PointCollection();
 
-            points.Add(sourcePos);
+            Point pointAfterStart = GetPointNearItem(Source, SourceFaceDirection, 10);
 
-            Point midpoint = new Point(targetPos.X, sourcePos.Y);
+            Point pointBeforeEnd;
+            if (Target != null)
+                pointBeforeEnd = GetPointNearItem(Target, TargetFaceDirection, 10);
+            else
+                pointBeforeEnd = new Point(TargetPoint.X, TargetPoint.Y);
+
+            Point midpoint = new Point(pointAfterStart.X, pointBeforeEnd.Y);
+            //if (pointBeforeEnd.Y > pointAfterStart.Y)
+            //    midpoint = new Point(pointAfterStart.X, pointBeforeEnd.Y);
+            //else
+            //    midpoint = new Point(pointBeforeEnd.X, pointAfterStart.Y);
+
+            points.Add(sourcePos);
+            points.Add(pointAfterStart);
+
             points.Add(midpoint);
+
+            points.Add(pointBeforeEnd);
 
             points.Add(targetPos);
 
             Points = points;
+        }
+
+        /// <summary>
+        /// Looks at face direction of the item and draws a straight line in that direction
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="offset">how many pixels to draw from the image</param>
+        /// <returns></returns>
+        private Point GetPointNearItem(WorkspaceItemViewModel item, FaceDirection faceDirection, int offset)
+        {
+            Point point = new Point(item.Position.X + item.Width / 2, item.Position.Y + item.Height / 2);
+            switch (faceDirection)
+            {
+                case FaceDirection.Top:
+                    point.Y -= item.Height / 2 + offset;
+                    break;
+                case FaceDirection.Bottom:
+                    point.Y += item.Height / 2 + offset;
+                    break;
+                case FaceDirection.Left:
+                    point.X -= item.Width / 2 + offset;
+                    break;
+                case FaceDirection.Right:
+                    point.X += item.Width / 2 + offset;
+                    break;
+            }
+            return point;
         }
 
         public override bool Equals(object? obj)

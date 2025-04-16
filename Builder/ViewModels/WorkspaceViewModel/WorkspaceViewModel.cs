@@ -11,16 +11,11 @@ using Shared.ViewModels;
 
 namespace Builder.ViewModels
 {
-    public class WorkspaceViewModel : ViewModelBase
+    public partial class WorkspaceViewModel : ViewModelBase
     {
         public BuilderViewModel Builder { get; set; }
 
-        public ICommand MouseMoveCommand { get; }
-        public ICommand MouseLeaveCommand { get; }
-        public ICommand DragOverCommand { get; }
-        public ICommand MouseWheelCommand { get; }
-        public ICommand MouseLeftButtonDownCommand { get; }
-        public ICommand MouseLeftButtonUpCommand { get; }
+        
         public ICommand RenderSizeChangedCommand { get; }
         public ICommand DeleteKeyDownCommand { get; }
 
@@ -140,144 +135,6 @@ namespace Builder.ViewModels
             CanvasPanOffset = new Point(-Width / 2, -Height / 2);
         }
 
-        private void OnDragOver(DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(typeof(WorkspaceItemViewModel)))
-            {
-                var draggedItem = e.Data.GetData(typeof(WorkspaceItemViewModel)) as WorkspaceItemViewModel;
-                Point dropPosition = e.GetPosition(e.Source as IInputElement);
-                if (draggedItem != null)
-                {
-                    dropPosition.X -= mouseOffset.X;
-                    dropPosition.Y -= mouseOffset.Y;
-                    draggedItem.Position = dropPosition;
-                }
-            }
-        }
-
-        private void OnMouseWheel(MouseWheelEventArgs e)
-        {
-            Point mousePos;
-            if (e.OriginalSource is Rectangle)
-                mousePos = e.GetPosition(e.Source as IInputElement);
-            else
-                mousePos = e.GetPosition(e.OriginalSource as IInputElement);
-
-            double oldZoom = ZoomFactor;
-            double zoomDelta = e.Delta > 0 ? 0.1 : -0.1;
-            double minZoom = Math.Max(0.2, Math.Max(VisibleWidth / Width, VisibleHeight / Height));
-            double maxZoom = 3.0;
-
-            double newZoom = Math.Max(minZoom, Math.Min(maxZoom, ZoomFactor + zoomDelta));
-            ZoomFactor = newZoom;
-
-            CanvasPanOffset = new Point(
-                CanvasPanOffset.X - mousePos.X * (newZoom - oldZoom),
-                CanvasPanOffset.Y - mousePos.Y * (newZoom - oldZoom)
-            );
-
-            CanvasPanOffset = ClipCanvasPan(CanvasPanOffset);
-        }
-
-        private void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            if (e.Source is FrameworkElement element)
-            {
-                Keyboard.Focus(element);
-            }
-            var data = e.OriginalSource as FrameworkElement;
-            if (e.OriginalSource is Image)
-            {
-                SelectedConnection = null;
-                if (data != null && data.DataContext is WorkspaceItemViewModel workspaceItem)
-                {
-                    SelectedItem = workspaceItem;
-                    Builder.PropertiesWindowViewModel.SelectedWorkspaceItem = workspaceItem;
-
-                    if (Builder.isMakingConnection)
-                    {
-                        connectionInProgress = new WSConnectionViewModel();
-                        connectionInProgress.Source = workspaceItem;
-                        connectionInProgress.CurrentMousePosition = e.GetPosition(e.Source as IInputElement);
-                        WorkspaceConnections.Add(connectionInProgress);
-                        return;
-                    }
-
-                }
-                if (data != null && e.LeftButton == MouseButtonState.Pressed && data.DataContext is WorkspaceItemViewModel)
-                {
-                    mouseOffset = e.GetPosition(data); // mouse position relative to top-left of the rectangle
-                    DragDrop.DoDragDrop(e.OriginalSource as UIElement, new DataObject(typeof(WorkspaceItemViewModel), data.DataContext), DragDropEffects.Move);
-                }
-
-            }
-            else if (data != null && e.OriginalSource is Line && data.DataContext is WSConnectionViewModel connection)
-            {
-
-                SelectedItem = null;
-                SelectedConnection = connection;
-                return;
-
-            }
-            else
-            {
-                _isPanning = true;
-                _panStart = e.GetPosition(null);
-                SelectedItem = null;
-                SelectedConnection = null;
-            }
-        }
-
-        private void OnMouseMove(MouseEventArgs e)
-        {
-            if (connectionInProgress != null)
-                connectionInProgress.CurrentMousePosition = e.GetPosition(e.Source as IInputElement);
-            if (_isPanning)
-            {
-                Point currentPosition = e.GetPosition(null);
-                Vector delta = currentPosition - _panStart;
-                CanvasPanOffset = ClipCanvasPan(new Point(CanvasPanOffset.X + delta.X, CanvasPanOffset.Y + delta.Y));
-                _panStart = currentPosition;
-            }
-        }
-
-        private void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            _isPanning = false;
-
-            if (Builder.WorkspaceItemSelected.Count > 0)
-            {
-                IInputElement? mouseEventOriginalSource = e.OriginalSource as IInputElement;
-                if (e.OriginalSource is Canvas)
-                {
-                    Point mousePos = e.GetPosition(e.OriginalSource as IInputElement);
-                    Builder.WorkspaceItemSelected[0].Opacity = 1;
-                    Builder.WorkspaceItemSelected[0].Position = mousePos;
-                    //Builder.WorkspaceItemSelected[0].Name = "";
-                    Builder.WorkspaceItemSelected[0].Name = GenerateElementName(Builder.WorkspaceItemSelected[0]);
-                    WorkspaceItems.Add(Builder.WorkspaceItemSelected[0]);
-                }
-            }
-            if (connectionInProgress != null)
-            {
-                if (e.OriginalSource is Image)
-                {
-                    var data = e.OriginalSource as FrameworkElement;
-
-                    if (data != null && data.DataContext is WorkspaceItemViewModel workspaceItem)
-                    {
-                        connectionInProgress.Target = workspaceItem;
-                        WorkspaceConnections.Remove(connectionInProgress);
-                        AddConnectionIfNotExists(connectionInProgress);
-                        connectionInProgress = null;
-                        return;
-                    }
-                }
-                else
-                    CancelConnectionInProgress();
-            }
-        }
-
         private void OnRenderSizeChanged(SizeChangedEventArgs e)
         {
             VisibleWidth = e.NewSize.Width;
@@ -313,7 +170,7 @@ namespace Builder.ViewModels
         {
             if (connection.Source == connection.Target || connection == null)
                 return;
-            WSConnectionViewModel newConnection = new WSConnectionViewModel(connection.Source, connection.Target);
+            WSConnectionViewModel newConnection = new WSConnectionViewModel(connection.Source, connection.Target, connection.SourceFaceDirection, connection.TargetFaceDirection);
             if (WorkspaceConnections.Count == 0)
                 WorkspaceConnections.Add(newConnection);
             else
@@ -390,6 +247,14 @@ namespace Builder.ViewModels
                 WorkspaceItemViewModel source = WorkspaceItems.First(item => item.Equals(connection.Source));
                 WorkspaceItemViewModel target = WorkspaceItems.First(item => item.Equals(connection.Target));
                 WorkspaceConnections.Add(new WSConnectionViewModel(source, target));
+            }
+        }
+
+        private void ClearAllMarkers()
+        {
+            foreach (var item in WorkspaceItems)
+            {
+                item.MarkerDirection = null;
             }
         }
     }
