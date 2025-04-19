@@ -139,7 +139,7 @@ namespace Builder.ViewModels
                 }
 
             }
-            else if (data != null && e.OriginalSource is Line && data.DataContext is WSConnectionViewModel connection)
+            else if (data != null && e.OriginalSource is Polyline && data.DataContext is WSConnectionViewModel connection)
             {
 
                 SelectedItem = null;

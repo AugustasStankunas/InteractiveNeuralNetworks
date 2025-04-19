@@ -171,7 +171,9 @@ namespace Builder.ViewModels.WorkspaceElements
                 UpdatePolyline();
             }
         }
-
+        /// <summary>
+        /// Dynamically updates the connection
+        /// </summary>
         private void UpdatePolyline()
         {
             //initialize variables for later use
@@ -188,35 +190,52 @@ namespace Builder.ViewModels.WorkspaceElements
             else
                 pointBeforeEnd = new Point(TargetPoint.X, TargetPoint.Y);
 
-            
+            PointCollection startWrapped = wrapAroundItem(SourceFaceDirection, Source, pointAfterStart, targetPos);
+
+            PointCollection endWrapped = new PointCollection();
+
             // Add starting items from the source 
             points.Add(sourcePos);
             points.Add(pointAfterStart);
 
-            PointCollection startWrapped = wrapAroundItem(SourceFaceDirection, Source, pointAfterStart, targetPos);
 
+            // Add the points that wrap around the source item
             foreach (Point p in startWrapped)
             {
                 points.Add(p);
             }
 
-            // the whole logic of pathfinding
-
-            Point midpoint = new Point(points[points.Count - 1].X, pointBeforeEnd.Y);
-
-            points.Add(midpoint);
-
-            // add last points
+            PointCollection midpoints;
             if (Target != null)
             {
-                PointCollection endWrapped = wrapAroundItem(TargetFaceDirection, Target, pointBeforeEnd, midpoint);
+                endWrapped = wrapAroundItem(TargetFaceDirection, Target, pointBeforeEnd, points.Last());
 
+                //compute middle points
+                if (endWrapped.Count == 0)
+                    midpoints = computeMidpoint(points.Last(), pointBeforeEnd, SourceFaceDirection);
+                else
+                    midpoints = computeMidpoint(points.Last(), endWrapped.Last(), SourceFaceDirection);
+
+                foreach (Point point in midpoints)
+                {
+                    points.Add(point);
+                }
+
+                // Add the points that wrap around the target item in reverse, because it generates them in reverse
                 foreach (Point p in endWrapped.Reverse())
                 {
                     points.Add(p);
                 }
             }
-            
+            else
+            {
+                // If the end point is the mouse (connection in progress), no wrapping needs to be done
+                midpoints = computeMidpoint(pointAfterStart, pointBeforeEnd, SourceFaceDirection);
+                foreach (Point point in midpoints)
+                {
+                    points.Add(point);
+                }
+            }
 
             points.Add(pointBeforeEnd);
 
@@ -225,6 +244,14 @@ namespace Builder.ViewModels.WorkspaceElements
             Points = points;
         }
 
+        /// <summary>
+        /// Creates points from startPoint to endPoint that wrap around the item if needed. If not, returns an empty PointCollection
+        /// </summary>
+        /// <param name="directionFromItem"></param>
+        /// <param name="item"></param>
+        /// <param name="startPoint"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
         private PointCollection wrapAroundItem(FaceDirection directionFromItem, WorkspaceItemViewModel item, Point startPoint, Point endPoint)
         {
             PointCollection points = new PointCollection();
@@ -255,8 +282,8 @@ namespace Builder.ViewModels.WorkspaceElements
                 case FaceDirection.Left:
                     if (endPoint.X > startPoint.X)
                     {
-                        int ySign = endPoint.Y > startPoint.Y ? 1 : -1;
-                        double y = startPoint.Y + ySign * (item.Height / 2 + itemConnectionOffset);
+                        int ySign = endPoint.Y < startPoint.Y ? 1 : -1;
+                        double y = startPoint.Y - ySign * (item.Height / 2 + itemConnectionOffset);
                         double lastPointX = Math.Min(endPoint.X, startPoint.X + 2 * itemConnectionOffset + item.Width);
                         points.Add(new Point(startPoint.X, y));
                         points.Add(new Point(lastPointX, y));
@@ -274,6 +301,32 @@ namespace Builder.ViewModels.WorkspaceElements
                     break;
             }
 
+            return points;
+        }
+
+        /// <summary>
+        /// Calculates all middle points in a connection between start and end. This does not include wrapping around items.
+        /// If source face direction is top or bottom, it just makes one 90 degree turn, otherwise it splits in the middle
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="sourceFaceDirection"></param>
+        /// <returns></returns>
+        private PointCollection computeMidpoint(Point start, Point end, FaceDirection sourceFaceDirection)
+        {
+            PointCollection points = new PointCollection();
+            if (sourceFaceDirection == FaceDirection.Top || sourceFaceDirection == FaceDirection.Bottom)
+                points.Add(new Point(start.X, end.Y));
+            else if (Math.Abs(start.X - end.X) > Math.Abs(start.Y - end.Y))
+            {
+                points.Add(new Point((start.X + end.X) / 2, start.Y));
+                points.Add(new Point((start.X + end.X) / 2, end.Y));
+            }
+            else
+            {
+                points.Add(new Point(start.X, (start.Y + end.Y) / 2));
+                points.Add(new Point(end.X, (start.Y + end.Y) / 2));
+            }
             return points;
         }
 

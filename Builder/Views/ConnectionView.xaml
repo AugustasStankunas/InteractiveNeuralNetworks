@@ -11,9 +11,11 @@
         <converters:CenterYConverter x:Key="CenterYConverter"/>
     </UserControl.Resources>
     <Canvas>
-        <Polyline Stroke="Black" StrokeThickness="2" Points="{Binding Points}">
+        <Polyline Points="{Binding Points}">
             <Polyline.Style>
                 <Style TargetType="Polyline">
+                    <Setter Property="Stroke" Value="Black"/>
+                    <Setter Property="StrokeThickness" Value="2"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsSelected}" Value="True">
                             <Setter Property="Stroke" Value="#C1A9F7"/>
