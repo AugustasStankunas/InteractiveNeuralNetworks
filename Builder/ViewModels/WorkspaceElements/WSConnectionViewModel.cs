@@ -133,7 +133,10 @@ namespace Builder.ViewModels.WorkspaceElements
             }
         }
 
-        
+        /// <summary>
+        /// Offset from the item to the connection line when wrapping around corners etc
+        /// </summary>
+        private int itemConnectionOffset = 10;
 
         public void GlobalMouseUpHandler(object sender, MouseButtonEventArgs e)
         {
@@ -171,24 +174,49 @@ namespace Builder.ViewModels.WorkspaceElements
 
         private void UpdatePolyline()
         {
+            //initialize variables for later use
+
             Point sourcePos = new Point(Source.Position.X + Source.Width / 2, Source.Position.Y + Source.Height / 2);
             Point targetPos = new Point(TargetPoint.X, TargetPoint.Y);
             PointCollection points = new PointCollection();
 
-            Point pointAfterStart = GetPointNearItem(Source, SourceFaceDirection, 10);
+            Point pointAfterStart = GetPointNearItem(Source, SourceFaceDirection);
 
             Point pointBeforeEnd;
             if (Target != null)
-                pointBeforeEnd = GetPointNearItem(Target, TargetFaceDirection, 10);
+                pointBeforeEnd = GetPointNearItem(Target, TargetFaceDirection);
             else
                 pointBeforeEnd = new Point(TargetPoint.X, TargetPoint.Y);
 
-            Point midpoint = new Point(pointAfterStart.X, pointBeforeEnd.Y);
-
+            
+            // Add starting items from the source 
             points.Add(sourcePos);
             points.Add(pointAfterStart);
 
+            PointCollection startWrapped = wrapAroundItem(SourceFaceDirection, Source, pointAfterStart, targetPos);
+
+            foreach (Point p in startWrapped)
+            {
+                points.Add(p);
+            }
+
+            // the whole logic of pathfinding
+
+            Point midpoint = new Point(points[points.Count - 1].X, pointBeforeEnd.Y);
+
             points.Add(midpoint);
+
+            // add last points
+            if (Target != null)
+            {
+                PointCollection endWrapped = wrapAroundItem(TargetFaceDirection, Target, pointBeforeEnd, midpoint);
+
+                foreach (Point p in endWrapped.Reverse())
+                {
+                    points.Add(p);
+                }
+            }
+            
 
             points.Add(pointBeforeEnd);
 
@@ -197,28 +225,80 @@ namespace Builder.ViewModels.WorkspaceElements
             Points = points;
         }
 
+        private PointCollection wrapAroundItem(FaceDirection directionFromItem, WorkspaceItemViewModel item, Point startPoint, Point endPoint)
+        {
+            PointCollection points = new PointCollection();
+
+            switch (directionFromItem)
+            {
+                case FaceDirection.Top:
+                    if (endPoint.Y > startPoint.Y)
+                    {
+                        int xSign = endPoint.X > startPoint.X ? 1 : -1;
+                        double x = startPoint.X + xSign * (item.Width / 2 + itemConnectionOffset);
+                        double lastPointY = Math.Min(endPoint.Y, startPoint.Y + 2 * itemConnectionOffset + item.Height);
+
+                        points.Add(new Point(x, startPoint.Y));
+                        points.Add(new Point(x, lastPointY));
+                    }
+                    break;
+                case FaceDirection.Bottom:
+                    if (endPoint.Y < startPoint.Y)
+                    {
+                        int xSign = endPoint.X > startPoint.X ? 1 : -1;
+                        double x = startPoint.X + xSign * (item.Width / 2 + itemConnectionOffset);
+                        double lastPointY = Math.Max(endPoint.Y, startPoint.Y - 2 * itemConnectionOffset - item.Height);
+                        points.Add(new Point(x, startPoint.Y));
+                        points.Add(new Point(x, lastPointY));
+                    }
+                    break;
+                case FaceDirection.Left:
+                    if (endPoint.X > startPoint.X)
+                    {
+                        int ySign = endPoint.Y > startPoint.Y ? 1 : -1;
+                        double y = startPoint.Y + ySign * (item.Height / 2 + itemConnectionOffset);
+                        double lastPointX = Math.Min(endPoint.X, startPoint.X + 2 * itemConnectionOffset + item.Width);
+                        points.Add(new Point(startPoint.X, y));
+                        points.Add(new Point(lastPointX, y));
+                    }
+                    break;
+                case FaceDirection.Right:
+                    if (endPoint.X < startPoint.X)
+                    {
+                        int ySign = endPoint.Y > startPoint.Y ? 1 : -1;
+                        double y = startPoint.Y + ySign * (item.Height / 2 + itemConnectionOffset);
+                        double lastPointX = Math.Max(endPoint.X, startPoint.X - 2 * itemConnectionOffset - item.Width);
+                        points.Add(new Point(startPoint.X, y));
+                        points.Add(new Point(lastPointX, y));
+                    }
+                    break;
+            }
+
+            return points;
+        }
+
         /// <summary>
         /// Looks at face direction of the item and draws a straight line in that direction
         /// </summary>
         /// <param name="item"></param>
         /// <param name="offset">how many pixels to draw from the image</param>
         /// <returns></returns>
-        private Point GetPointNearItem(WorkspaceItemViewModel item, FaceDirection faceDirection, int offset)
+        private Point GetPointNearItem(WorkspaceItemViewModel item, FaceDirection faceDirection)
         {
             Point point = new Point(item.Position.X + item.Width / 2, item.Position.Y + item.Height / 2);
             switch (faceDirection)
             {
                 case FaceDirection.Top:
-                    point.Y -= item.Height / 2 + offset;
+                    point.Y -= item.Height / 2 + itemConnectionOffset;
                     break;
                 case FaceDirection.Bottom:
-                    point.Y += item.Height / 2 + offset;
+                    point.Y += item.Height / 2 + itemConnectionOffset;
                     break;
                 case FaceDirection.Left:
-                    point.X -= item.Width / 2 + offset;
+                    point.X -= item.Width / 2 + itemConnectionOffset;
                     break;
                 case FaceDirection.Right:
-                    point.X += item.Width / 2 + offset;
+                    point.X += item.Width / 2 + itemConnectionOffset;
                     break;
             }
             return point;
