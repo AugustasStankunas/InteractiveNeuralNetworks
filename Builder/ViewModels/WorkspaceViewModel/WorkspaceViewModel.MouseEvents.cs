@@ -51,6 +51,11 @@ namespace Builder.ViewModels
                 CanvasPanOffset = ClipCanvasPan(new Point(CanvasPanOffset.X + delta.X, CanvasPanOffset.Y + delta.Y));
                 _panStart = currentPosition;
             }
+            if (IsSelectingMultiple)
+            { 
+                Point currentPos = e.GetPosition(e.Source as IInputElement);
+                UpdateSelectionRectangle(currentPos);
+            }
             //if hovering over workspace element and connection mode is active then show markers on possible connection starts or ends
             var data = e.OriginalSource as FrameworkElement;
             if (e.OriginalSource is Image && Builder.isMakingConnection)
@@ -112,6 +117,16 @@ namespace Builder.ViewModels
             {
                 Keyboard.Focus(element);
             }
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+				_isPanning = false;
+                IsSelectingMultiple = true;
+                _selectionStart = e.GetPosition(e.Source as IInputElement);
+                SelectionRectScreen = new Rect(_selectionStart, new Size(0, 0));
+                e.Handled = true;
+                return;
+            }
+
             var data = e.OriginalSource as FrameworkElement;
             if (e.OriginalSource is Image)
             {
@@ -160,6 +175,18 @@ namespace Builder.ViewModels
         {
             _isPanning = false;
 
+            if (IsSelectingMultiple)
+            {
+                IsSelectingMultiple = false;
+                
+                UpdateSelectionRectangle(e.GetPosition(e.Source as IInputElement));
+                
+                SelectionRectScreen = Rect.Empty;
+                OnPropertyChanged(nameof(SelectionRectScreen));
+                
+                e.Handled = true;
+                return;
+            }
             if (Builder.WorkspaceItemSelected.Count > 0)
             {
                 IInputElement? mouseEventOriginalSource = e.OriginalSource as IInputElement;

@@ -77,6 +77,27 @@
                     </ItemsControl.ItemContainerStyle>
                 </ItemsControl>
 
+                <Rectangle 
+                    Canvas.Left="{Binding SelectionRectScreen.Left}"
+                    Canvas.Top="{Binding SelectionRectScreen.Top}"
+                    Width="{Binding SelectionRectScreen.Width}"
+                    Height="{Binding SelectionRectScreen.Height}"
+                    Stroke="Blue" 
+                    StrokeThickness="1"
+                    Fill="#223399FF"
+                    Panel.ZIndex="100">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSelectingMultiple}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+
                 <i:Interaction.Behaviors>
                     <commands:EventToCommandBehavior EventName="MouseLeftButtonDown" Command="{Binding MouseLeftButtonDownCommand}" />
                     <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding MouseMoveCommand}" />
@@ -85,6 +106,7 @@
                     <commands:EventToCommandBehavior EventName="MouseWheel" Command="{Binding MouseWheelCommand}"/>
                     <commands:EventToCommandBehavior EventName="MouseLeave" Command="{Binding MouseLeaveCommand}"/>
                     <commands:EventToCommandBehavior EventName="KeyDown" Command="{Binding DeleteKeyDownCommand}"/>
+                    <commands:EventToCommandBehavior EventName="KeyDown" Command="{Binding ControlKeyDownCommand}"/>
                 </i:Interaction.Behaviors>
             </Canvas>
             <i:Interaction.Behaviors>
