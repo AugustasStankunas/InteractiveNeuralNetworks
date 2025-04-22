@@ -1,4 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using Builder.ViewModels.WorkspaceElements;
+using Shared.Commands;
+using Shared.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,6 +19,7 @@ namespace Builder.ViewModels
 		public BuilderViewModel Builder { get; set; }
 
 
+		public IInputElement _selectionStartReference;
 		public ICommand RenderSizeChangedCommand { get; }
 		public ICommand DeleteKeyDownCommand { get; }
 		public ICommand ControlKeyDownCommand { get; }
@@ -178,7 +182,7 @@ namespace Builder.ViewModels
 			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
 
 			MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
-			MouseLeaveCommand = new RelayCommand<MouseEventArgs>(e => _isPanning = false); 
+			MouseLeaveCommand = new RelayCommand<MouseEventArgs>(e => _isPanning = false);
 			DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);
 
 			MouseWheelCommand = new RelayCommand<MouseWheelEventArgs>(OnMouseWheel);
@@ -331,12 +335,12 @@ namespace Builder.ViewModels
 		}
 
 		public void ControlKeyDown(KeyEventArgs e)
-        {
-            if (e.Key == Key.LeftCtrl)
-            {
-                OnPropertyChanged(nameof(IsMultipleSelectionActive)); 
-            }
-        }
+		{
+			if (e.Key == Key.LeftCtrl)
+			{
+				OnPropertyChanged(nameof(IsMultipleSelectionActive));
+			}
+		}
 		private void ClearAllSelections()
 		{
 			foreach (var item in SelectedItems)

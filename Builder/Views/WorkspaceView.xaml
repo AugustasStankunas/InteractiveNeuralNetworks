@@ -18,7 +18,7 @@
 
     <Border x:Name="CanvasBorder" BorderBrush="Black" BorderThickness="1" Margin="20" ClipToBounds="True">
         <Grid ClipToBounds="True"> <!-- Grido reikia, kad workspaceItem neuzeitu uz border ribu -->
-            <Canvas x:Name="WorkspaceCanvas" Height="{Binding Height}" Width="{Binding Width}" ClipToBounds="True">
+            <Canvas x:Name="WorkspaceCanvas" Height="{Binding Height}" Width="{Binding Width}" ClipToBounds="True" Focusable="True">
                 <Canvas.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform 
@@ -77,27 +77,6 @@
                     </ItemsControl.ItemContainerStyle>
                 </ItemsControl>
 
-                <Rectangle 
-                    Canvas.Left="{Binding SelectionRectScreen.Left}"
-                    Canvas.Top="{Binding SelectionRectScreen.Top}"
-                    Width="{Binding SelectionRectScreen.Width}"
-                    Height="{Binding SelectionRectScreen.Height}"
-                    Stroke="Blue" 
-                    StrokeThickness="1"
-                    Fill="#223399FF"
-                    Panel.ZIndex="100">
-                    <Rectangle.Style>
-                        <Style TargetType="Rectangle">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsSelectingMultiple}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Rectangle.Style>
-                </Rectangle>
-
                 <i:Interaction.Behaviors>
                     <commands:EventToCommandBehavior EventName="MouseLeftButtonDown" Command="{Binding MouseLeftButtonDownCommand}" />
                     <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding MouseMoveCommand}" />
@@ -109,6 +88,29 @@
                     <commands:EventToCommandBehavior EventName="KeyDown" Command="{Binding ControlKeyDownCommand}"/>
                 </i:Interaction.Behaviors>
             </Canvas>
+
+                <Canvas ClipToBounds="True" IsHitTestVisible="False" Background="Transparent">
+                    <Rectangle 
+                        Canvas.Left="{Binding SelectionRectScreen.Left}"
+                        Canvas.Top="{Binding SelectionRectScreen.Top}"
+                        Width="{Binding SelectionRectScreen.Width}"
+                        Height="{Binding SelectionRectScreen.Height}"
+                        Stroke="Blue" 
+                        StrokeThickness="1"
+                        Fill="#223399FF">
+                        <Rectangle.Style>
+                            <Style TargetType="Rectangle">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelectingMultiple}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                </Canvas>
+
             <i:Interaction.Behaviors>
                 <commands:EventToCommandBehavior EventName="SizeChanged" Command="{Binding RenderSizeChangedCommand}" />
             </i:Interaction.Behaviors>

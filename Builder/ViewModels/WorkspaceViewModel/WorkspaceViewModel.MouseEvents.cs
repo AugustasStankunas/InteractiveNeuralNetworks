@@ -53,7 +53,7 @@ namespace Builder.ViewModels
             }
             if (IsSelectingMultiple)
             { 
-                Point currentPos = e.GetPosition(e.Source as IInputElement);
+                Point currentPos = e.GetPosition(_selectionStartReference);
                 UpdateSelectionRectangle(currentPos);
             }
             //if hovering over workspace element and connection mode is active then show markers on possible connection starts or ends
@@ -121,7 +121,9 @@ namespace Builder.ViewModels
             {
 				_isPanning = false;
                 IsSelectingMultiple = true;
-                _selectionStart = e.GetPosition(e.Source as IInputElement);
+				var parentGrid = (e.Source as FrameworkElement)?.Parent as FrameworkElement;
+				_selectionStartReference = parentGrid;
+                _selectionStart = e.GetPosition(parentGrid);
                 SelectionRectScreen = new Rect(_selectionStart, new Size(0, 0));
                 e.Handled = true;
                 return;
@@ -177,9 +179,9 @@ namespace Builder.ViewModels
 
             if (IsSelectingMultiple)
             {
+                UpdateSelectionRectangle(e.GetPosition(_selectionStartReference));
                 IsSelectingMultiple = false;
-                
-                UpdateSelectionRectangle(e.GetPosition(e.Source as IInputElement));
+                _selectionStartReference = null;
                 
                 SelectionRectScreen = Rect.Empty;
                 OnPropertyChanged(nameof(SelectionRectScreen));
