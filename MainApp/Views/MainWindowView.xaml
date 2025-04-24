@@ -8,9 +8,11 @@
         xmlns:BuilderVM="clr-namespace:Builder.ViewModels;assembly=Builder"
         xmlns:TrainVM="clr-namespace:Train.ViewModels;assembly=Train"
         xmlns:TestVM="clr-namespace:Test.ViewModels;assembly=Test"
+        xmlns:StartVM="clr-namespace:StartingScreen.ViewModels;assembly=StartingScreen"
         xmlns:BuilderViews="clr-namespace:Builder.Views;assembly=Builder"
         xmlns:TrainViews="clr-namespace:Train.Views;assembly=Train"
         xmlns:TestViews="clr-namespace:Test.Views;assembly=Test"
+        xmlns:StartViews="clr-namespace:StartingScreen.Views;assembly=StartingScreen"
         mc:Ignorable="d"
         Title="MainWindowView" Height="720" Width="1250">
     <Window.DataContext>
@@ -26,6 +28,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type TestVM:TestViewModel}">
             <TestViews:TestView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type StartVM:StartingScreenViewModel}">
+            <StartViews:StartingScreenView/>
         </DataTemplate>
     </Window.Resources>
     

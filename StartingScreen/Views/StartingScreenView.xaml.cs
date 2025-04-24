@@ -11,27 +11,16 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using StartingScreen.ViewModels;
 
-namespace StartingScreen
+namespace StartingScreen.Views
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class StartingScreenView : UserControl
 	{
-		public MainWindow()
-		{
-			InitializeComponent();
-			DataContext = new StartingWindowViewModel();
-		}
-	
-		private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			this.DragMove();
-		}
-		
-		private void CloseButton_Click(object sender, RoutedEventArgs e)
-		{
-			this.Close();
-		}
+        public StartingScreenView()
+        {
+            InitializeComponent();
+        }
 	}
 }

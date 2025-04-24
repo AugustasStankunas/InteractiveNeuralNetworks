@@ -9,6 +9,7 @@ using Shared.ViewModels;
 using Test.ViewModels;
 using Train.Helpers;
 using Train.ViewModels;
+using StartingScreen.ViewModels;
 
 
 namespace MainApp.ViewModels
@@ -28,6 +29,7 @@ namespace MainApp.ViewModels
         private BuilderViewModel Builder { get; set; }
         private TrainViewModel Train { get; set; }
         private TestViewModel Test { get; set; }
+        private StartingScreenViewModel Start { get; set; }
 
 
         public ICommand ShowBuilderCommand { get; }
@@ -54,6 +56,9 @@ namespace MainApp.ViewModels
             Builder = new BuilderViewModel();
             Train = new TrainViewModel();
             Test = new TestViewModel();
+            Start = new StartingScreenViewModel();
+                
+			Start.SetMainWindow(this);
 
             ShowBuilderCommand = new RelayCommand(_ => ShowBuilder());
             ShowTrainCommand = new RelayCommand(_ => ShowTrain());
@@ -67,10 +72,11 @@ namespace MainApp.ViewModels
 			});
             LoadCommand = new RelayCommand(_ => Load());
 
-            ShowBuilder();
+            ShowStart();
+
         }
 
-        private void ShowBuilder()
+        public void ShowBuilder()
         {
             CurrentViewModel = Builder;
         }
@@ -83,6 +89,10 @@ namespace MainApp.ViewModels
         private void ShowTest()
         {
             CurrentViewModel = Test;
+        }
+        private void ShowStart()
+        {
+            CurrentViewModel = Start;
         }
 
         private void SaveAs()
@@ -131,7 +141,7 @@ namespace MainApp.ViewModels
 			File.WriteAllText(WorkingFilePath, json);
         }
 
-        private void Load()
+        public void Load()
         {
             var dialog = new OpenFileDialog();
             dialog.FileName = "WorkspaceConfiguration";

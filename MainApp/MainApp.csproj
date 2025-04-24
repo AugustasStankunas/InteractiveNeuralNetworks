@@ -17,6 +17,7 @@
     <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\Test\Test.csproj" />
     <ProjectReference Include="..\Train\Train.csproj" />
+    <ProjectReference Include="..\StartingScreen\StartingScreen.csproj" />
   </ItemGroup>
 
 </Project>
