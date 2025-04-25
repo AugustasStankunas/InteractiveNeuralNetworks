@@ -56,6 +56,17 @@
                 </Ellipse.Style>
             </Ellipse>
         </Grid>
+        <!-- Display Name -->
         <Label Content="{Binding DisplayName}" />
+
+        <!-- Dynamically generated input fields -->
+        <ItemsControl ItemsSource="{Binding InputValues}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBox Text="{Binding ., Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="2" Width="100"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </StackPanel>
 </UserControl>

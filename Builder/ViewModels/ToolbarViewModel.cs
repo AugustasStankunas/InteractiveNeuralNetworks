@@ -13,6 +13,8 @@ namespace Builder.ViewModels
         {
             Builder = builder;
 
+            ToolbarItems.Add(new TBInputViewModel(this));
+            ToolbarItems.Add(new TBOutputViewModel(this));
             ToolbarItems.Add(new TBFullyConnectedViewModel(this));
             ToolbarItems.Add(new TBConvolutionViewModel(this));
             ToolbarItems.Add(new TBPoolingViewModel(this));

@@ -189,7 +189,7 @@ namespace Builder.ViewModels
             ActivationFunction = activationFunction;
             Layer = layerType;
             MarkerDirection = null;
-        }
+        } 
 
         public WorkspaceItemViewModel() { }
 
