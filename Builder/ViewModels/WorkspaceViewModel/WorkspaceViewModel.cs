@@ -28,7 +28,6 @@ namespace Builder.ViewModels
             WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
 
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
-            LostMouseCaptureCommand = new RelayCommand<MouseEventArgs>(OnLostMouseCapture);
             DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);
 
             MouseWheelCommand = new RelayCommand<MouseWheelEventArgs>(OnMouseWheel);
