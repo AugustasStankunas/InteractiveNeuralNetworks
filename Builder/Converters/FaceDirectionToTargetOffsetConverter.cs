@@ -55,7 +55,7 @@ namespace Builder.Converters
                     else if (dir == FaceDirection.Top)
                         return coord - halfH - 3*gap;
                     else if (dir == FaceDirection.Bottom)
-                        return coord + halfH + 3*gap;
+                        return coord + halfH + gap;
                     else
                         return coord;
 
