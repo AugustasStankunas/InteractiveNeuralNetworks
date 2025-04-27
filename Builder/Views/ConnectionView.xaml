@@ -9,7 +9,9 @@
     <UserControl.Resources>
         <!-- Register your two converters -->
         <converters:FaceDirectionToAngleConverter   x:Key="DirToAngle"  />
-        <converters:FaceDirectionToOffsetConverter  x:Key="DirToOffset" />
+        <converters:FaceDirectionToSourceOffsetConverter  x:Key="DirToSourceOffset" />
+        <converters:FaceDirectionToTargetOffsetConverter  x:Key="DirToTargetOffset" />
+
     </UserControl.Resources>
 
     <!-- Transparent background ensures the Canvas fills its parent -->
@@ -34,31 +36,19 @@
         <!-- Source arrow -->
         <Path Data="M0,0 L8,4 L0,8 Z" Fill="Black" RenderTransformOrigin="0,0.5">
             <Canvas.Left>
-                <MultiBinding Converter="{StaticResource DirToOffset}" ConverterParameter="X">
+                <MultiBinding Converter="{StaticResource DirToSourceOffset}" ConverterParameter="X">
                     <Binding Path="Source.Position.X"/>
                     <Binding Path="SourceFaceDirection"/>
                     <Binding Path="Source.Width"/>
-                    <!-- halfW comes from here -->
                     <Binding Path="Source.Height"/>
-                    <Binding 
-                         Path="TargetFaceDirection"
-                         Converter="{StaticResource DirToAngle}"
-                         ConverterParameter="Source"/>
-                    <!-- unused on X, but must supply 4th value -->
                 </MultiBinding>
             </Canvas.Left>
             <Canvas.Top>
-                <MultiBinding Converter="{StaticResource DirToOffset}" ConverterParameter="Y">
+                <MultiBinding Converter="{StaticResource DirToSourceOffset}" ConverterParameter="Y">
                     <Binding Path="Source.Position.Y"/>
                     <Binding Path="SourceFaceDirection"/>
                     <Binding Path="Source.Width"/>
-                    <!-- unused on Y -->
                     <Binding Path="Source.Height"/>
-                    <!-- halfH comes from here -->
-                    <Binding 
-                         Path="TargetFaceDirection"
-                         Converter="{StaticResource DirToAngle}"
-                         ConverterParameter="Source"/>   
                 </MultiBinding>
             </Canvas.Top>
             <Path.RenderTransform>
@@ -71,27 +61,19 @@
         <!-- Target arrow -->
         <Path Data="M0,0 L8,4 L0,8 Z" Fill="Black" RenderTransformOrigin="0,0.5">
             <Canvas.Left>
-                <MultiBinding Converter="{StaticResource DirToOffset}" ConverterParameter="X">
+                <MultiBinding Converter="{StaticResource DirToTargetOffset}" ConverterParameter="X">
                     <Binding Path="TargetPoint.X"/>
                     <Binding Path="TargetFaceDirection"/>
                     <Binding Path="Target.Width"/>
                     <Binding Path="Target.Height"/>
-                    <Binding 
-                        Path="TargetFaceDirection"
-                        Converter="{StaticResource DirToAngle}"
-                        ConverterParameter="Target"/>
                 </MultiBinding>
             </Canvas.Left>
             <Canvas.Top>
-                <MultiBinding Converter="{StaticResource DirToOffset}" ConverterParameter="Y">
+                <MultiBinding Converter="{StaticResource DirToTargetOffset}" ConverterParameter="Y">
                     <Binding Path="TargetPoint.Y"/>
                     <Binding Path="TargetFaceDirection"/>
                     <Binding Path="Target.Width"/>
                     <Binding Path="Target.Height"/>
-                    <Binding 
-                        Path="TargetFaceDirection"
-                        Converter="{StaticResource DirToAngle}"
-                        ConverterParameter="Target"/>       
                 </MultiBinding>
             </Canvas.Top>
             <Path.RenderTransform>

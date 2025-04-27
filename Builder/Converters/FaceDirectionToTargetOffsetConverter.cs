@@ -10,7 +10,7 @@ namespace Builder.Converters
     /// an adjusted coordinate so an arrow sits just outside the item.
     /// ConverterParameter must be "X" or "Y".
     /// </summary>
-    public class FaceDirectionToOffsetConverter : IMultiValueConverter
+    public class FaceDirectionToTargetOffsetConverter : IMultiValueConverter
     {
         private const double gap = 4.0;  // extra spacing outside the item
 
@@ -20,12 +20,11 @@ namespace Builder.Converters
             // values[1] = FaceDirection
             // values[2] = item Width (double)
             // values[3] = item Height (double)
-            if (values.Length < 5
+            if (values.Length < 4
                 || !(values[0] is double coord)
                 || !(values[1] is FaceDirection dir)
                 || !(values[2] is int width)
                 || !(values[3] is int height)
-                || !(values[4] is int angle)
                 || !(parameter is string axis))
             {
                 return Binding.DoNothing;
@@ -38,25 +37,25 @@ namespace Builder.Converters
             {
                 case "X":
                     if (dir == FaceDirection.Left)
-                        return coord;
+                        return coord - halfW - gap;
                     else if (dir == FaceDirection.Right)
-                        return coord + width;
+                        return coord + halfW + 3*gap;
                     else if (dir == FaceDirection.Top)
-                        return coord + halfW;
+                        return coord;
                     else if (dir == FaceDirection.Bottom)
-                        return coord + halfW;
+                        return coord;
                     else
                         return coord;
 
                 case "Y":
                     if (dir == FaceDirection.Left)
-                        return coord + halfH - gap;
-                    else if (dir == FaceDirection.Right)
-                        return coord + halfW - gap;
-                    else if (dir == FaceDirection.Top)
                         return coord - gap;
+                    else if (dir == FaceDirection.Right)
+                        return coord - gap;
+                    else if (dir == FaceDirection.Top)
+                        return coord - halfH - 3*gap;
                     else if (dir == FaceDirection.Bottom)
-                        return coord + height - gap;
+                        return coord + halfH + 3*gap;
                     else
                         return coord;
 
