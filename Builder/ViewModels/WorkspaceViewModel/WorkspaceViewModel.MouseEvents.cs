@@ -10,6 +10,7 @@ using Builder.ViewModels.WorkspaceElements;
 using System.Windows.Shapes;
 using Shared.ViewModels;
 using Builder.Enums;
+using System.Runtime.CompilerServices;
 
 
 namespace Builder.ViewModels
@@ -17,13 +18,17 @@ namespace Builder.ViewModels
 	public partial class WorkspaceViewModel : ViewModelBase
 	{
 		public ICommand MouseMoveCommand { get; }
-		public ICommand MouseLeaveCommand { get; }
-		public ICommand DragOverCommand { get; }
+		public ICommand LostMouseCaptureCommand { get; }
+        public ICommand DragOverCommand { get; }
 		public ICommand MouseWheelCommand { get; }
 		public ICommand MouseLeftButtonDownCommand { get; }
 		public ICommand MouseLeftButtonUpCommand { get; }
-
-		private void OnDragOver(DragEventArgs e)
+		
+		private void OnLostMouseCapture(MouseEventArgs e)
+        {
+            
+        }
+        private void OnDragOver(DragEventArgs e)
 		{
 			if (e.Data.GetDataPresent("SelectedItems"))
 			{
@@ -52,13 +57,13 @@ namespace Builder.ViewModels
 			}
 			else if (e.Data.GetDataPresent(typeof(WorkspaceItemViewModel)))
 			{
-				var draggedItem = e.Data.GetData(typeof(WorkspaceItemViewModel)) as WorkspaceItemViewModel;
+				draggedItem = e.Data.GetData(typeof(WorkspaceItemViewModel)) as WorkspaceItemViewModel;
 				Point dropPosition = e.GetPosition(e.Source as IInputElement);
 				if (draggedItem != null)
 				{
 					dropPosition.X -= mouseOffset.X;
 					dropPosition.Y -= mouseOffset.Y;
-					draggedItem.Position = dropPosition;
+                    draggedItem.Position = dropPosition;
 				}
 			}
 		}
@@ -193,8 +198,10 @@ namespace Builder.ViewModels
 						dragData.SetData("SelectedItems", true);
 						DragDrop.DoDragDrop(e.OriginalSource as UIElement, dragData, DragDropEffects.Move);
 					}
+					//item drag and drop
 					else if (data != null && e.LeftButton == MouseButtonState.Pressed && data.DataContext is WorkspaceItemViewModel)
 					{
+						Mouse.Capture(data.DataContext as UIElement, CaptureMode.SubTree);
 						mouseOffset = e.GetPosition(data); // mouse position relative to top-left of the rectangle
 						DragDrop.DoDragDrop(e.OriginalSource as UIElement, new DataObject(typeof(WorkspaceItemViewModel), data.DataContext), DragDropEffects.Move);
 					}
@@ -222,7 +229,8 @@ namespace Builder.ViewModels
 
 		private void OnMouseLeftButtonUp(MouseButtonEventArgs e)
 		{
-			_isPanning = false;
+            draggedItem = null;
+            _isPanning = false;
 			_originalPositions.Clear();
 
 			if (IsSelectingMultiple)
@@ -269,9 +277,5 @@ namespace Builder.ViewModels
 					CancelConnectionInProgress();
 			}
 		}
-
-
-
-
 	}
 }

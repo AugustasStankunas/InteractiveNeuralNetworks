@@ -12,7 +12,7 @@ namespace Builder.Converters
     /// </summary>
     public class FaceDirectionToOffsetConverter : IMultiValueConverter
     {
-        private const double Gap = 4.0;  // extra spacing outside the item
+        private const double gap = 4.0;  // extra spacing outside the item
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
@@ -20,11 +20,12 @@ namespace Builder.Converters
             // values[1] = FaceDirection
             // values[2] = item Width (double)
             // values[3] = item Height (double)
-            if (values.Length < 4
+            if (values.Length < 5
                 || !(values[0] is double coord)
                 || !(values[1] is FaceDirection dir)
                 || !(values[2] is int width)
                 || !(values[3] is int height)
+                || !(values[4] is int angle)
                 || !(parameter is string axis))
             {
                 return Binding.DoNothing;
@@ -33,20 +34,35 @@ namespace Builder.Converters
             double halfW = width / 2;
             double halfH = height / 2;
 
-            return axis switch
+            switch (axis)
             {
-                "X" when dir == FaceDirection.Left => coord - halfW,
-                "X" when dir == FaceDirection.Right => coord + width,
-                "Y" when dir == FaceDirection.Left => coord,
-                "Y" when dir == FaceDirection.Right => coord + halfW,
-                "Y" when dir == FaceDirection.Top => coord - halfH,
-                "Y" when dir == FaceDirection.Bottom => coord + halfH,
+                case "X":
+                    if (dir == FaceDirection.Left)
+                        return coord;
+                    else if (dir == FaceDirection.Right)
+                        return coord + width;
+                    else if (dir == FaceDirection.Top)
+                        return coord + halfW;
+                    else if (dir == FaceDirection.Bottom)
+                        return coord + halfW;
+                    else
+                        return coord;
 
-                // if axis doesn’t match the direction, leave it untouched
-                "X" => coord,
-                "Y" => coord,
-                _ => coord,
-            };
+                case "Y":
+                    if (dir == FaceDirection.Left)
+                        return coord + halfH - gap;
+                    else if (dir == FaceDirection.Right)
+                        return coord + halfW - gap;
+                    else if (dir == FaceDirection.Top)
+                        return coord - gap;
+                    else if (dir == FaceDirection.Bottom)
+                        return coord + height - gap;
+                    else
+                        return coord;
+
+                default:
+                    return coord;
+            }
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

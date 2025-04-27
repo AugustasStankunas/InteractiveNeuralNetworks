@@ -16,7 +16,32 @@ namespace Builder.ViewModels
 {
 	public partial class WorkspaceViewModel : ViewModelBase
 	{
-		public BuilderViewModel Builder { get; set; }
+        public WorkspaceViewModel(BuilderViewModel builderViewModel)
+        {
+            Builder = builderViewModel;
+
+            WorkspaceItems.Add(new WSConvolutionViewModel(3, 64, 3, 2, x: 50020, y: 50200, name: "conv1"));
+            WorkspaceItems.Add(new WSPoolingViewModel(3, 2, x: 50120, y: 50200, name: "pool1"));
+            WorkspaceItems.Add(new WSFullyConnectedViewModel(256, 512, x: 50220, y: 50200, name: "fc1"));
+
+            WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[0], WorkspaceItems[1]));
+            WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
+
+            MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
+            LostMouseCaptureCommand = new RelayCommand<MouseEventArgs>(OnLostMouseCapture);
+            DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);
+
+            MouseWheelCommand = new RelayCommand<MouseWheelEventArgs>(OnMouseWheel);
+            MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
+            MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
+
+            RenderSizeChangedCommand = new RelayCommand<SizeChangedEventArgs>(OnRenderSizeChanged);
+            DeleteKeyDownCommand = new RelayCommand<KeyEventArgs>(OnDeleteKeyDown);
+            ControlKeyDownCommand = new RelayCommand<KeyEventArgs>(ControlKeyDown);
+            CanvasPanOffset = new Point(-Width / 2, -Height / 2);
+        }
+
+        public BuilderViewModel Builder { get; set; }
 
 
 		public IInputElement _selectionStartReference;
@@ -68,8 +93,11 @@ namespace Builder.ViewModels
 
 		private Point mouseOffset; // The offset of the mouse to the top left corner of the rectangle
 
-		//For panning
-		private bool _isPanning;
+        //for drag and drop
+		private WorkspaceItemViewModel? draggedItem;
+
+        //For panning
+        private bool _isPanning;
 		private Point _panStart;
 
 		public ObservableCollection<WorkspaceItemViewModel> WorkspaceItems { get; set; } = new ObservableCollection<WorkspaceItemViewModel>();
@@ -170,30 +198,7 @@ namespace Builder.ViewModels
 
 		private WSConnectionViewModel? connectionInProgress;
 
-		public WorkspaceViewModel(BuilderViewModel builderViewModel)
-		{
-			Builder = builderViewModel;
-
-			WorkspaceItems.Add(new WSConvolutionViewModel(3, 64, 3, 2, x: 50020, y: 50200, name: "conv1"));
-			WorkspaceItems.Add(new WSPoolingViewModel(3, 2, x: 50120, y: 50200, name: "pool1"));
-			WorkspaceItems.Add(new WSFullyConnectedViewModel(256, 512, x: 50220, y: 50200, name: "fc1"));
-
-			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[0], WorkspaceItems[1]));
-			WorkspaceConnections.Add(new WSConnectionViewModel(WorkspaceItems[1], WorkspaceItems[2]));
-
-			MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
-			MouseLeaveCommand = new RelayCommand<MouseEventArgs>(e => _isPanning = false);
-			DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);
-
-			MouseWheelCommand = new RelayCommand<MouseWheelEventArgs>(OnMouseWheel);
-			MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
-			MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
-
-			RenderSizeChangedCommand = new RelayCommand<SizeChangedEventArgs>(OnRenderSizeChanged);
-			DeleteKeyDownCommand = new RelayCommand<KeyEventArgs>(OnDeleteKeyDown);
-			ControlKeyDownCommand = new RelayCommand<KeyEventArgs>(ControlKeyDown);
-			CanvasPanOffset = new Point(-Width / 2, -Height / 2);
-		}
+		
 
 		private void OnRenderSizeChanged(SizeChangedEventArgs e)
 		{

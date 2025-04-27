@@ -83,7 +83,7 @@
                     <commands:EventToCommandBehavior EventName="DragOver" Command="{Binding DragOverCommand}"/>
                     <commands:EventToCommandBehavior EventName="MouseLeftButtonUp" Command="{Binding MouseLeftButtonUpCommand}"/>
                     <commands:EventToCommandBehavior EventName="MouseWheel" Command="{Binding MouseWheelCommand}"/>
-                    <commands:EventToCommandBehavior EventName="MouseLeave" Command="{Binding MouseLeaveCommand}"/>
+                    <commands:EventToCommandBehavior EventName="LostMouseCapture" Command="{Binding LostMouseCaptureCommand}"/>
                     <commands:EventToCommandBehavior EventName="KeyDown" Command="{Binding DeleteKeyDownCommand}"/>
                     <commands:EventToCommandBehavior EventName="KeyDown" Command="{Binding ControlKeyDownCommand}"/>
                 </i:Interaction.Behaviors>

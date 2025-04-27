@@ -10,16 +10,16 @@ namespace Builder.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             // 1) Map FaceDirection → base angle (outgoing)
-            double baseAngle = 0.0;
+            int baseAngle = 0;
             if (value is FaceDirection dir)
             {
                 baseAngle = dir switch
                 {
-                    FaceDirection.Top => -90.0,
-                    FaceDirection.Right => 0.0,
-                    FaceDirection.Bottom => 90.0,
-                    FaceDirection.Left => 180.0,
-                    _ => 0.0,
+                    FaceDirection.Top => -90,
+                    FaceDirection.Right => 0,
+                    FaceDirection.Bottom => 90,
+                    FaceDirection.Left => 180,
+                    _ => 0,
                 };
             }
 
@@ -27,7 +27,7 @@ namespace Builder.Converters
             if (parameter is string side &&
                 side.Equals("Target", StringComparison.OrdinalIgnoreCase))
             {
-                baseAngle = (baseAngle + 180.0) % 360.0;
+                baseAngle = (baseAngle + 180) % 360;
             }
 
             return baseAngle;
