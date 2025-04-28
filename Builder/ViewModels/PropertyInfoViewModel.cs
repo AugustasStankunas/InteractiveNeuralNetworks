@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.ObjectModel;
+using System.Reflection;
 using Shared.Attributes;
 using Shared.ViewModels;
 
@@ -39,6 +40,18 @@ namespace Builder.ViewModels
                 OnPropertyChanged(Value);
             }
         }
+        public ObservableCollection<string> InputValues
+        {
+            get
+            {
+                var prop = WorkspaceItem.GetType().GetProperty("InputValues");
+                if (prop != null)
+                {
+                    return prop.GetValue(WorkspaceItem) as ObservableCollection<string>;
+                }
+                return null;
+            }
+        }
 
         public string[] Options { get; set; }
 
@@ -55,6 +68,7 @@ namespace Builder.ViewModels
             {
                 Options = propertyInfo.PropertyType.GetEnumNames().Cast<string>().ToArray();
             }
+            
         }
     }
 }

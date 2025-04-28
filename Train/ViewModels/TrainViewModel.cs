@@ -107,7 +107,7 @@ namespace Train.ViewModels
             LossFunction = LossFunctionType.MSE;
             BatchSize = 32;
         }
-        [JsonIgnore]
+
         public string TrainDataPath { get; set; }
 
 

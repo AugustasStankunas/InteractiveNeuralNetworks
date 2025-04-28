@@ -10,15 +10,15 @@ namespace Builder.ViewModels.WorkspaceElements
 {
     class WSOutputViewModel : WorkspaceItemViewModel
     {
-        private int _numInputs;
-        [EditableProperty]
-        public int NumInputs
+        private int _numOutputs;
+        [EditableProperty("GenTextBox")]
+        public int NumOutputs
         {
-            get => _numInputs;
+            get => _numOutputs;
             set
             {
-                _numInputs = value;
-                OnPropertyChanged(nameof(NumInputs));
+                _numOutputs = value;
+                OnPropertyChanged(nameof(NumOutputs));
                 OnPropertyChanged(nameof(DisplayName));
                 GenerateInputFields();
             }
@@ -42,7 +42,7 @@ namespace Builder.ViewModels.WorkspaceElements
             var oldValues = InputValues.ToList();
 
             InputValues.Clear();
-            for (int i = 0; i < NumInputs; i++)
+            for (int i = 0; i < NumOutputs; i++)
             {
                 InputValues.Add(i < oldValues.Count ? oldValues[i] : "");
             }
@@ -51,21 +51,20 @@ namespace Builder.ViewModels.WorkspaceElements
 
         [JsonIgnore]
         public override string DisplayName =>
-            $"{Name}\nN:{NumInputs}";
+            $"{Name}\nN:{NumOutputs}";
         
-
-        public WSOutputViewModel(int numInputs, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
+        public WSOutputViewModel(int numOutputs, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
             : base(x, y, width, height, opacity, name)
         {
-            NumInputs = numInputs;
+            NumOutputs = numOutputs;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Add.png");
         }
 
         [JsonConstructor]
-        public WSOutputViewModel(int numInputs, Point position, string name, ActivationFunctionType activationFunction, LayerType layer)
+        public WSOutputViewModel(int numOutputs, Point position, string name, ActivationFunctionType activationFunction, LayerType layer)
             : base(position.X, position.Y, name: name, activationFunction: activationFunction, layerType: layer)
         {
-            NumInputs = numInputs;
+            NumOutputs = numOutputs;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Add.png");
         }
     }
