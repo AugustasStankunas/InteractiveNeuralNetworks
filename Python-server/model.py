@@ -78,24 +78,29 @@ class Model(nn.Module):
                 layer = self.model_layers[layer_name]
                 # Found input layer
                 if layer_info['ForwardPassPoss'] == 0 and layer_info['Output'] is None:
-                    print(f"Passed layer {layer_name}")
+                    #print(f"Passed input layer {layer_name}")
                     passed_all_layers = True
                     layer_info['Output'] = layer(X) # Input layer forward pass
-                    print(f"Out shape: {layer_info['Output'].shape}")
+                    #print(f"Out shape: {layer_info['Output'].shape}")
                     continue
                 # Check if all input layers have been already forwarded
                 if sum([1 if self.model_layers_info[input_name]['Output'] is None else 0 for input_name in layer_info['Inputs']]) == 0:
-                    print(f"Passed layer {layer_name}")
+                    #print(f"Passed hidden layer {layer_name}")
                     passed_all_layers = True
                     # Hidden layer forward pass
                     layer_info['Output'] = layer(*[self.model_layers_info[input_name]['Output'] for input_name in layer_info['Inputs']])
-                    print(f"Out shape: {layer_info['Output'].shape}")
+                    #print(f"Out shape: {layer_info['Output'].shape}")
         # Finding output layer and returning output
         for layer_name in self.model_layers_info.keys():
             layer_info = self.model_layers_info[layer_name]
             if layer_info['ForwardPassPoss'] == 1:
-                print(f"Output layer: {layer_name}")
-                print(layer_info['Output'].shape)
+                #print(f"Output layer: {layer_name}")
+                #print(layer_info['Output'].shape)
                 return layer_info['Output']
+
+
+    def reset_layers_outputs(self):
+        for layer_name in self.model_layers_info.keys():
+            self.model_layers_info[layer_name]['Output'] = None
 
 

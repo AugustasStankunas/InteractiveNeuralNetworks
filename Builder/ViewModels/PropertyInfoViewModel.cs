@@ -48,7 +48,33 @@ namespace Builder.ViewModels
             PropertyInfo = propertyInfo;
             ControlType = ((EditableProperty)Attribute.GetCustomAttribute(propertyInfo, typeof(EditableProperty))).ControlType;
 
-            Name = propertyInfo.Name;
+            switch (propertyInfo.Name)
+            {
+                case "InputNeurons":
+                    Name = "Input Neurons";
+                    break;
+                case "OutputNeurons":
+                    Name = "Output Neurons";
+                    break;
+                case "ActivationFunction":
+                    Name = "Activation Function";
+                    break;
+                case "InputChannels":
+                    Name = "Input Channels";
+                    break;
+                case "OutputChannels":
+                    Name = "Output Channels";
+                    break;
+                case "KernelSize":
+                    Name = "Kernel Size";
+                    break;
+                case "PoolingType":
+                    Name = "Pooling Type";
+                    break;
+                default:
+                    Name = propertyInfo.Name;
+                    break;
+            }
             Value = propertyInfo.GetValue(WorkspaceItem).ToString();
 
             if (ControlType == "ComboBox")

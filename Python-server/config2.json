@@ -1,0 +1,110 @@
+{
+  "Items": [
+    {
+      "$type": "Conv2D",
+      "InputChannels": 3,
+      "OutputChannels": 64,
+      "KernelSize": 3,
+      "Stride": 2,
+      "Name": "conv1",
+      "Position": {
+        "X": 50020,
+        "Y": 50200
+      },
+      "ActivationFunction": 0,
+      "Layer": 2
+    },
+    {
+      "$type": "Pool2D",
+      "KernelSize": 3,
+      "Stride": 2,
+      "PoolingType": 0,
+      "Name": "pool1",
+      "Position": {
+        "X": 50120,
+        "Y": 50200
+      },
+      "ActivationFunction": 0,
+      "Layer": 2
+    },
+    {
+      "$type": "Linear",
+      "InputNeurons": 256,
+      "OutputNeurons": 512,
+      "Name": "fc1",
+      "Position": {
+        "X": 50220,
+        "Y": 50200
+      },
+      "ActivationFunction": 0,
+      "Layer": 2
+    }
+  ],
+  "Connections": [
+    {
+      "Source": {
+        "$type": "Conv2D",
+        "InputChannels": 3,
+        "OutputChannels": 64,
+        "KernelSize": 3,
+        "Stride": 2,
+        "Name": "conv1",
+        "Position": {
+          "X": 50020,
+          "Y": 50200
+        },
+        "ActivationFunction": 0,
+        "Layer": 2
+      },
+      "Target": {
+        "$type": "Pool2D",
+        "KernelSize": 3,
+        "Stride": 2,
+        "PoolingType": 0,
+        "Name": "pool1",
+        "Position": {
+          "X": 50120,
+          "Y": 50200
+        },
+        "ActivationFunction": 0,
+        "Layer": 2
+      },
+      "SourceFaceDirection": 1,
+      "TargetFaceDirection": 0
+    },
+    {
+      "Source": {
+        "$type": "Pool2D",
+        "KernelSize": 3,
+        "Stride": 2,
+        "PoolingType": 0,
+        "Name": "pool1",
+        "Position": {
+          "X": 50120,
+          "Y": 50200
+        },
+        "ActivationFunction": 0,
+        "Layer": 2
+      },
+      "Target": {
+        "$type": "Linear",
+        "InputNeurons": 256,
+        "OutputNeurons": 512,
+        "Name": "fc1",
+        "Position": {
+          "X": 50220,
+          "Y": 50200
+        },
+        "ActivationFunction": 0,
+        "Layer": 2
+      },
+      "SourceFaceDirection": 1,
+      "TargetFaceDirection": 0
+    }
+  ],
+  "Train": {
+    "LearningRate": 0.01,
+    "LossFunction": 0,
+    "BatchSize": 32
+  }
+}

@@ -3,3 +3,10 @@ bin/
 obj/
 Python-server/.venv/
 Python-server/log.txt
+Python-server/cifar-10-python.tar.gz
+Python-server/Cifar10DatasetImg/
+Python-server/FashionMnistImg/
+Python-server/FashionMNIST/
+Python-server/__pycache__/
+Python-server/cifar-10-batches-py/
+Python-server/data/

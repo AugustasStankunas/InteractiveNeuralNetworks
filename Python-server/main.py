@@ -2,6 +2,7 @@ import torch
 from torch import nn
 import json
 from model import Model
+import train
 
 
 CONFIG_PATH = "config.json"
@@ -22,12 +23,13 @@ def build_dnn(config):
     pass
 
 def main():
-    with open(CONFIG_PATH, "r") as f:
-        config = json.load(f)
-    dummy_input = torch.zeros((1, 1, 64, 64)).to(DEVICE)
-    model = Model(config).to(DEVICE)
-    output = model(dummy_input)
-    print(output)
+    # with open(CONFIG_PATH, "r") as f:
+    #     config = json.load(f)
+    # dummy_input = torch.zeros((1, 1, 64, 64)).to(DEVICE)
+    # model = Model(config).to(DEVICE)
+    # output = model(dummy_input)
+    # print(output)
+    train.train()
 
 
 if __name__ == "__main__":

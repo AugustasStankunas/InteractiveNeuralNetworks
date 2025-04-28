@@ -2,7 +2,7 @@
   "Items": [
     {
       "$type": "Conv2D",
-      "InputChannels": 1,
+      "InputChannels": 3,
       "OutputChannels": 8,
       "KernelSize": 3,
       "Stride": 1,
@@ -66,7 +66,7 @@
     },
     {
       "$type": "Linear",
-      "InputNeurons": 4096,
+      "InputNeurons": 1024,
       "OutputNeurons": 32,
       "Name": "Full1",
       "Position": {
@@ -79,7 +79,7 @@
     {
       "$type": "Linear",
       "InputNeurons": 32,
-      "OutputNeurons": 5,
+      "OutputNeurons": 10,
       "Name": "Full2",
       "Position": {
         "X": 811.7585185185185,
@@ -255,7 +255,8 @@
   ],
   "Train": {
     "LearningRate": 0.01,
-    "LossFunction": 0,
-    "BatchSize": 32
+    "LossFunction": 3,
+    "BatchSize": 16384,
+    "DataDir": "Cifar10DatasetImg"
   }
 }
