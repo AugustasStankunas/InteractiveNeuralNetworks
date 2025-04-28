@@ -45,20 +45,6 @@ namespace Builder.ViewModels
                 if (IsSelected) Border = 2;
                 else Border = 0;
                 OnPropertyChanged(nameof(IsSelected));
-
-                if (value)
-                {
-                    Mouse.AddMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
-                }
-            }
-        }
-        public void GlobalMouseUpHandler(object sender, MouseButtonEventArgs e)
-        {
-
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                IsSelected = false;
-                Mouse.RemoveMouseUpHandler(Application.Current.MainWindow, GlobalMouseUpHandler);
             }
         }
         [JsonIgnore]

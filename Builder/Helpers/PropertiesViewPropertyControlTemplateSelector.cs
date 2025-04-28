@@ -8,6 +8,7 @@ namespace Builder.Helpers
     {
         public DataTemplate TextBoxTemplate { get; set; }
         public DataTemplate ComboBoxTemplate { get; set; }
+        public DataTemplate GenerateTextBoxTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -20,6 +21,8 @@ namespace Builder.Helpers
                     return TextBoxTemplate;
                 case "ComboBox":
                     return ComboBoxTemplate;
+                case "GenTextBox":
+                    return GenerateTextBoxTemplate;
                 default:
                     return base.SelectTemplate(item, container);
             }

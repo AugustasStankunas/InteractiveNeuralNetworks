@@ -197,7 +197,7 @@ namespace Builder.ViewModels
 					else if (data != null && e.LeftButton == MouseButtonState.Pressed && data.DataContext is WorkspaceItemViewModel)
 					{
 						Mouse.Capture(data.DataContext as UIElement, CaptureMode.SubTree);
-						mouseOffset = e.GetPosition(data); // mouse position relative to top-left of the rectangle
+                        mouseOffset = e.GetPosition(data); // mouse position relative to top-left of the rectangle
 						draggedItem = data.DataContext as WorkspaceItemViewModel;
                         isDragDropping = true;
                     }
@@ -219,7 +219,6 @@ namespace Builder.ViewModels
 				SelectedConnection = null;
 				ClearAllSelections();		
 				OnPropertyChanged(nameof(IsMultipleSelectionActive));
-
 			}
 		}
 
