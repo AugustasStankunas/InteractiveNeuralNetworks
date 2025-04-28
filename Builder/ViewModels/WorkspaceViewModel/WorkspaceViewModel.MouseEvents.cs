@@ -10,6 +10,7 @@ using Builder.ViewModels.WorkspaceElements;
 using System.Windows.Shapes;
 using Shared.ViewModels;
 using Builder.Enums;
+using System.Runtime.CompilerServices;
 
 
 namespace Builder.ViewModels
@@ -17,13 +18,15 @@ namespace Builder.ViewModels
 	public partial class WorkspaceViewModel : ViewModelBase
 	{
 		public ICommand MouseMoveCommand { get; }
-		public ICommand MouseLeaveCommand { get; }
-		public ICommand DragOverCommand { get; }
+        public ICommand DragOverCommand { get; }
 		public ICommand MouseWheelCommand { get; }
 		public ICommand MouseLeftButtonDownCommand { get; }
 		public ICommand MouseLeftButtonUpCommand { get; }
 
-		private void OnDragOver(DragEventArgs e)
+		private bool isDragDropping = false; //is drag and drop on an item active
+		private WorkspaceItemViewModel draggingItem = null;
+
+        private void OnDragOver(DragEventArgs e)
 		{
 			if (e.Data.GetDataPresent("SelectedItems"))
 			{
@@ -50,17 +53,6 @@ namespace Builder.ViewModels
 					}
 				}
 			}
-			else if (e.Data.GetDataPresent(typeof(WorkspaceItemViewModel)))
-			{
-				var draggedItem = e.Data.GetData(typeof(WorkspaceItemViewModel)) as WorkspaceItemViewModel;
-				Point dropPosition = e.GetPosition(e.Source as IInputElement);
-				if (draggedItem != null)
-				{
-					dropPosition.X -= mouseOffset.X;
-					dropPosition.Y -= mouseOffset.Y;
-					draggedItem.Position = dropPosition;
-				}
-			}
 		}
 
 		private void OnMouseMove(MouseEventArgs e)
@@ -81,8 +73,16 @@ namespace Builder.ViewModels
 				Point currentPos = e.GetPosition(_selectionStartReference);
 				UpdateSelectionRectangle(currentPos);
 			}
-			//if hovering over workspace element and connection mode is active then show markers on possible connection starts or ends
-			var data = e.OriginalSource as FrameworkElement;
+			if (isDragDropping)
+            {
+                Point currentPos = e.GetPosition(e.Source as IInputElement);
+                currentPos.X -= mouseOffset.X;
+                currentPos.Y -= mouseOffset.Y;
+                if (draggedItem != null)
+                    draggedItem.Position = currentPos;
+            }
+            //if hovering over workspace element and connection mode is active then show markers on possible connection starts or ends
+            var data = e.OriginalSource as FrameworkElement;
 			if (e.OriginalSource is Image && Builder.isMakingConnection)
 			{
 				if (data != null && data.DataContext is WorkspaceItemViewModel workspaceItem)
@@ -115,7 +115,7 @@ namespace Builder.ViewModels
 		private void OnMouseWheel(MouseWheelEventArgs e)
 		{
 			Point mousePos;
-			if (e.OriginalSource is Rectangle)
+			if (e.OriginalSource is Image || e.OriginalSource is TextBlock)
 				mousePos = e.GetPosition(e.Source as IInputElement);
 			else
 				mousePos = e.GetPosition(e.OriginalSource as IInputElement);
@@ -193,11 +193,14 @@ namespace Builder.ViewModels
 						dragData.SetData("SelectedItems", true);
 						DragDrop.DoDragDrop(e.OriginalSource as UIElement, dragData, DragDropEffects.Move);
 					}
+					//item drag and drop
 					else if (data != null && e.LeftButton == MouseButtonState.Pressed && data.DataContext is WorkspaceItemViewModel)
 					{
-						mouseOffset = e.GetPosition(data); // mouse position relative to top-left of the rectangle
-						DragDrop.DoDragDrop(e.OriginalSource as UIElement, new DataObject(typeof(WorkspaceItemViewModel), data.DataContext), DragDropEffects.Move);
-					}
+						Mouse.Capture(data.DataContext as UIElement, CaptureMode.SubTree);
+                        mouseOffset = e.GetPosition(data); // mouse position relative to top-left of the rectangle
+						draggedItem = data.DataContext as WorkspaceItemViewModel;
+                        isDragDropping = true;
+                    }
 				}
 			}
 			else if (data != null && e.OriginalSource is Polyline && data.DataContext is WSConnectionViewModel connection)
@@ -216,15 +219,20 @@ namespace Builder.ViewModels
 				SelectedConnection = null;
 				ClearAllSelections();		
 				OnPropertyChanged(nameof(IsMultipleSelectionActive));
-
 			}
 		}
 
 		private void OnMouseLeftButtonUp(MouseButtonEventArgs e)
 		{
-			_isPanning = false;
+            draggedItem = null;
+            _isPanning = false;
 			_originalPositions.Clear();
 
+			if (isDragDropping)
+			{
+				isDragDropping = false;
+				draggedItem = null;
+			}
 			if (IsSelectingMultiple)
 			{
 				UpdateSelectionRectangle(e.GetPosition(_selectionStartReference));
@@ -269,9 +277,5 @@ namespace Builder.ViewModels
 					CancelConnectionInProgress();
 			}
 		}
-
-
-
-
 	}
 }

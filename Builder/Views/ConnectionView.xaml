@@ -3,27 +3,85 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Builder.Views"
              xmlns:converters="clr-namespace:Builder.Converters"
-             mc:Ignorable="d" >
+             mc:Ignorable="d">
+
     <UserControl.Resources>
-        <converters:CenterXConverter x:Key="CenterXConverter"/>
-        <converters:CenterYConverter x:Key="CenterYConverter"/>
+        <!-- Register your two converters -->
+        <converters:FaceDirectionToAngleConverter   x:Key="DirToAngle"  />
+        <converters:FaceDirectionToSourceOffsetConverter  x:Key="DirToSourceOffset" />
+        <converters:FaceDirectionToTargetOffsetConverter  x:Key="DirToTargetOffset" />
+
     </UserControl.Resources>
-    <Canvas>
+
+    <!-- Transparent background ensures the Canvas fills its parent -->
+    <Canvas Background="Transparent">
+
+        <!-- Your polyline -->
         <Polyline Points="{Binding Points}">
             <Polyline.Style>
                 <Style TargetType="Polyline">
-                    <Setter Property="Stroke" Value="Black"/>
+                    <Setter Property="Stroke"          Value="Black"/>
                     <Setter Property="StrokeThickness" Value="2"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                            <Setter Property="Stroke" Value="#C1A9F7"/>
+                            <Setter Property="Stroke"          Value="#C1A9F7"/>
                             <Setter Property="StrokeThickness" Value="3"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </Polyline.Style>
         </Polyline>
+
+        <!-- Source arrow -->
+        <Path Data="M0,0 L8,4 L0,8 Z" Fill="Black" RenderTransformOrigin="0,0.5">
+            <Canvas.Left>
+                <MultiBinding Converter="{StaticResource DirToSourceOffset}" ConverterParameter="X">
+                    <Binding Path="Source.Position.X"/>
+                    <Binding Path="SourceFaceDirection"/>
+                    <Binding Path="Source.Width"/>
+                    <Binding Path="Source.Height"/>
+                </MultiBinding>
+            </Canvas.Left>
+            <Canvas.Top>
+                <MultiBinding Converter="{StaticResource DirToSourceOffset}" ConverterParameter="Y">
+                    <Binding Path="Source.Position.Y"/>
+                    <Binding Path="SourceFaceDirection"/>
+                    <Binding Path="Source.Width"/>
+                    <Binding Path="Source.Height"/>
+                </MultiBinding>
+            </Canvas.Top>
+            <Path.RenderTransform>
+                <RotateTransform Angle="{Binding SourceFaceDirection, 
+                                        Converter={StaticResource DirToAngle},
+                                        ConverterParameter=Source}"/>           
+            </Path.RenderTransform>
+        </Path>
+
+        <!-- Target arrow -->
+        <Path Data="M0,0 L8,4 L0,8 Z" Fill="Black" RenderTransformOrigin="0,0.5">
+            <Canvas.Left>
+                <MultiBinding Converter="{StaticResource DirToTargetOffset}" ConverterParameter="X">
+                    <Binding Path="TargetPoint.X"/>
+                    <Binding Path="TargetFaceDirection"/>
+                    <Binding Path="Target.Width"/>
+                    <Binding Path="Target.Height"/>
+                </MultiBinding>
+            </Canvas.Left>
+            <Canvas.Top>
+                <MultiBinding Converter="{StaticResource DirToTargetOffset}" ConverterParameter="Y">
+                    <Binding Path="TargetPoint.Y"/>
+                    <Binding Path="TargetFaceDirection"/>
+                    <Binding Path="Target.Width"/>
+                    <Binding Path="Target.Height"/>
+                </MultiBinding>
+            </Canvas.Top>
+            <Path.RenderTransform>
+                <RotateTransform Angle="{Binding TargetFaceDirection, 
+                                        Converter={StaticResource DirToAngle},
+                                        ConverterParameter=Target}"/>       
+            </Path.RenderTransform>
+        </Path>
+
     </Canvas>
 </UserControl>
