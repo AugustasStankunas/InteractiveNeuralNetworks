@@ -111,8 +111,8 @@ namespace Train.ViewModels
         private void InitializeHyperparameters()
         {
             LearningRate = 0.01;
-            LossFunction = LossFunctionType.MSE;
-            BatchSize = 32;
+            LossFunction = LossFunctionType.CategoricalCrossEntropy;
+            BatchSize = 16384;
         }
 
         public string TrainDataPath { get; set; }

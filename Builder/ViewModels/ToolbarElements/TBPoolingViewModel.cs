@@ -10,14 +10,14 @@ namespace Builder.ViewModels.ToolbarElements
         public TBPoolingViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
             Name = "Pooling layer";
-            WorkspaceItem = new WSPoolingViewModel(128, 128, 0, 0);
+            WorkspaceItem = new WSPoolingViewModel(0, 0, 0, 0);
         }
 
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             IsSelected = true;
             Point mousePos = e.GetPosition(null);
-            WorkspaceItemViewModel workspaceItem = new WSPoolingViewModel(128, 128, mousePos.X, mousePos.Y, opacity: 0.5);
+            WorkspaceItemViewModel workspaceItem = new WSPoolingViewModel(0, 0, mousePos.X, mousePos.Y, opacity: 0.5);
             Toolbar.Builder.WorkspaceItemSelected.Add(workspaceItem);
         }
     }
