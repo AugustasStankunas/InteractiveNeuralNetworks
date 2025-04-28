@@ -521,7 +521,7 @@ namespace Builder.ViewModels
 
 			bool isCtrlPressed = Keyboard.IsKeyDown(Key.LeftCtrl);
 
-			if (!isCtrlPressed)
+			if (!isCtrlPressed || width < 5 || height < 5)
 			{
 				ClearAllSelections();
 			}
