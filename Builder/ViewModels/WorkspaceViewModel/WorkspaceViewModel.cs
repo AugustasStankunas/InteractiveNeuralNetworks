@@ -394,7 +394,7 @@ namespace Builder.ViewModels
 			else if (original is WSOutputViewModel outputItem)
 			{
 				return new WSOutputViewModel(
-					outputItem.NumInputs,
+					outputItem.NumOutputs,
 					original.Position.X,
 					original.Position.Y,
 					original.Width,
