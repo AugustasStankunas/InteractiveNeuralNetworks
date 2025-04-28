@@ -11,18 +11,24 @@ using System.Windows;
 using WinForms = System.Windows.Forms;
 using System.Windows.Controls;
 using Train.Helpers;
-
+using Builder.ViewModels;
 
 using Shared.Commands;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Builder;
 
 namespace Train.ViewModels
 {
     public class TrainViewModel : ViewModelBase
     {
+        [JsonIgnore]
+        public WorkspaceViewModel WorkspaceViewModel { get; set; }
+        [JsonIgnore]
+        public RelayCommand ClickMeButtonCommand { get; set; }
+
         private double _learningRate;
         [EditableProperty]
         public double LearningRate
@@ -89,10 +95,11 @@ namespace Train.ViewModels
 
         public TrainViewModel()
         {
+            WorkspaceViewModel = new WorkspaceViewModel();
             InitializeHyperparameters();
             HyperparametersWindowViewModel = new HyperparametersWindowViewModel(this);
             GetDirectoryButtonCommand = new RelayCommand(ExecuteClickMe, CanExecuteClickMe);
-
+            ClickMeButtonCommand = new RelayCommand(ExecuteTrainClickMe, CanExecuteTrainClickMe);
 
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             _logFilePath = Path.Combine(baseDirectory, "../../../../Python-server/log.txt");
@@ -176,8 +183,25 @@ namespace Train.ViewModels
             }
         }
 
+        private void ExecuteTrainClickMe(object obj)
+        {
+            string jsonItems = JsonSerializer.Serialize(WorkspaceViewModel.WorkspaceItems, new JsonSerializerOptions { WriteIndented = true, IncludeFields = true });
+            string jsonConnections = JsonSerializer.Serialize(WorkspaceViewModel.WorkspaceConnections, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText("output.json", "{\n\"Items \":");
+            File.AppendAllText("output.json", jsonItems);
+            File.AppendAllText("output.json", ",\n");
+            File.AppendAllText("output.json", "\"Connections \": ");
+            File.AppendAllText("output.json", jsonConnections);
+            File.AppendAllText("output.json", "\n}");
+            PythonRunner.RunScript();
+        }
+        private bool CanExecuteTrainClickMe(object obj)
+        {
+            return true;
+        }
 
-	
+
+
 
     }
 }

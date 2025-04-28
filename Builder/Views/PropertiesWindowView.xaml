@@ -27,11 +27,11 @@
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="GenerateTextBoxTemplate">
+       <!-- <DataTemplate x:Key="GenerateTextBoxTemplate">
             <StackPanel Orientation="Vertical">
                 <Label Content="{Binding Name}" />
                 <TextBox Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <ItemsControl ItemsSource="{Binding InputValues}">
+                <ItemsControl ItemsSource="{Binding OutputValues}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <TextBox Text="{Binding ., Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -40,12 +40,12 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
-        </DataTemplate>
+        </DataTemplate> -->
         <!-- Template selector -->
         <h:PropertiesViewPropertyControlTemplateSelector x:Key="PropertiesViewPropertyControlTemplateSelector"
                                                              TextBoxTemplate="{StaticResource TextBoxTemplate}"
                                                              ComboBoxTemplate="{StaticResource ComboBoxTemplate}"
-														     GenerateTextBoxTemplate="{StaticResource GenerateTextBoxTemplate}"/>
+														     />
     </UserControl.Resources>
 
     <Border BorderBrush="Black" BorderThickness="1" Margin="0, 20, 20, 20" Width="200">

@@ -5,13 +5,17 @@ using Builder.Enums;
 using Shared.Attributes;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Shared.Commands;
+using System.Windows.Input;
+using System.Printing.IndexedProperties;
+using System.Diagnostics;
 
 namespace Builder.ViewModels.WorkspaceElements
 {
     class WSOutputViewModel : WorkspaceItemViewModel
     {
         private int _numOutputs;
-        [EditableProperty("GenTextBox")]
+        [EditableProperty("TextBox")]
         public int NumOutputs
         {
             get => _numOutputs;
@@ -20,7 +24,7 @@ namespace Builder.ViewModels.WorkspaceElements
                 _numOutputs = value;
                 OnPropertyChanged(nameof(NumOutputs));
                 OnPropertyChanged(nameof(DisplayName));
-                GenerateInputFields();
+              //  GenerateOutputFields();
             }
         }
 
@@ -35,19 +39,19 @@ namespace Builder.ViewModels.WorkspaceElements
                 OnPropertyChanged(nameof(ActivationFunction));
             }
         }
-        public ObservableCollection<string> InputValues { get; set; } = new();
+      /*  public ObservableCollection<string> OutputValues { get; set; } = new();
 
-        private void GenerateInputFields()
+        private void GenerateOutputFields()
         {
-            var oldValues = InputValues.ToList();
+            var oldValues = OutputValues.ToList();
 
-            InputValues.Clear();
+            OutputValues.Clear();
             for (int i = 0; i < NumOutputs; i++)
             {
-                InputValues.Add(i < oldValues.Count ? oldValues[i] : "");
+                OutputValues.Add(i < oldValues.Count ? oldValues[i] : "");
             }
-            OnPropertyChanged(nameof(InputValues));
-        }
+            OnPropertyChanged(nameof(OutputValues));
+        }*/
 
         [JsonIgnore]
         public override string DisplayName =>

@@ -1,4 +1,5 @@
 ﻿using Builder.ViewModels.WorkspaceElements;
+using Builder.Views;
 using Shared.Commands;
 using Shared.ViewModels;
 using System.Collections.ObjectModel;
@@ -34,6 +35,7 @@ namespace Builder.ViewModels
 			ControlKeyDownCommand = new RelayCommand<KeyEventArgs>(ControlKeyDown);
 			CanvasPanOffset = new Point(-Width / 2, -Height / 2);
 		}
+		public WorkspaceViewModel() { }
 
 		public BuilderViewModel Builder { get; set; }
 

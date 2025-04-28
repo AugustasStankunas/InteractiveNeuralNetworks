@@ -23,8 +23,6 @@ namespace Builder.ViewModels
         public PropertiesWindowViewModel PropertiesWindowViewModel { get; set; }
         public ObservableCollection<WorkspaceItemViewModel> WorkspaceItemSelected { get; set; } = new();
 
-        // Hello world
-        public RelayCommand ClickMeButtonCommand { get; set; }
         public int Counter
         {
             get => Model.ClickCounter;
@@ -42,29 +40,10 @@ namespace Builder.ViewModels
             ToolbarViewModel = new ToolbarViewModel(this);
             PropertiesWindowViewModel = new PropertiesWindowViewModel();
 
-            ClickMeButtonCommand = new RelayCommand(ExecuteClickMe, CanExecuteClickMe);
             MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
             MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
         }
 
-        // Button methods
-        private void ExecuteClickMe(object obj)
-        {
-            string jsonItems = JsonSerializer.Serialize(WorkspaceViewModel.WorkspaceItems, new JsonSerializerOptions { WriteIndented = true });
-            string jsonConnections = JsonSerializer.Serialize(WorkspaceViewModel.WorkspaceConnections, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText("output.json", "{\n\"Items \":");
-            File.AppendAllText("output.json", jsonItems);
-            File.AppendAllText("output.json", ",\n");
-            File.AppendAllText("output.json", "\"Connections \": ");
-            File.AppendAllText("output.json", jsonConnections);
-            File.AppendAllText("output.json", "\n}");
-
-            PythonRunner.RunScript();
-        }
-        private bool CanExecuteClickMe(object obj)
-        {
-            return true;
-        }
 
         private void OnMouseMove(MouseEventArgs e)
         {

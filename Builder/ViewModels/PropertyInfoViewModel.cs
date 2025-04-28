@@ -40,11 +40,11 @@ namespace Builder.ViewModels
                 OnPropertyChanged(Value);
             }
         }
-        public ObservableCollection<string> InputValues
+        public ObservableCollection<string> OutputValues
         {
             get
             {
-                var prop = WorkspaceItem.GetType().GetProperty("InputValues");
+                var prop = WorkspaceItem.GetType().GetProperty("OutputValues");
                 if (prop != null)
                 {
                     return prop.GetValue(WorkspaceItem) as ObservableCollection<string>;

@@ -18,6 +18,9 @@ namespace Builder.ViewModels
     [JsonDerivedType(typeof(WSBatchNormViewModel), "BatchNorm")]
     [JsonDerivedType(typeof(WSFlattenViewModel), "Flatten")]
     [JsonDerivedType(typeof(WSDropoutViewModel), "Dropout")]
+    [JsonDerivedType(typeof(WSInputViewModel), "Input")]
+    [JsonDerivedType(typeof(WSOutputViewModel), "Output")]
+
 
     public class WorkspaceItemViewModel : ViewModelBase
     {

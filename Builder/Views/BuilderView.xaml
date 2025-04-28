@@ -35,9 +35,7 @@
         <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                    Width="{Binding ActualWidth, ElementName=MainCanvas}"
                    Height="{Binding ActualHeight, ElementName=MainCanvas}">
-            <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
-                <Button Content="Click Me!" Command="{Binding Path=ClickMeButtonCommand}"></Button>
-            </StackPanel>
+            
 
             <views:ToolbarView DataContext="{Binding ToolbarViewModel}" DockPanel.Dock="Left"/>
             <views:PropertiesWindowView DataContext="{Binding PropertiesWindowViewModel}" DockPanel.Dock="Right"/>
