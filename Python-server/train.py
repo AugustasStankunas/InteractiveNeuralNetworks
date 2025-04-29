@@ -6,6 +6,7 @@ from model import Model
 import json
 import os
 import torchvision
+from time import localtime, strftime
 
 
 # will have to make dynamic with config:
@@ -13,6 +14,7 @@ MAX_EPOCHS = 1000
 CONFIG_PATH = "config.json"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 VALID_INTERVAL = 10
+SAVE_INTERVAL = 1
 
 
 def reset_log():
@@ -53,12 +55,15 @@ def train():
     train_dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
     test_dataloader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=True) if test_dataset else None
     val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=True) if val_dataset else None
-    train_N = len(train_dataset)
-    test_N = len(test_dataset)
-    val_N = len(val_dataset)
+    train_batches_N = len(train_dataset) / BATCH_SIZE
+    test_batches_N = len(test_dataset) / BATCH_SIZE
+    val_batches_N = len(val_dataset) / BATCH_SIZE
     
     model = Model(config).to(DEVICE)
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
+
+    current_time = strftime('%Y-%m-%d-%H-%M-%S', localtime())
+    os.mkdir(os.path.join("checkpoints", current_time))
 
     for epoch in range(1, MAX_EPOCHS):
         model.train()
@@ -74,6 +79,7 @@ def train():
             total_loss_train += loss.item()
             loss.backward()
             optimizer.step()
+        total_loss_train /= train_batches_N
         log(f" | Train Loss: {total_loss_train}\n")
 
         if (epoch == 1 or epoch % VALID_INTERVAL == 0) and val_dataloader:
@@ -88,7 +94,14 @@ def train():
                     model.reset_layers_outputs()
                     loss = loss_fn(output, y_val)
                     total_loss_val += loss
+            total_loss_val /= val_batches_N
             log(f"Validation loss: {total_loss_val}\n")
+        
+        if epoch % SAVE_INTERVAL == 0:
+            model_name = f"checkpoint_{epoch}_{strftime('%Y-%m-%d-%H-%M-%S', localtime())}.pt"
+            model_path = os.path.join("checkpoints", current_time, model_name)
+            torch.save(model.state_dict(), model_path)
+            log(f"Saving model as {model_path}\n")
 
         
     

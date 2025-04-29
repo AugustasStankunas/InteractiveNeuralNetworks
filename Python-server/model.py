@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-
+import modules
 
 class Model(nn.Module):
     def __init__(self, config):
@@ -27,9 +27,9 @@ class Model(nn.Module):
                     current_layer = nn.MaxPool2d(kernel_size=layer_config['KernelSize'],
                                                  stride=layer_config['Stride'])
             elif layer_config['$type'] == "Add":
-                pass # need custom implementation
+                current_layer = modules.Add() # I hope it will work
             elif layer_config['$type'] == "BatchNorm":
-                pass # need a little bit more thoughtful implementation
+                current_layer = nn.BatchNorm2d()
             elif layer_config['$type'] == "Flatten":
                 current_layer = nn.Flatten()
             elif layer_config['$type'] == "Dropout":

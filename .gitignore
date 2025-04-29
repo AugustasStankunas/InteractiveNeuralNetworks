@@ -10,3 +10,6 @@ Python-server/FashionMNIST/
 Python-server/__pycache__/
 Python-server/cifar-10-batches-py/
 Python-server/data/
+Python-server/checkpoints/
+Python-server/FashionMnistImg.zip
+Python-server/Cifar10DatasetImg.zip

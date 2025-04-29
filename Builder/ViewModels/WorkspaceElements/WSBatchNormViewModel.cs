@@ -9,6 +9,19 @@ namespace Builder.ViewModels.WorkspaceElements
 {
     class WSBatchNormViewModel : WorkspaceItemViewModel
     {
+        private int _inputChannels;
+        [EditableProperty]
+        public int InputChannels
+        {
+            get => _inputChannels;
+            set
+            {
+                _inputChannels = value;
+                OnPropertyChanged(nameof(InputChannels));
+                OnPropertyChanged(nameof(DisplayName));
+            }
+        }
+
         private double _momentum;
         [EditableProperty]
         public double Momentum
