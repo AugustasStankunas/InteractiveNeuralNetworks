@@ -28,6 +28,9 @@ namespace Train.ViewModels
         public WorkspaceViewModel WorkspaceViewModel { get; set; }
         [JsonIgnore]
         public RelayCommand ClickMeButtonCommand { get; set; }
+        //[JsonIgnore]
+        public List<AugmentationItem> Items { get; set; }
+
 
         private double _learningRate;
         [EditableProperty]
@@ -64,6 +67,18 @@ namespace Train.ViewModels
                 OnPropertyChanged(nameof(BatchSize));
             }
         }
+        private LossFunctionType _augmentationType;   // LossFunctionType i Augmentation pakeist
+        [EditableProperty("CheckBox")]
+        public LossFunctionType AugmentationType
+        {
+            get => _augmentationType;
+            set
+            {
+                _augmentationType = value;
+                OnPropertyChanged(nameof(AugmentationType));
+            }
+        }
+
         [JsonIgnore]
         public HyperparametersWindowViewModel HyperparametersWindowViewModel { get; set; }
 
@@ -105,7 +120,7 @@ namespace Train.ViewModels
             _logFilePath = Path.Combine(baseDirectory, "../../../../Python-server/log.txt");
             InitializeWatcher();
             RefreshLogCommand = new RelayCommand(_ => RefreshLogContent());
-            
+
         }
 
         private void InitializeHyperparameters()
@@ -116,7 +131,6 @@ namespace Train.ViewModels
         }
 
         public string TrainDataPath { get; set; }
-
 
         private void ExecuteClickMe(object obj)
         {

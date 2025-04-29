@@ -64,7 +64,7 @@ namespace Test.ViewModels
         }
         private void ExecuteTestClickMe(object obj)
         {
-            //juozapai dirbk nafyk!
+                //juozapai dirbk nafyk!
         }
         private bool CanExecuteTestClickMe(object obj)
         {

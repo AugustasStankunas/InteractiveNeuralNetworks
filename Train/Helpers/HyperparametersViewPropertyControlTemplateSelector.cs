@@ -8,6 +8,8 @@ namespace Train.Helpers
     {
         public DataTemplate TextBoxTemplate { get; set; }
         public DataTemplate ComboBoxTemplate { get; set; }
+        public DataTemplate CheckBoxTemplate { get; set; }
+
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -20,6 +22,8 @@ namespace Train.Helpers
                     return TextBoxTemplate;
                 case "ComboBox":
                     return ComboBoxTemplate;
+                case "CheckBox":
+                    return CheckBoxTemplate;
                 default:
                     return base.SelectTemplate(item, container);
             }

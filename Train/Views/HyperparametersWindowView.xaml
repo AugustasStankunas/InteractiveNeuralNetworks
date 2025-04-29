@@ -18,6 +18,7 @@
                 <TextBox Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </DataTemplate>
+
         <!-- Data template for properties that need combo box -->
         <DataTemplate x:Key="ComboBoxTemplate">
             <StackPanel Orientation="Vertical">
@@ -25,6 +26,7 @@
                 <ComboBox ItemsSource="{Binding Options, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Value}"/>
             </StackPanel>
         </DataTemplate>
+
         <!-- Template selector -->
         <h:HyperparametersViewPropertyControlTemplateSelector x:Key="HyperparametersViewPropertyControlTemplateSelector"
                                                              TextBoxTemplate="{StaticResource TextBoxTemplate}"
@@ -32,9 +34,10 @@
     </UserControl.Resources>
 
     <Border BorderBrush="Black" BorderThickness="1" Margin="0, 20, 20, 20" Width="200">
-        <StackPanel Orientation="Vertical">
-            <Label Content="Hyperparameters" FontWeight="Bold"/>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Label Content="Hyperparameters" FontWeight="Bold" Margin="0,0,0,10"/>
 
+            <!-- Existing ItemsControl -->
             <ItemsControl ItemsSource="{Binding Properties, UpdateSourceTrigger=PropertyChanged}"
                           ItemTemplateSelector="{StaticResource HyperparametersViewPropertyControlTemplateSelector}">
                 <ItemsControl.ItemsPanel>
@@ -43,6 +46,19 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
+
+            <!-- New TreeView with CheckBoxes 
+            <Label Content="Settings Tree" FontWeight="Bold" Margin="0,20,0,10"/>
+            <TreeView ItemsSource="{Binding SettingsTree}">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>-->
+
         </StackPanel>
     </Border>
 </UserControl>
