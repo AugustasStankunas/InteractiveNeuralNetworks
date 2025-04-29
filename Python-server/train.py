@@ -2,7 +2,7 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader
 from dataset import ClassificationDataset
-from model import Model
+from model import Model, build_model
 import json
 import os
 import torchvision
@@ -14,7 +14,7 @@ MAX_EPOCHS = 1000
 CONFIG_PATH = "config.json"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 VALID_INTERVAL = 10
-SAVE_INTERVAL = 1
+SAVE_INTERVAL = 5
 
 
 def reset_log():
@@ -59,11 +59,14 @@ def train():
     test_batches_N = len(test_dataset) / BATCH_SIZE
     val_batches_N = len(val_dataset) / BATCH_SIZE
     
-    model = Model(config).to(DEVICE)
+    model = build_model()
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
     current_time = strftime('%Y-%m-%d-%H-%M-%S', localtime())
     os.mkdir(os.path.join("checkpoints", current_time))
+
+    with open(os.path.join("checkpoints", current_time, "model_info.json"), "w") as f:
+        json.dump({'labels': train_dataset.labels}, f)
 
     for epoch in range(1, MAX_EPOCHS):
         model.train()
