@@ -154,20 +154,9 @@ namespace Builder.ViewModels
                 OnPropertyChanged(nameof(ActivationFunction));
             }
         }
-        private LayerType _layerType;
-        [EditableProperty("ComboBox")]
-        public LayerType Layer
-        {
-            get => _layerType;
-            set
-            {
-                _layerType = value;
-                OnPropertyChanged(nameof(Layer));
-            }
-        }
+        
         public WorkspaceItemViewModel(double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "",
-                                      ActivationFunctionType activationFunction = ActivationFunctionType.None,
-                                      LayerType layerType = LayerType.Hidden)
+                                      ActivationFunctionType activationFunction = ActivationFunctionType.None)
         {
             Position = new Point(x, y);
             Width = width;
@@ -176,7 +165,6 @@ namespace Builder.ViewModels
             Name = name;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png");
             ActivationFunction = activationFunction;
-            Layer = layerType;
             MarkerDirection = null;
         } 
 

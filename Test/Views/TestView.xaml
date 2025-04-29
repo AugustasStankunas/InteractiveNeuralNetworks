@@ -46,7 +46,7 @@
 
                     <Border Grid.Row="0" Background="#F0F0F0">
                         <DockPanel LastChildFill="True">
-                            <TextBlock Text="Python Server Log" Margin="10,4" />
+                            <TextBlock Text="Classification results" Margin="10,4" />
                         </DockPanel>
                     </Border>
 

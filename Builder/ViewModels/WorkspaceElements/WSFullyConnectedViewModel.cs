@@ -47,8 +47,8 @@ namespace Builder.ViewModels.WorkspaceElements
         }
 
         [JsonConstructor]
-        public WSFullyConnectedViewModel(int inputNeurons, int outputNeurons, Point position, string name, ActivationFunctionType activationFunction, LayerType layer)
-            : base(position.X, position.Y, name: name, activationFunction: activationFunction, layerType: layer)
+        public WSFullyConnectedViewModel(int inputNeurons, int outputNeurons, Point position, string name, ActivationFunctionType activationFunction)
+            : base(position.X, position.Y, name: name, activationFunction: activationFunction)
         {
             InputNeurons = inputNeurons;
             OutputNeurons = outputNeurons;

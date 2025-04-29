@@ -74,8 +74,8 @@ namespace Builder.ViewModels.WorkspaceElements
 
         [JsonConstructor]
         public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, Point position,
-                                      string name, ActivationFunctionType activationFunction, LayerType layer)
-            : base(position.X, position.Y, name: name, activationFunction: activationFunction, layerType: layer)
+                                      string name, ActivationFunctionType activationFunction)
+            : base(position.X, position.Y, name: name, activationFunction: activationFunction)
         {
             InputChannels = inputChannels;
             OutputChannels = outputChannels;

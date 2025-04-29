@@ -33,8 +33,8 @@ namespace Builder.ViewModels.WorkspaceElements
         }
 
         [JsonConstructor]
-        public WSAddViewModel(int numInputs, Point position, string name, ActivationFunctionType activationFunction, LayerType layer)
-            : base(position.X, position.Y, name: name, activationFunction: activationFunction, layerType: layer)
+        public WSAddViewModel(int numInputs, Point position, string name, ActivationFunctionType activationFunction)
+            : base(position.X, position.Y, name: name, activationFunction: activationFunction)
         {
             NumInputs = numInputs;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Add.png");
