@@ -26,6 +26,16 @@ namespace Test.ViewModels
         public RelayCommand TestButtonCommand { get; set; }
         public ICommand RefreshLogCommand { get; }
 
+        private string _pythonServerConfigPath;
+        public string PythonServerConfigPath
+        {
+            get => _pythonServerConfigPath;
+            set
+            {
+                _pythonServerConfigPath = value;
+                OnPropertyChanged(nameof(PythonServerConfigPath));
+            }
+        }
 
         private BitmapImage _selectedImage;
         public BitmapImage SelectedImage
@@ -41,27 +51,37 @@ namespace Test.ViewModels
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif"; 
-            bool? result = dialog.ShowDialog(); 
-
+            bool? result = dialog.ShowDialog();
             if (result == true)
             {
                 SelectedImage = new BitmapImage(new Uri(dialog.FileName));
+                TestDataPath = dialog.FileName;
+                var data = new { PredictDataPath = TestDataPath };
+                string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(PythonServerConfigPath, json);
             }
+            
         }
         private bool CanExecuteClickMe(object obj)
         {
             return true;
         }
+
+
         public TestViewModel()
         {
+            PythonServerConfigPath = "../../../../Python-server/predictImage.json";
+
             GetImageButtonCommand = new RelayCommand(ExecuteClickMe, CanExecuteClickMe);
             TestButtonCommand = new RelayCommand(ExecuteTestClickMe, CanExecuteTestClickMe);
 
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            _logFilePath = Path.Combine(baseDirectory, "../../../../Python-server/log1.txt");
+            _logFilePath = Path.Combine(baseDirectory, "../../../../Python-server/log_inference.txt");
             InitializeWatcher();
             RefreshLogCommand = new RelayCommand(_ => RefreshLogContent());
         }
+
+
         private void ExecuteTestClickMe(object obj)
         {
                 //juozapai dirbk nafyk!
