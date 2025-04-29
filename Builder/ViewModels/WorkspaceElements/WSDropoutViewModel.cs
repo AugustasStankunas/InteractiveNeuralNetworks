@@ -34,8 +34,8 @@ namespace Builder.ViewModels.WorkspaceElements
         }
 
         [JsonConstructor]
-        public WSDropoutViewModel(double rate, Point position, string name, ActivationFunctionType activationFunction, LayerType layer)
-            : base(position.X, position.Y, name: name, activationFunction: activationFunction, layerType: layer)
+        public WSDropoutViewModel(double rate, Point position, string name, ActivationFunctionType activationFunction)
+            : base(position.X, position.Y, name: name, activationFunction: activationFunction)
         {
             Rate = rate;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Dropout.png");

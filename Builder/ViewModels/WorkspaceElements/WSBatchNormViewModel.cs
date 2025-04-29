@@ -47,8 +47,8 @@ namespace Builder.ViewModels.WorkspaceElements
         }
 
         [JsonConstructor]
-        public WSBatchNormViewModel(double momentum, double epsilon, Point position, string name, ActivationFunctionType activationFunction, LayerType layer)
-            : base(position.X, position.Y, name: name, activationFunction: activationFunction, layerType: layer)
+        public WSBatchNormViewModel(double momentum, double epsilon, Point position, string name, ActivationFunctionType activationFunction)
+            : base(position.X, position.Y, name: name, activationFunction: activationFunction)
         {
             Momentum = momentum;
             Epsilon = epsilon;

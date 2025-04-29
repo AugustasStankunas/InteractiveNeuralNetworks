@@ -59,8 +59,8 @@ namespace Builder.ViewModels.WorkspaceElements
         }
 
         [JsonConstructor]
-        public WSInputViewModel(int imageHeight, int imageWidth, int numChannels, Point position, string name, ActivationFunctionType activationFunction, LayerType layer)
-            : base(position.X, position.Y, name: name, activationFunction: activationFunction, layerType: layer)
+        public WSInputViewModel(int imageHeight, int imageWidth, int numChannels, Point position, string name, ActivationFunctionType activationFunction)
+            : base(position.X, position.Y, name: name, activationFunction: activationFunction)
         {
             ImageHeight = imageHeight;
             ImageWidth = imageWidth;

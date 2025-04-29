@@ -61,8 +61,8 @@ namespace Builder.ViewModels.WorkspaceElements
         }
         [JsonConstructor]
         public WSPoolingViewModel(int kernelSize, int stride, Point position, PoolingType poolingType,
-                                  string name, ActivationFunctionType activationFunction, LayerType layer)
-            : base(position.X, position.Y, name: name, activationFunction: activationFunction, layerType: layer)
+                                  string name, ActivationFunctionType activationFunction)
+            : base(position.X, position.Y, name: name, activationFunction: activationFunction)
         {
             KernelSize = kernelSize;
             Stride = stride;
