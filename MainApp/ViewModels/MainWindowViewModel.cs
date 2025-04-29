@@ -51,14 +51,27 @@ namespace MainApp.ViewModels
             }
         }
 
+        private string _pythonServerConfigPath;
+        public string PythonServerConfigPath
+        {
+            get => _pythonServerConfigPath;
+            set
+            {
+                _pythonServerConfigPath = value;
+                OnPropertyChanged(nameof(PythonServerConfigPath));
+            }
+        }
+
         public MainWindowViewModel()
         {
             Builder = new BuilderViewModel();
             Train = new TrainViewModel();
             Test = new TestViewModel();
             Start = new StartingScreenViewModel();
-                
-			Start.SetMainWindow(this);
+
+            PythonServerConfigPath = "../../../../Python-server/config.json";
+
+            Start.SetMainWindow(this);
 
             ShowBuilderCommand = new RelayCommand(_ => ShowBuilder());
             ShowTrainCommand = new RelayCommand(_ => ShowTrain());
@@ -117,6 +130,7 @@ namespace MainApp.ViewModels
                 };
                 string filename = dialog.FileName;
                 string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(PythonServerConfigPath, json);
                 File.WriteAllText(filename, json);
                 WorkingFilePath = filename;
             }
@@ -138,7 +152,8 @@ namespace MainApp.ViewModels
 				Train = Train
 			};
 			string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
-			File.WriteAllText(WorkingFilePath, json);
+            File.WriteAllText(PythonServerConfigPath, json);
+            File.WriteAllText(WorkingFilePath, json);
         }
 
         public void Load()
@@ -153,12 +168,13 @@ namespace MainApp.ViewModels
             if (result == true)
             {
                 string filename = dialog.FileName;
+                string json = File.ReadAllText(filename);
                 CompositeType? compositeObject = JsonSerializer.Deserialize<CompositeType>(File.ReadAllText(filename));
 
                 if (compositeObject != null)
                 {
                     Builder.WorkspaceViewModel.UpdateItemsAndConnections(compositeObject.Items, compositeObject.Connections);
-                    Train = compositeObject.Train;
+                    File.WriteAllText(PythonServerConfigPath, json);
                     WorkingFilePath = filename;
                     ShowBuilder();
                 }

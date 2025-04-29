@@ -10,6 +10,7 @@ namespace Builder
             string pathToPython = pathToPythonServer + ".venv/Scripts/python.exe";
             string pathToScript = "main.py";
 
+
             var startInfo = new ProcessStartInfo
             {
                 FileName = pathToPython,
