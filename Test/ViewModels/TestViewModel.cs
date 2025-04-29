@@ -23,6 +23,7 @@ namespace Test.ViewModels
     {
         public string TestDataPath { get; set; }
         public RelayCommand GetImageButtonCommand { get; set; }
+        public RelayCommand TestButtonCommand { get; set; }
 
         private BitmapImage _selectedImage;
         public BitmapImage SelectedImage
@@ -52,6 +53,15 @@ namespace Test.ViewModels
         public TestViewModel()
         {
             GetImageButtonCommand = new RelayCommand(ExecuteClickMe, CanExecuteClickMe);
+            TestButtonCommand = new RelayCommand(ExecuteTestClickMe, CanExecuteTestClickMe);
+        }
+        private void ExecuteTestClickMe(object obj)
+        {
+            //juozapai dirbk nafyk!
+        }
+        private bool CanExecuteTestClickMe(object obj)
+        {
+            return true;
         }
     }
 }

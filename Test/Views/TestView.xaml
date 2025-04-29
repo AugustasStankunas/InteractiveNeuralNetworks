@@ -11,6 +11,7 @@
         <!-- Top panel for the "Choose Image" button -->
         <StackPanel Orientation="Vertical" DockPanel.Dock="Top" Margin="10">
             <Button Content="Choose image" Command="{Binding GetImageButtonCommand}" />
+            <Button Content="Start classification" Command="{Binding TestButtonCommand}" />
         </StackPanel>
 
         <!-- Main content split horizontally: Image on left, Log on right -->
