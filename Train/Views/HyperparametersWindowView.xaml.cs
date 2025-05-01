@@ -1,7 +1,4 @@
-﻿using System.Windows.Controls;
-using System.Windows.Forms;
-
-namespace Train.Views
+﻿namespace Train.Views
 {
     /// <summary>
     /// Interaction logic for PropertiesWindowView.xaml

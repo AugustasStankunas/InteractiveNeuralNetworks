@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text.Json.Serialization;
 using System.Windows;
-using System.Windows.Input;
 using Builder.Enums;
 using Builder.ViewModels.WorkspaceElements;
 using Shared.Attributes;
@@ -165,7 +164,7 @@ namespace Builder.ViewModels
                 OnPropertyChanged(nameof(ActivationFunction));
             }
         }
-        
+
         public WorkspaceItemViewModel(double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "",
                                       ActivationFunctionType activationFunction = ActivationFunctionType.None)
         {
@@ -177,7 +176,7 @@ namespace Builder.ViewModels
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "defaultIcon.png");
             ActivationFunction = activationFunction;
             MarkerDirection = null;
-        } 
+        }
 
         public WorkspaceItemViewModel() { }
 

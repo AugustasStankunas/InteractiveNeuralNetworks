@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Shared.Commands;
-using Shared.ViewModels;
 using Builder.Enums;
 using Builder.Helpers;
+using Shared.Commands;
+using Shared.ViewModels;
 
 
 namespace Builder.ViewModels

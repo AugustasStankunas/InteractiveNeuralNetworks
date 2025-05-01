@@ -1,21 +1,12 @@
-﻿using System.Text.Json.Serialization;
-using Shared.Attributes;
+﻿using System.IO;
+using System.Text;
+using System.Text.Json;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using Microsoft.Win32;
 using Shared.Commands;
 using Shared.ViewModels;
-using System.IO;
-using Microsoft.Win32;
-using System.Text.Json;
-using System.Net.Http.Json;
-using System.Windows;
-using System.Windows.Controls;
-
-
-using Shared.Commands;
-using System.Text;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Threading;
-using System.Windows.Media.Imaging;
 
 namespace Test.ViewModels
 {
@@ -50,7 +41,7 @@ namespace Test.ViewModels
         private void ExecuteClickMe(object obj)
         {
             OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif"; 
+            dialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
             bool? result = dialog.ShowDialog();
             if (result == true)
             {
@@ -60,7 +51,7 @@ namespace Test.ViewModels
                 string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(PythonServerConfigPath, json);
             }
-            
+
         }
         private bool CanExecuteClickMe(object obj)
         {
@@ -84,7 +75,7 @@ namespace Test.ViewModels
 
         private void ExecuteTestClickMe(object obj)
         {
-                //juozapai dirbk nafyk!
+            //juozapai dirbk nafyk!
         }
         private bool CanExecuteTestClickMe(object obj)
         {

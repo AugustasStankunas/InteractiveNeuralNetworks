@@ -1,9 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
-using Shared.ViewModels;
 using System.Windows.Media;
 using Builder.Enums;
+using Shared.ViewModels;
 
 
 namespace Builder.ViewModels.WorkspaceElements
@@ -11,7 +11,7 @@ namespace Builder.ViewModels.WorkspaceElements
 
     public class WSConnectionViewModel : ViewModelBase
     {
-        public WSConnectionViewModel(WorkspaceItemViewModel source, WorkspaceItemViewModel target, FaceDirection sourceFaceDirection = FaceDirection.Right, 
+        public WSConnectionViewModel(WorkspaceItemViewModel source, WorkspaceItemViewModel target, FaceDirection sourceFaceDirection = FaceDirection.Right,
                                      FaceDirection targetFaceDirection = FaceDirection.Left)
         {
             Source = source;

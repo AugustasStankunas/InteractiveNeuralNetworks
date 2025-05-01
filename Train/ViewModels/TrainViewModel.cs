@@ -1,25 +1,16 @@
-﻿using System.Text.Json.Serialization;
-using Builder.Enums;
-using Shared.Attributes;
-using Shared.Commands;
-using Shared.ViewModels;
-using System.IO;
-using Microsoft.Win32;
-using System.Text.Json;
-using System.Net.Http.Json;
-using System.Windows;
-using WinForms = System.Windows.Forms;
-using System.Windows.Controls;
-using Train.Helpers;
-using Builder.ViewModels;
-
-using Shared.Commands;
+﻿using System.IO;
 using System.Text;
-using System.Windows;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Builder;
-using System.ComponentModel;
+using Builder.Enums;
+using Builder.ViewModels;
+using Shared.Attributes;
+using Shared.Commands;
+using Shared.ViewModels;
+using Train.Helpers;
 
 namespace Train.ViewModels
 {
@@ -35,10 +26,6 @@ namespace Train.ViewModels
 
         private double _learningRate;
         [EditableProperty]
-        [Description(
-          "Learning rate for the optimizer (gradient descent step size). " +
-          "Typical values range from 1e-6 (very fine updates) up to 1.0 (very coarse). " +
-          "Common defaults are 0.001 or 0.01.")]
         public double LearningRate
         {
             get => _learningRate;
@@ -51,13 +38,6 @@ namespace Train.ViewModels
 
         private LossFunctionType _lossFunction;
         [EditableProperty("ComboBox")]
-        [Description(
-            "Which loss function to minimize during training.\n" +
-            "Options include:\n" +
-            "• MSE (Mean Squared Error) – average of squared differences, ideal for regression tasks.\n" +
-            "• MAE (Mean Absolute Error) – average of absolute differences, more robust to outliers.\n" +
-            "• BinaryCrossEntropy – log loss for binary classification (outputs between 0 and 1).\n" +
-            "• CategoricalCrossEntropy – for multi-class classification; compares predicted probability distributions to true labels.")]
         public LossFunctionType LossFunction
         {
             get => _lossFunction;
@@ -70,10 +50,6 @@ namespace Train.ViewModels
 
         private int _batchSize;
         [EditableProperty]
-        [Description(
-          "Number of training samples processed in one forward/backward pass. " +
-          "Larger batch sizes (e.g. 128, 256, 1024) give more stable gradients " +
-          "but use more memory. Typical range: 1 to 65536.")]
         public int BatchSize
         {
             get => _batchSize;
@@ -85,10 +61,6 @@ namespace Train.ViewModels
         }
         private LossFunctionType _augmentationType;   // LossFunctionType i Augmentation pakeist
         [EditableProperty("CheckBox")]
-        [Description(
-          "Type of data augmentation to apply:\n" +
-          "• Segmentation – use mask-aware transforms (e.g. region removal)\n" +
-          "• Augmentation  – use standard image augmentations (flip, rotate, color jitter)")]
         public LossFunctionType AugmentationType
         {
             get => _augmentationType;
@@ -109,10 +81,10 @@ namespace Train.ViewModels
         public string OutputText
         {
             get => _outputText;
-            set 
-            { 
-                _outputText = value; 
-                OnPropertyChanged(nameof(OutputText)); 
+            set
+            {
+                _outputText = value;
+                OnPropertyChanged(nameof(OutputText));
             }
         }
 

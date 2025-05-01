@@ -6,10 +6,10 @@ using Builder.ViewModels;
 using Microsoft.Win32;
 using Shared.Commands;
 using Shared.ViewModels;
+using StartingScreen.ViewModels;
 using Test.ViewModels;
 using Train.Helpers;
 using Train.ViewModels;
-using StartingScreen.ViewModels;
 
 
 namespace MainApp.ViewModels
@@ -79,10 +79,11 @@ namespace MainApp.ViewModels
 
             SaveCommand = new RelayCommand(_ => Save());
             SaveAsCommand = new RelayCommand(_ => SaveAs());
-			KeyboardSaveCommand = new RelayCommand<KeyEventArgs>(keyEvent => {
-				if (keyEvent != null && keyEvent.Key == Key.S && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-					Save();
-			});
+            KeyboardSaveCommand = new RelayCommand<KeyEventArgs>(keyEvent =>
+            {
+                if (keyEvent != null && keyEvent.Key == Key.S && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                    Save();
+            });
             LoadCommand = new RelayCommand(_ => Load());
 
             ShowStart();
@@ -122,7 +123,7 @@ namespace MainApp.ViewModels
                 string jsonItems = JsonSerializer.Serialize(Builder.WorkspaceViewModel.WorkspaceItems, new JsonSerializerOptions { WriteIndented = true });
                 string jsonConnections = JsonSerializer.Serialize(Builder.WorkspaceViewModel.WorkspaceConnections, new JsonSerializerOptions { WriteIndented = true });
                 string jsonHyperparameters = JsonSerializer.Serialize(Train, new JsonSerializerOptions { WriteIndented = true });
-                var data = new CompositeType 
+                var data = new CompositeType
                 {
                     Items = Builder.WorkspaceViewModel.WorkspaceItems,
                     Connections = Builder.WorkspaceViewModel.WorkspaceConnections,
@@ -141,17 +142,17 @@ namespace MainApp.ViewModels
 
             if (string.IsNullOrEmpty(WorkingFilePath))
             {
-					SaveAs();
-                    return;
+                SaveAs();
+                return;
             }
 
-			var data = new CompositeType 
-			{
-				Items = Builder.WorkspaceViewModel.WorkspaceItems,
-				Connections = Builder.WorkspaceViewModel.WorkspaceConnections,
-				Train = Train
-			};
-			string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+            var data = new CompositeType
+            {
+                Items = Builder.WorkspaceViewModel.WorkspaceItems,
+                Connections = Builder.WorkspaceViewModel.WorkspaceConnections,
+                Train = Train
+            };
+            string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(PythonServerConfigPath, json);
             File.WriteAllText(WorkingFilePath, json);
         }
