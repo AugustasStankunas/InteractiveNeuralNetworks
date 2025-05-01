@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Builder.Enums;
-using Builder.Helpers;
 using Builder.ViewModels.WorkspaceElements;
 
 
@@ -11,8 +9,7 @@ namespace Builder.ViewModels.ToolbarElements
     {
         public TBPoolingViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
-            Name = "Pooling";
-            TooltipText = LayerType.Pooling.GetDescription();
+            Name = "Pooling layer";
             WorkspaceItem = new WSPoolingViewModel(0, 0, 0, 0);
         }
 

@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Builder.Enums;
-using Builder.Helpers;
 using Builder.ViewModels.WorkspaceElements;
 
 namespace Builder.ViewModels.ToolbarElements
@@ -10,8 +8,7 @@ namespace Builder.ViewModels.ToolbarElements
     {
         public TBDropoutViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
-            Name = "Dropout";
-            TooltipText = LayerType.Dropout.GetDescription();
+            Name = "Dropout layer";
             WorkspaceItem = new WSDropoutViewModel(0.5, 0, 0);
         }
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

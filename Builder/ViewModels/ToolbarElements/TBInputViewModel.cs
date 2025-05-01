@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Builder.Enums;
-using Builder.Helpers;
 using Builder.ViewModels.WorkspaceElements;
 
 namespace Builder.ViewModels.ToolbarElements
@@ -10,8 +8,7 @@ namespace Builder.ViewModels.ToolbarElements
     {
         public TBInputViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
-            Name = "Input";
-            TooltipText = LayerType.Input.GetDescription();
+            Name = "Input layer";
             WorkspaceItem = new WSInputViewModel(0, 0, 0, 0, 0, 0);
         }
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

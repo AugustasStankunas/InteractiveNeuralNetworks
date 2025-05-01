@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Builder.Enums;
-using Builder.Helpers;
 using Builder.ViewModels.WorkspaceElements;
 
 namespace Builder.ViewModels.ToolbarElements
@@ -10,8 +8,7 @@ namespace Builder.ViewModels.ToolbarElements
     {
         public TBBatchNormViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
-            Name = "Batch Normalization";
-            TooltipText = LayerType.BatchNorm.GetDescription();
+            Name = "Batch Normalization layer";
             WorkspaceItem = new WSBatchNormViewModel(0.1, 1e-3, 0, 0);
         }
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
