@@ -1,5 +1,9 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Windows;
 using System.Windows.Input;
+using Builder.Enums;
+using Builder.Helpers;
 using Shared.Commands;
 using Shared.ViewModels;
 
@@ -55,7 +59,6 @@ namespace Builder.ViewModels
             }
         }
 
-
         public bool _isHovered;
         public bool IsHovered
         {
@@ -67,12 +70,15 @@ namespace Builder.ViewModels
             }
         }
 
+        public string InformationIconPath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "information.png");
+        public string TooltipText { get; set; } = LayerType.Default.GetDescription();
+
         public ToolbarItemViewModel(ToolbarViewModel toolbar)
         {
             Toolbar = toolbar;
             WorkspaceItem = new WorkspaceItemViewModel();
             Name = "ToolbarItem";
-            MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
+
             MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
             MouseEnterCommand = new RelayCommand<MouseEventArgs>(OnMouseEnter);
             MouseLeaveCommand = new RelayCommand<MouseEventArgs>(OnMouseLeave);
@@ -84,6 +90,7 @@ namespace Builder.ViewModels
 
             Name = name;
             WorkspaceItem = new WorkspaceItemViewModel();
+
 
             MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
             MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);

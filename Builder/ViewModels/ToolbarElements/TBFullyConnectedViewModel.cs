@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using Builder.Enums;
+using Builder.Helpers;
 using Builder.ViewModels.WorkspaceElements;
 
 
@@ -9,7 +11,8 @@ namespace Builder.ViewModels.ToolbarElements
     {
         public TBFullyConnectedViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
-            Name = "Fully Connected layer";
+            Name = "Fully Connected";
+            TooltipText = LayerType.FullyConnected.GetDescription();
             WorkspaceItem = new WSFullyConnectedViewModel(0, 0, 0, 0);
         }
 

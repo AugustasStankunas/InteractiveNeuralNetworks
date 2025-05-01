@@ -1,4 +1,6 @@
 ﻿using System.Windows.Input;
+using Builder.Enums;
+using Builder.Helpers;
 
 namespace Builder.ViewModels.ToolbarElements
 {
@@ -7,7 +9,7 @@ namespace Builder.ViewModels.ToolbarElements
         public TBConnectionViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
             Name = "Connection";
-
+            TooltipText = LayerType.Connection.GetDescription();
         }
 
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
