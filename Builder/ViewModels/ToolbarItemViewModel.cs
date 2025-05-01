@@ -2,6 +2,8 @@
 using System.Windows.Input;
 using Shared.Commands;
 using Shared.ViewModels;
+using Builder.Enums;
+using Builder.Helpers;
 
 
 namespace Builder.ViewModels
