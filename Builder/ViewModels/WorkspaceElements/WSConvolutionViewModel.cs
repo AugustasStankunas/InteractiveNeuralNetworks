@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using System.Windows;
 using Builder.Enums;
 using Shared.Attributes;
+using System.ComponentModel;
 
 
 
@@ -12,6 +13,10 @@ namespace Builder.ViewModels.WorkspaceElements
     {
         private int _inputChannels;
         [EditableProperty]
+        [Description(
+            "Number of channels in the incoming feature map. " +
+            "This must match the previous layer’s output depth (e.g. 3 for RGB images, 64 for deeper conv layers)."
+        )]
         public int InputChannels
         {
             get => _inputChannels;
@@ -24,6 +29,11 @@ namespace Builder.ViewModels.WorkspaceElements
         }
         private int _outputChannels;
         [EditableProperty]
+        [Description(
+            "Number of convolution filters (i.e. output channels) this layer learns. \n" +
+            "More filters let the network capture a richer set of features, " +
+            "but also increase computation and memory usage."
+        )]
         public int OutputChannels
         {
             get => _outputChannels;
@@ -36,6 +46,10 @@ namespace Builder.ViewModels.WorkspaceElements
         }
         private int _kernelSize;
         [EditableProperty]
+        [Description(
+            "Size of the (square) convolution kernel, in pixels. " +
+            "Common choices are 1, 3, or 5. Larger kernels see a wider context but add more parameters."
+        )]
         public int KernelSize
         {
             get => _kernelSize;
@@ -48,6 +62,11 @@ namespace Builder.ViewModels.WorkspaceElements
         }
         private int _stride;
         [EditableProperty]
+        [Description(
+            "Stride (step) of the convolution window across the input. " +
+            "A stride of 1 moves one pixel at a time (full resolution); \n" +
+            "a stride >1 downsamples the spatial dimensions (e.g. stride=2 halves width/height)."
+        )]
         public int Stride
         {
             get => _stride;

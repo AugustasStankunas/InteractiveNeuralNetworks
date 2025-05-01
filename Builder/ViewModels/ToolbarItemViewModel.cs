@@ -70,7 +70,6 @@ namespace Builder.ViewModels
             }
         }
 
-        public string InformationIconPath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "information.png");
         public string TooltipText { get; set; } = LayerType.Default.GetDescription();
 
         public ToolbarItemViewModel(ToolbarViewModel toolbar)
@@ -79,6 +78,7 @@ namespace Builder.ViewModels
             WorkspaceItem = new WorkspaceItemViewModel();
             Name = "ToolbarItem";
 
+            MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
             MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
             MouseEnterCommand = new RelayCommand<MouseEventArgs>(OnMouseEnter);
             MouseLeaveCommand = new RelayCommand<MouseEventArgs>(OnMouseLeave);

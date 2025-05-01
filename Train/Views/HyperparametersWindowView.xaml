@@ -14,7 +14,16 @@
         <!-- Data template for properties that need text block -->
         <DataTemplate x:Key="TextBoxTemplate">
             <StackPanel Orientation="Vertical">
-                <Label Content="{Binding Name}"/>
+                <DockPanel>
+                    <Label Content="{Binding Name}"/>
+                    <Image Source="pack://application:,,,/Shared;component/Resources/Icons/information.png"
+                        Width="16" Height="16"
+                        HorizontalAlignment="Right"
+                        Margin="4"
+                        Panel.ZIndex="10"
+                        ToolTip="{Binding TooltipText}"
+                        DockPanel.Dock="Right"/>
+                </DockPanel>
                 <TextBox Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </DataTemplate>
@@ -22,7 +31,16 @@
         <!-- Data template for properties that need combo box -->
         <DataTemplate x:Key="ComboBoxTemplate">
             <StackPanel Orientation="Vertical">
-                <Label Content="{Binding Name}"/>
+                <DockPanel>
+                    <Label Content="{Binding Name}"/>
+                    <Image Source="pack://application:,,,/Shared;component/Resources/Icons/information.png"
+                        Width="16" Height="16"
+                        HorizontalAlignment="Right"
+                        Margin="4"
+                        Panel.ZIndex="10"
+                        ToolTip="{Binding TooltipText}"
+                        DockPanel.Dock="Right"/>
+                </DockPanel>
                 <ComboBox ItemsSource="{Binding Options, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Value}"/>
             </StackPanel>
         </DataTemplate>
