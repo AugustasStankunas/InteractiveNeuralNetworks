@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
@@ -26,6 +27,7 @@ namespace Builder.ViewModels
     {
         public string _Name;
         [EditableProperty(Priority = true)]
+        [Description("Variable name of the workspace item later used in code. Must be unique.")]
         public string Name
         {
             get => _Name;
@@ -145,6 +147,15 @@ namespace Builder.ViewModels
 
         private ActivationFunctionType _activationFunction;
         [EditableProperty("ComboBox")]
+        [Description(
+            "Activation function to apply after this layer:\n" +
+            "• None       – identity; no activation is applied.\n" +
+            "• Sigmoid    – squeezes outputs into (0,1); good for binary probabilities.\n" +
+            "• ReLU       – rectified linear unit (max(0,x)); speeds up training and sparsifies activations.\n" +
+            "• Tanh       – hyperbolic tangent, maps to (–1,1); zero-centered.\n" +
+            "• Linear     – identity; useful for regression tasks.\n" +
+            "• SoftMax    – converts a vector of logits into a probability distribution across classes."
+        )]
         public ActivationFunctionType ActivationFunction
         {
             get => _activationFunction;

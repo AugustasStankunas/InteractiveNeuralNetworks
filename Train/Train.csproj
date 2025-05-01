@@ -8,11 +8,11 @@
     <UseWPF>true</UseWPF>
     <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Builder\Builder.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
-  </ItemGroup>
+	
+    <ItemGroup>
+        <ProjectReference Include="..\Builder\Builder.csproj" />
+        <ProjectReference Include="..\Shared\Shared.csproj" />
+    </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Views\HyperparametersWindowView.xaml.cs">

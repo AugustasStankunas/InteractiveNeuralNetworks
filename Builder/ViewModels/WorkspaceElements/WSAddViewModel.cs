@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
 using System.Text.Json.Serialization;
 using System.Windows;
 using Builder.Enums;
@@ -10,6 +11,7 @@ namespace Builder.ViewModels.WorkspaceElements
     {
         private int _numInputs;
         [EditableProperty]
+        [Description("Number of inputs for the add operation.")]
         public int NumInputs
         {
             get => _numInputs;
