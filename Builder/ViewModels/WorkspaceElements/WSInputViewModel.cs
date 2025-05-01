@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
 using System.Text.Json.Serialization;
 using System.Windows;
 using Builder.Enums;
@@ -10,6 +11,11 @@ namespace Builder.ViewModels.WorkspaceElements
     {
         private int _imageHeight;
         [EditableProperty]
+        [Description(
+            "Height of the input image in pixels.\n" +
+            "Typical values include 28 (MNIST), 32 (CIFAR), 224 (ImageNet).\n" +
+            "Must match the height of your training images."
+        )]
         public int ImageHeight
         {
             get => _imageHeight;
@@ -22,6 +28,11 @@ namespace Builder.ViewModels.WorkspaceElements
         }
         private int _imageWidth;
         [EditableProperty]
+        [Description(
+            "Width of the input image in pixels.\n" +
+            "Typical values include 28 (MNIST), 32 (CIFAR), 224 (ImageNet).\n" +
+            "Must match the width of your training images."
+        )]
         public int ImageWidth
         {
             get => _imageWidth;
@@ -34,6 +45,11 @@ namespace Builder.ViewModels.WorkspaceElements
         }
         private int _numChannels;
         [EditableProperty]
+        [Description(
+            "Number of color channels in the input image.\n" +
+            "Use 1 for grayscale, 3 for RGB, or more for multi-spectral data.\n" +
+            "Ensure this matches the channels in your dataset."
+        )]
         public int NumChannels
         {
             get => _numChannels;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Reflection;
 using Shared.Attributes;
 using Shared.ViewModels;
@@ -12,6 +13,7 @@ namespace Builder.ViewModels
         PropertyInfo PropertyInfo { get; set; }
         public string ControlType { get; set; }
         public string Name { get; set; }
+        public string TooltipText { get; }
 
         string _Value;
         public string Value
@@ -94,7 +96,11 @@ namespace Builder.ViewModels
             {
                 Options = propertyInfo.PropertyType.GetEnumNames().Cast<string>().ToArray();
             }
-            
+
+            var descAttr = propertyInfo.GetCustomAttribute<DescriptionAttribute>(inherit: false);
+
+            TooltipText = descAttr?.Description ?? "No description available.";
+
         }
     }
 }

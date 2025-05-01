@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
 using System.Text.Json.Serialization;
 using System.Windows;
 using Builder.Enums;
@@ -11,6 +12,11 @@ namespace Builder.ViewModels.WorkspaceElements
     {
         private double _rate;
         [EditableProperty]
+        [Description(
+            "Dropout rate: fraction of input units set to zero randomly during training.\n" +
+            "Typical values range from 0.1 (10%) to 0.5 (50%).\n" +
+            "Higher rates increase regularization but risk under‐fitting."
+        )]
         public double Rate
         {
             get => _rate;
