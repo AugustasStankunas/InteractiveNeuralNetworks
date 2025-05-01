@@ -78,6 +78,7 @@ namespace Builder.ViewModels
             WorkspaceItem = new WorkspaceItemViewModel();
             Name = "ToolbarItem";
 
+            MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
             MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
             MouseEnterCommand = new RelayCommand<MouseEventArgs>(OnMouseEnter);
             MouseLeaveCommand = new RelayCommand<MouseEventArgs>(OnMouseLeave);

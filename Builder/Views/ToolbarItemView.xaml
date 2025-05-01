@@ -44,12 +44,12 @@
             </Border.Style>
         </Border>
 
-        <!--<Image Source="pack://application:,,,/Shared;component/Resources/Icons/information.png"
+        <Image Source="pack://application:,,,/Shared;component/Resources/Icons/information.png"
                Width="16" Height="16"
                HorizontalAlignment="Right" VerticalAlignment="Top"
                Margin="4"
                Panel.ZIndex="10"
-               ToolTip="{Binding TooltipText}"/>-->
+               ToolTip="{Binding TooltipText}"/>
 
     </Grid>
     <i:Interaction.Behaviors>
