@@ -9,6 +9,7 @@ using Shared.Commands;
 using System.Windows.Input;
 using System.Printing.IndexedProperties;
 using System.Diagnostics;
+using System.ComponentModel;
 
 namespace Builder.ViewModels.WorkspaceElements
 {
@@ -16,6 +17,11 @@ namespace Builder.ViewModels.WorkspaceElements
     {
         private int _numOutputs;
         [EditableProperty("TextBox")]
+        [Description(
+            "Total number of output units produced by this layer.\n" +
+            "Use one output per target dimension or class.\n" +
+            "E.g. 10 for a 10-class classifier, or N for N-dimensional regression."
+        )]
         public int NumOutputs
         {
             get => _numOutputs;
@@ -30,6 +36,11 @@ namespace Builder.ViewModels.WorkspaceElements
 
         private OutputType _outputParam;
         [EditableProperty("ComboBox")]
+        [Description(
+            "Output mode:\n" +
+            "• Segmentation – produce pixel-wise class masks for each input.\n" +
+            "• Classification – produce one class label or probability per sample."
+        )]
         public OutputType OutputParam
         {
             get => _outputParam;

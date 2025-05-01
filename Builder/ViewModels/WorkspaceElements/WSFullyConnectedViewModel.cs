@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
 using System.Text.Json.Serialization;
 using System.Windows;
 using Builder.Enums;
@@ -11,6 +12,12 @@ namespace Builder.ViewModels.WorkspaceElements
     {
         private int _inputNeurons;
         [EditableProperty]
+        [Description(
+            "Number of neurons in the incoming vector. " +
+            "Must match the size of the previous layer’s output.\n" +
+            "For example, if the prior layer outputs a 512‐dimensional feature, " +
+            "set InputNeurons = 512."
+        )]
         public int InputNeurons
         {
             get => _inputNeurons;
@@ -24,6 +31,12 @@ namespace Builder.ViewModels.WorkspaceElements
 
         private int _outputNeurons;
         [EditableProperty]
+        [Description(
+            "Number of neurons in this dense (fully-connected) layer. " +
+            "This determines the dimensionality of the output vector.\n" +
+            "Larger values increase model capacity (and parameter count) " +
+            "but can also risk overfitting. Typical ranges are 32–1024."
+        )]
         public int OutputNeurons
         {
             get => _outputNeurons;

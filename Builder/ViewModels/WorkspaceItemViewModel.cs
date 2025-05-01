@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
@@ -26,6 +27,7 @@ namespace Builder.ViewModels
     {
         public string _Name;
         [EditableProperty(Priority = true)]
+        [Description("Variable name of the workspace item later used in code. Must be unique.")]
         public string Name
         {
             get => _Name;

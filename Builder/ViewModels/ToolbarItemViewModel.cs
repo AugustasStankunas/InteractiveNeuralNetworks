@@ -70,7 +70,6 @@ namespace Builder.ViewModels
             }
         }
 
-        public string InformationIconPath { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "information.png");
         public string TooltipText { get; set; } = LayerType.Default.GetDescription();
 
         public ToolbarItemViewModel(ToolbarViewModel toolbar)
