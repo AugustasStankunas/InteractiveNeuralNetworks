@@ -1,0 +1,14 @@
+Loaded latest model from checkpoints\2025-04-29-12-28-56\checkpoint_40_2025-04-29-12-39-37.pt
+airplane: 5.8
+automobile: 100.0
+bird: 0.0
+cat: 0.0
+deer: 0.0
+dog: 0.0
+frog: 0.0
+horse: 0.0
+ship: 99.97
+truck: 100.0
+tensor([[5.8024e-02, 1.0000e+00, 3.5237e-08, 2.4223e-19, 2.0169e-11, 3.9209e-16,
+         7.2991e-17, 1.3613e-11, 9.9969e-01, 1.0000e+00]], device='cuda:0',
+       grad_fn=<SigmoidBackward0>)

@@ -5,22 +5,15 @@ from model import Model
 import train
 
 
-CONFIG_PATH = "config.json"
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-
-
 def log(text):
     with open("log.txt", "w") as f:
         f.write(text)
-        
+    
 
 def check_torch():
     output = f"{torch.__version__}\n{str(torch.cuda.is_available())}\n"
     log(output)
 
-
-def build_dnn(config):
-    pass
 
 def main():
     # with open(CONFIG_PATH, "r") as f:

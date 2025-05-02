@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace Train.Views
+﻿namespace Train.Views
 {
     /// <summary>
     /// Interaction logic for TrainView.xaml

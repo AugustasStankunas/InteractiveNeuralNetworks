@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace Train;
+﻿namespace Train;
 
 /// <summary>
 /// Interaction logic for App.xaml

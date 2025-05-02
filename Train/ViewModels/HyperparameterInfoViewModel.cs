@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel;
+using System.IO;
+using System.Reflection;
 using Shared.Attributes;
 using Shared.ViewModels;
 
@@ -10,6 +12,7 @@ namespace Train.ViewModels
         PropertyInfo PropertyInfo { get; set; }
         public string ControlType { get; set; }
         public string Name { get; set; }
+        public string TooltipText { get; }
         public bool BoolValue
         {
             get => bool.TryParse(Value, out var result) && result;
@@ -67,6 +70,10 @@ namespace Train.ViewModels
             {
                 Options = propertyInfo.PropertyType.GetEnumNames().Cast<string>().ToArray();
             }
+
+            var descAttr = propertyInfo.GetCustomAttribute<DescriptionAttribute>(inherit: false);
+
+            TooltipText = descAttr?.Description ?? "No description available.";
         }
     }
 }

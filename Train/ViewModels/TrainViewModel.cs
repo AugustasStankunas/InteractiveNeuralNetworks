@@ -1,24 +1,16 @@
-﻿using System.Text.Json.Serialization;
-using Builder.Enums;
-using Shared.Attributes;
-using Shared.Commands;
-using Shared.ViewModels;
-using System.IO;
-using Microsoft.Win32;
-using System.Text.Json;
-using System.Net.Http.Json;
-using System.Windows;
-using WinForms = System.Windows.Forms;
-using System.Windows.Controls;
-using Train.Helpers;
-using Builder.ViewModels;
-
-using Shared.Commands;
+﻿using System.IO;
 using System.Text;
-using System.Windows;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Builder;
+using Builder.Enums;
+using Builder.ViewModels;
+using Shared.Attributes;
+using Shared.Commands;
+using Shared.ViewModels;
+using Train.Helpers;
 
 namespace Train.ViewModels
 {
@@ -158,10 +150,10 @@ namespace Train.ViewModels
         public string OutputText
         {
             get => _outputText;
-            set 
-            { 
-                _outputText = value; 
-                OnPropertyChanged(nameof(OutputText)); 
+            set
+            {
+                _outputText = value;
+                OnPropertyChanged(nameof(OutputText));
             }
         }
 

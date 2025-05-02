@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Data;
 using Builder.Enums;
 
@@ -39,7 +38,7 @@ namespace Builder.Converters
                     if (dir == FaceDirection.Left)
                         return coord - halfW - gap;
                     else if (dir == FaceDirection.Right)
-                        return coord + halfW + 3*gap;
+                        return coord + halfW + 3 * gap;
                     else if (dir == FaceDirection.Top)
                         return coord;
                     else if (dir == FaceDirection.Bottom)
@@ -53,7 +52,7 @@ namespace Builder.Converters
                     else if (dir == FaceDirection.Right)
                         return coord - gap;
                     else if (dir == FaceDirection.Top)
-                        return coord - halfH - 3*gap;
+                        return coord - halfH - 3 * gap;
                     else if (dir == FaceDirection.Bottom)
                         return coord + halfH + gap;
                     else

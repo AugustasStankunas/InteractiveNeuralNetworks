@@ -14,7 +14,7 @@
     <Grid Background="Transparent">
         <Border BorderBrush="Black" BorderThickness="1" Margin="2">
             <StackPanel Orientation="Horizontal">
-                <Image Source="{Binding WorkspaceItem.IconPath, FallbackValue='icon_missing.png', TargetNullValue='icon_missing.png'}" Width="52" Height="52" Margin="5" HorizontalAlignment="Center"/>
+                <Image Source="{Binding WorkspaceItem.IconPath}" Width="52" Height="52" Margin="5" HorizontalAlignment="Center"/>
                 <Label Content="{Binding Name}"/>
             </StackPanel>
         </Border>
@@ -44,10 +44,15 @@
             </Border.Style>
         </Border>
 
+        <Image Source="pack://application:,,,/Shared;component/Resources/Icons/information.png"
+               Width="16" Height="16"
+               HorizontalAlignment="Right" VerticalAlignment="Top"
+               Margin="4"
+               Panel.ZIndex="10"
+               ToolTip="{Binding TooltipText}"/>
+
     </Grid>
     <i:Interaction.Behaviors>
-        <commands:EventToCommandBehavior EventName="MouseMove" Command="{Binding MouseMoveCommand}" />
-        <commands:EventToCommandBehavior EventName="DragOver" Command="{Binding DragOverCommand}"/>
         <commands:EventToCommandBehavior EventName="MouseLeftButtonDown" Command="{Binding MouseLeftButtonDownCommand}"/>
         <commands:EventToCommandBehavior EventName="MouseLeftButtonUp" Command="{Binding MouseLeftButtonUpCommand}"/>
         <commands:EventToCommandBehavior EventName="MouseEnter" Command="{Binding MouseEnterCommand}"/>

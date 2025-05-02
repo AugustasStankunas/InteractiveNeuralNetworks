@@ -1,6 +1,19 @@
 import torch
 from torch import nn
 import modules
+import json
+
+
+CONFIG_PATH = "config.json"
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+
+
+def build_model():
+    with open(CONFIG_PATH, "r") as f:
+        config = json.load(f)
+    model = Model(config).to(DEVICE)
+    return model
+
 
 class Model(nn.Module):
     def __init__(self, config):

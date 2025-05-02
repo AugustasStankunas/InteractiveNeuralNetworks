@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace MainApp;
+﻿namespace MainApp;
 
 /// <summary>
 /// Interaction logic for App.xaml

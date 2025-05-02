@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using Builder.Enums;
+using Builder.Helpers;
 using Shared.Commands;
 using Shared.ViewModels;
 
@@ -67,11 +69,14 @@ namespace Builder.ViewModels
             }
         }
 
+        public string TooltipText { get; set; } = LayerType.Default.GetDescription();
+
         public ToolbarItemViewModel(ToolbarViewModel toolbar)
         {
             Toolbar = toolbar;
             WorkspaceItem = new WorkspaceItemViewModel();
             Name = "ToolbarItem";
+
             MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
             MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
             MouseEnterCommand = new RelayCommand<MouseEventArgs>(OnMouseEnter);

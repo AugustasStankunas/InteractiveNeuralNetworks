@@ -10,6 +10,6 @@
             ControlType = controlType;
             Priority = priority;
         }
-       
+
     }
 }
