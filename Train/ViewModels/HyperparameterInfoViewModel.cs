@@ -10,6 +10,15 @@ namespace Train.ViewModels
         PropertyInfo PropertyInfo { get; set; }
         public string ControlType { get; set; }
         public string Name { get; set; }
+        public bool BoolValue
+        {
+            get => bool.TryParse(Value, out var result) && result;
+            set
+            {
+                Value = value.ToString();
+                OnPropertyChanged(nameof(BoolValue));
+            }
+        }
 
         string _Value;
         public string Value
@@ -29,6 +38,10 @@ namespace Train.ViewModels
                 else if (PropertyInfo.PropertyType.IsEnum)
                 {
                     PropertyInfo.SetValue(Trainer, Enum.Parse(PropertyInfo.PropertyType, _Value));
+                }
+                else if (PropertyInfo.PropertyType == typeof(bool))
+                {
+                    PropertyInfo.SetValue(Trainer, bool.Parse(_Value));
                 }
                 else
                 {

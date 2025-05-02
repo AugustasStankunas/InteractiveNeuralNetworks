@@ -28,8 +28,6 @@ namespace Train.ViewModels
         public WorkspaceViewModel WorkspaceViewModel { get; set; }
         [JsonIgnore]
         public RelayCommand ClickMeButtonCommand { get; set; }
-        //[JsonIgnore]
-        public List<AugmentationItem> Items { get; set; }
 
 
         private double _learningRate;
@@ -67,15 +65,86 @@ namespace Train.ViewModels
                 OnPropertyChanged(nameof(BatchSize));
             }
         }
-        private LossFunctionType _augmentationType;   // LossFunctionType i Augmentation pakeist
+
+        private bool _horizontalFlip;
         [EditableProperty("CheckBox")]
-        public LossFunctionType AugmentationType
+        public bool HorizontalFlip
         {
-            get => _augmentationType;
+            get => _horizontalFlip;
             set
             {
-                _augmentationType = value;
-                OnPropertyChanged(nameof(AugmentationType));
+                _horizontalFlip = value;
+                OnPropertyChanged(nameof(HorizontalFlip));
+            }
+        }
+
+        private bool _verticalFlip;
+        [EditableProperty("CheckBox")]
+        public bool VerticalFlip
+        {
+            get => _verticalFlip;
+            set
+            {
+                _verticalFlip = value;
+                OnPropertyChanged(nameof(VerticalFlip));
+            }
+        }
+       
+        private bool _pad;
+        [EditableProperty("CheckBox")]
+        public bool Pad
+        {
+            get => _pad;
+            set
+            {
+                _pad = value;
+                OnPropertyChanged(nameof(Pad));
+            }
+        }
+        private bool _zoomOut;
+        [EditableProperty("CheckBox")]
+        public bool ZoomOut
+        {
+            get => _zoomOut;
+            set
+            {
+                _zoomOut = value;
+                OnPropertyChanged(nameof(ZoomOut));
+            }
+        }
+
+        private bool _rotation;
+        [EditableProperty("CheckBox")]
+        public bool Rotation
+        {
+            get => _rotation;
+            set
+            {
+                _rotation = value;
+                OnPropertyChanged(nameof(Rotation));
+            }
+        }
+
+        private bool _affine;
+        [EditableProperty("CheckBox")]
+        public bool Affine
+        {
+            get => _affine;
+            set
+            {
+                _affine = value;
+                OnPropertyChanged(nameof(Affine));
+            }
+        }
+        private bool _perspective;
+        [EditableProperty("CheckBox")]
+        public bool Perspective
+        {
+            get => _perspective;
+            set
+            {
+                _perspective = value;
+                OnPropertyChanged(nameof(Perspective));
             }
         }
 
@@ -120,7 +189,6 @@ namespace Train.ViewModels
             _logFilePath = Path.Combine(baseDirectory, "../../../../Python-server/log.txt");
             InitializeWatcher();
             RefreshLogCommand = new RelayCommand(_ => RefreshLogContent());
-
         }
 
         private void InitializeHyperparameters()
@@ -128,6 +196,13 @@ namespace Train.ViewModels
             LearningRate = 0.01;
             LossFunction = LossFunctionType.CategoricalCrossEntropy;
             BatchSize = 16384;
+            HorizontalFlip = false;
+            VerticalFlip = false;
+            Pad = false;
+            ZoomOut = false;
+            Rotation = false;
+            Affine = false;
+            Perspective = false;
         }
 
         public string TrainDataPath { get; set; }
