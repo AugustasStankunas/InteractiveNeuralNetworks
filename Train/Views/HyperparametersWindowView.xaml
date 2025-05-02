@@ -48,11 +48,22 @@
          
         <!-- CheckBox -->
         <DataTemplate x:Key="CheckBoxTemplate">
-            <StackPanel>
-                <CheckBox Content="{Binding Name}" IsChecked="{Binding Path=BoolValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,2"/>
-            </StackPanel>
+            <DockPanel Margin="0,2">
+                <!-- Info Icon -->
+                <Image Source="pack://application:,,,/Shared;component/Resources/Icons/information.png"
+               Width="16" Height="16"
+               Margin="4,0,0,0"
+               ToolTip="{Binding TooltipText}"
+               DockPanel.Dock="Right"
+               VerticalAlignment="Center"/>
+
+                <!-- CheckBox -->
+                <CheckBox Content="{Binding Name}"
+                  IsChecked="{Binding Path=BoolValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  VerticalAlignment="Center"/>
+            </DockPanel>
         </DataTemplate>
-        
+
         <!-- Template selector -->
         <h:HyperparametersViewPropertyControlTemplateSelector x:Key="HyperparametersViewPropertyControlTemplateSelector"
                                                              TextBoxTemplate="{StaticResource TextBoxTemplate}"
