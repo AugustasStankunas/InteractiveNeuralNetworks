@@ -16,6 +16,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using System.Windows.Media.Imaging;
+using Builder;
 
 namespace Test.ViewModels
 {
@@ -84,7 +85,7 @@ namespace Test.ViewModels
 
         private void ExecuteTestClickMe(object obj)
         {
-                //juozapai dirbk nafyk!
+            PythonRunner.RunScript();
         }
         private bool CanExecuteTestClickMe(object obj)
         {

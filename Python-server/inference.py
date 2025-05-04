@@ -46,8 +46,7 @@ def inference():
     image = image.to(DEVICE) / 255.0
     output = model(image)
     for i in model_info['labels'].keys():
-        log(f"{model_info['labels'][i]}: {str(round(output[0][int(i)].item() * 100, 2))}\n")
-    log(str(output))
+        log(f"{model_info['labels'][i]}: {str(round(output[0][int(i)].item() * 100, 2))}%\n")
 
 
 if __name__ == "__main__":
