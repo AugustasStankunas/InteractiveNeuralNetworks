@@ -69,6 +69,25 @@
         <StackPanel Orientation="Vertical">
             <Label Content="Properties" FontWeight="Bold"/>
 
+            <TextBlock Text="Multiple items selected" 
+                       Foreground="#6A2AFA"
+                       FontWeight="Bold" 
+                       Padding="10"
+                       TextAlignment="Center"
+                       Background="#F0F0F0"
+                       Margin="5">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMultipleSelectionActive}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
             <ItemsControl ItemsSource="{Binding Properties, UpdateSourceTrigger=PropertyChanged}"
                           ItemTemplateSelector="{StaticResource PropertiesViewPropertyControlTemplateSelector}">
                 <ItemsControl.ItemsPanel>
