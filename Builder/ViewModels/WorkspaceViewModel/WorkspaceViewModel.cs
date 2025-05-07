@@ -34,7 +34,20 @@ namespace Builder.ViewModels
             ControlKeyDownCommand = new RelayCommand<KeyEventArgs>(ControlKeyDown);
             CanvasPanOffset = new Point(-Width / 2, -Height / 2);
         }
-        public WorkspaceViewModel() { }
+        public WorkspaceViewModel() 
+        {
+            MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
+            DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);
+
+            MouseWheelCommand = new RelayCommand<MouseWheelEventArgs>(OnMouseWheel);
+            MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
+            MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
+
+            RenderSizeChangedCommand = new RelayCommand<SizeChangedEventArgs>(OnRenderSizeChanged);
+            DeleteKeyDownCommand = new RelayCommand<KeyEventArgs>(OnDeleteKeyDown);
+            ControlKeyDownCommand = new RelayCommand<KeyEventArgs>(ControlKeyDown);
+            CanvasPanOffset = new Point(-Width / 2, -Height / 2);
+        }
 
         public BuilderViewModel Builder { get; set; }
 
