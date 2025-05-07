@@ -45,6 +45,17 @@ namespace Builder.ViewModels
             }
         }
 
+		private bool _isMultipleSelectionActive;
+		public bool IsMultipleSelectionActive
+		{
+			get => _isMultipleSelectionActive;
+			set
+			{
+				_isMultipleSelectionActive = value;
+				OnPropertyChanged(nameof(IsMultipleSelectionActive));
+				
+			}
+		}
         public PropertiesWindowViewModel()
         {
         }

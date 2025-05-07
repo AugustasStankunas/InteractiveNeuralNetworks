@@ -162,7 +162,15 @@ namespace Builder.ViewModels
             get => _selectionRect;
             set { _selectionRect = value; OnPropertyChanged(nameof(SelectionRect)); }
         }
-
+		// Update the properties window with selection information
+		private void UpdatePropertiesWindowViewModel()
+		{
+			Builder.PropertiesWindowViewModel.IsMultipleSelectionActive = IsMultipleSelectionActive;
+			if (SelectedItems.Count == 0)
+			{
+				Builder.PropertiesWindowViewModel.Properties = null;
+			}
+		}
         // Add property to check if multiple selection is active
         public bool IsMultipleSelectionActive => SelectedItems.Count > 1;
 
@@ -513,6 +521,7 @@ namespace Builder.ViewModels
             }
             SelectedItems.Clear();
             OnPropertyChanged(nameof(IsMultipleSelectionActive));
+            UpdatePropertiesWindowViewModel(); 
         }
         private void UpdateSelectionRectangle(Point currentPos)
         {
@@ -569,6 +578,7 @@ namespace Builder.ViewModels
             }
 
             OnPropertyChanged(nameof(IsMultipleSelectionActive));
+            UpdatePropertiesWindowViewModel();
         }
         private void CopySelectedItems()
         {
@@ -702,6 +712,7 @@ namespace Builder.ViewModels
             }
             OnPropertyChanged(nameof(SelectedItem));
             OnPropertyChanged(nameof(IsMultipleSelectionActive));
+            UpdatePropertiesWindowViewModel();
         }
     }
 }
