@@ -73,7 +73,20 @@
 
     <Border BorderBrush="Black" BorderThickness="1" Margin="0, 20, 20, 20" Width="200">
         <StackPanel Orientation="Vertical" Margin="5">
-            <Label Content="Hyperparameters" FontWeight="Bold" Margin="0,0,0,10"/>
+            <Label Content="Dataset Download" FontWeight="Bold" Margin="0,0,0,10"/>
+            <ComboBox x:Name="DatasetComboBox" 
+                      SelectedItem="{Binding SelectedDataset, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Margin="0,0,0,10">
+                <ComboBoxItem Content="MNIST"/>
+                <ComboBoxItem Content="CIFAR-10"/>
+                <ComboBoxItem Content="CIFAR-100"/>
+                <ComboBoxItem Content="Fashion MNIST"/>
+            </ComboBox>
+            <Button Content="Download Dataset" 
+                    Command="{Binding DownloadDatasetCommand}"
+                    Margin="5"/>
+            
+            <Label Content="Hyperparameters" FontWeight="Bold" Margin="0,10,0,10"/>
 
             <!-- Existing ItemsControl -->
             <ItemsControl ItemsSource="{Binding Properties, UpdateSourceTrigger=PropertyChanged}"

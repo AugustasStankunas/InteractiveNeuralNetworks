@@ -1,8 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Shared.Attributes;
 using Shared.ViewModels;
 using Train.Helpers;
-
+using Shared.Commands;
+using Train.Datasets;
+using System.Windows.Controls;
 
 namespace Train.ViewModels
 {
@@ -33,6 +36,17 @@ namespace Train.ViewModels
             }
         }
 
+        private ComboBoxItem _selectedDataset;
+        public ComboBoxItem SelectedDataset
+        {
+            get => _selectedDataset;
+            set
+            {
+                _selectedDataset = value;
+                OnPropertyChanged(nameof(SelectedDataset));
+            }
+        }
+
         ObservableCollection<HyperparameterInfoViewModel>? _Properties;
         public ObservableCollection<HyperparameterInfoViewModel>? Properties
         {
@@ -44,10 +58,19 @@ namespace Train.ViewModels
             }
         }
 
+        public ICommand DownloadDatasetCommand { get; }
+
         public HyperparametersWindowViewModel(TrainViewModel trainer)
         {
             Trainer = trainer;
+
+            DownloadDatasetCommand = new RelayCommand(async (obj) =>
+            {
+                if (SelectedDataset != null)
+                {
+                    await DatasetDownloader.DownloadDatasetAsync(SelectedDataset.Content.ToString());
+                }
+            });
         }
-       
     }
 }
