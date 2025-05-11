@@ -1,12 +1,12 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Net;
-using System.Windows.Forms;
-using System.IO.Compression;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Train.Datasets
 {
@@ -15,7 +15,7 @@ namespace Train.Datasets
         private static readonly Dictionary<string, (string url, string filename, int imageSize)> DatasetUrls = new Dictionary<string, (string url, string filename, int imageSize)>
         {
             { "MNIST", ("https://ossci-datasets.s3.amazonaws.com/mnist/train-images-idx3-ubyte.gz", "train-images-idx3-ubyte.gz", 28) },
-            { "CIFAR-10", ("https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz", "cifar-10-python.tar.gz", 32) },
+            { "CIFAR-10", ("https://github.com/YoongiKim/CIFAR-10-images/archive/refs/heads/master.zip", "cifar10-images.zip", 32) },
             { "Fashion MNIST", ("https://storage.googleapis.com/tensorflow/tf-keras-datasets/train-images-idx3-ubyte.gz", "train-images-idx3-ubyte.gz", 28) }
         };
 
@@ -23,6 +23,18 @@ namespace Train.Datasets
         {
             "airplane", "automobile", "bird", "cat", "deer",
             "dog", "frog", "horse", "ship", "truck"
+        };
+
+        private static readonly string[] FashionMnistLabels = new[]
+        {
+            "t-shirt", "trouser", "pullover", "dress", "coat",
+            "sandal", "shirt", "sneaker", "bag", "ankle-boot"
+        };
+
+        private static readonly string[] MnistLabels = new[]
+        {
+            "zero", "one", "two", "three", "four",
+            "five", "six", "seven", "eight", "nine"
         };
 
         static DatasetDownloader()
@@ -43,10 +55,10 @@ namespace Train.Datasets
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     string downloadPath = dialog.SelectedPath;
-                    
+
                     if (!DatasetUrls.ContainsKey(datasetName))
                     {
-                        MessageBox.Show($"Unknown dataset: {datasetName}\nAvailable datasets: {string.Join(", ", DatasetUrls.Keys)}", 
+                        MessageBox.Show($"Unknown dataset: {datasetName}\nAvailable datasets: {string.Join(", ", DatasetUrls.Keys)}",
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return (false, null);
                     }
@@ -55,13 +67,8 @@ namespace Train.Datasets
                     string outputDir = Path.Combine(downloadPath, $"{datasetName}Dataset");
                     Directory.CreateDirectory(outputDir);
 
-                    string trainDir = Path.Combine(outputDir, "train");
-                    string testDir = Path.Combine(outputDir, "test");
-                    Directory.CreateDirectory(trainDir);
-                    Directory.CreateDirectory(testDir);
-
                     string zipPath = Path.Combine(outputDir, filename);
-                    
+
                     using (var client = new WebClient())
                     {
                         MessageBox.Show($"Downloading {datasetName} dataset...", "Progress", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -69,13 +76,25 @@ namespace Train.Datasets
                     }
 
                     MessageBox.Show("Processing dataset...", "Progress", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
+
                     if (datasetName == "CIFAR-10")
                     {
-                        await ProcessCifar10(zipPath, trainDir, testDir);
+                        await ProcessCifar10(zipPath, outputDir);
                     }
-                    else // MNIST or Fashion MNIST
+                    else if (datasetName == "Fashion MNIST")
                     {
+                        string trainDir = Path.Combine(outputDir, "train");
+                        string testDir = Path.Combine(outputDir, "test");
+                        Directory.CreateDirectory(trainDir);
+                        Directory.CreateDirectory(testDir);
+                        await ProcessFashionMnist(zipPath, trainDir, testDir, imageSize);
+                    }
+                    else // Regular MNIST
+                    {
+                        string trainDir = Path.Combine(outputDir, "train");
+                        string testDir = Path.Combine(outputDir, "test");
+                        Directory.CreateDirectory(trainDir);
+                        Directory.CreateDirectory(testDir);
                         await ProcessMnist(zipPath, trainDir, testDir, imageSize);
                     }
 
@@ -93,22 +112,53 @@ namespace Train.Datasets
             }
         }
 
-        private static async Task ProcessMnist(string zipPath, string trainDir, string testDir, int imageSize)
+        private static async Task ProcessFashionMnist(string zipPath, string trainDir, string testDir, int imageSize)
         {
+            // Download labels file
+            string labelsUrl = "https://storage.googleapis.com/tensorflow/tf-keras-datasets/train-labels-idx1-ubyte.gz";
+            string labelsPath = Path.Combine(Path.GetDirectoryName(zipPath), "labels.gz");
+            using (var client = new WebClient())
+            {
+                await client.DownloadFileTaskAsync(labelsUrl, labelsPath);
+            }
+
+            // Read labels
+            List<byte> labels = new List<byte>();
+            using (FileStream compressedFileStream = File.Open(labelsPath, FileMode.Open))
+            using (GZipStream decompressor = new GZipStream(compressedFileStream, CompressionMode.Decompress))
+            using (MemoryStream decompressedStream = new MemoryStream())
+            {
+                await decompressor.CopyToAsync(decompressedStream);
+                decompressedStream.Position = 8; // Skip header
+                using (BinaryReader reader = new BinaryReader(decompressedStream))
+                {
+                    while (decompressedStream.Position < decompressedStream.Length)
+                    {
+                        labels.Add(reader.ReadByte());
+                    }
+                }
+            }
+
+            // Create class directories
+            foreach (string className in FashionMnistLabels)
+            {
+                Directory.CreateDirectory(Path.Combine(trainDir, className));
+                Directory.CreateDirectory(Path.Combine(testDir, className));
+            }
+
             using (FileStream compressedFileStream = File.Open(zipPath, FileMode.Open))
             using (GZipStream decompressor = new GZipStream(compressedFileStream, CompressionMode.Decompress))
             using (MemoryStream decompressedStream = new MemoryStream())
             {
                 await decompressor.CopyToAsync(decompressedStream);
-                decompressedStream.Position = 0;
+                decompressedStream.Position = 16; // Skip header
 
                 using (BinaryReader reader = new BinaryReader(decompressedStream))
                 {
-                    decompressedStream.Position = 16; // Skip header
                     int numImages = (int)((decompressedStream.Length - 16) / (imageSize * imageSize));
                     int trainCount = (int)(numImages * 0.8);
 
-                    for (int i = 0; i < numImages; i++)
+                    for (int i = 0; i < numImages && i < labels.Count; i++)
                     {
                         byte[] imageData = reader.ReadBytes(imageSize * imageSize);
                         using (Bitmap bitmap = new Bitmap(imageSize, imageSize))
@@ -123,17 +173,50 @@ namespace Train.Datasets
                             }
 
                             string targetDir = i < trainCount ? trainDir : testDir;
-                            string imagePath = Path.Combine(targetDir, $"image_{i:D5}.png");
+                            int labelIndex = labels[i];
+                            string className = FashionMnistLabels[labelIndex];
+
+                            string classDir = Path.Combine(targetDir, className);
+                            string imagePath = Path.Combine(classDir, $"image_{i:D5}.png");
                             bitmap.Save(imagePath, ImageFormat.Png);
                         }
                     }
                 }
             }
+
+            // Clean up labels file
+            File.Delete(labelsPath);
         }
 
-        private static async Task ProcessCifar10(string zipPath, string trainDir, string testDir)
+        private static async Task ProcessMnist(string zipPath, string trainDir, string testDir, int imageSize)
         {
-            foreach (string className in Cifar10Labels)
+            // Download labels file
+            string labelsUrl = "https://ossci-datasets.s3.amazonaws.com/mnist/train-labels-idx1-ubyte.gz";
+            string labelsPath = Path.Combine(Path.GetDirectoryName(zipPath), "labels.gz");
+            using (var client = new WebClient())
+            {
+                await client.DownloadFileTaskAsync(labelsUrl, labelsPath);
+            }
+
+            // Read labels
+            List<byte> labels = new List<byte>();
+            using (FileStream compressedFileStream = File.Open(labelsPath, FileMode.Open))
+            using (GZipStream decompressor = new GZipStream(compressedFileStream, CompressionMode.Decompress))
+            using (MemoryStream decompressedStream = new MemoryStream())
+            {
+                await decompressor.CopyToAsync(decompressedStream);
+                decompressedStream.Position = 8; // Skip header
+                using (BinaryReader reader = new BinaryReader(decompressedStream))
+                {
+                    while (decompressedStream.Position < decompressedStream.Length)
+                    {
+                        labels.Add(reader.ReadByte());
+                    }
+                }
+            }
+
+            // Create class directories
+            foreach (string className in MnistLabels)
             {
                 Directory.CreateDirectory(Path.Combine(trainDir, className));
                 Directory.CreateDirectory(Path.Combine(testDir, className));
@@ -144,70 +227,86 @@ namespace Train.Datasets
             using (MemoryStream decompressedStream = new MemoryStream())
             {
                 await decompressor.CopyToAsync(decompressedStream);
-                decompressedStream.Position = 0;
+                decompressedStream.Position = 16; // Skip header
 
                 using (BinaryReader reader = new BinaryReader(decompressedStream))
                 {
-                    // Process training data (5 batches)
-                    for (int batch = 0; batch < 5; batch++)
+                    int numImages = (int)((decompressedStream.Length - 16) / (imageSize * imageSize));
+                    int trainCount = (int)(numImages * 0.8);
+
+                    for (int i = 0; i < numImages && i < labels.Count; i++)
                     {
-                        for (int i = 0; i < 10000; i++)
+                        byte[] imageData = reader.ReadBytes(imageSize * imageSize);
+                        using (Bitmap bitmap = new Bitmap(imageSize, imageSize))
                         {
-                            byte label = reader.ReadByte();
-                            byte[] imageData = reader.ReadBytes(3072);
-
-                            using (Bitmap bitmap = new Bitmap(32, 32))
+                            for (int y = 0; y < imageSize; y++)
                             {
-                                for (int y = 0; y < 32; y++)
+                                for (int x = 0; x < imageSize; x++)
                                 {
-                                    for (int x = 0; x < 32; x++)
-                                    {
-                                        int pixelIndex = y * 32 + x;
-                                        Color color = Color.FromArgb(
-                                            imageData[pixelIndex + 2048],
-                                            imageData[pixelIndex + 1024],
-                                            imageData[pixelIndex]
-                                        );
-                                        bitmap.SetPixel(x, y, color);
-                                    }
-                                }
-
-                                string className = Cifar10Labels[label];
-                                string imagePath = Path.Combine(trainDir, className, $"image_{batch}_{i:D5}.png");
-                                bitmap.Save(imagePath, ImageFormat.Png);
-                            }
-                        }
-                    }
-
-                    // Process test data
-                    for (int i = 0; i < 10000; i++)
-                    {
-                        byte label = reader.ReadByte();
-                        byte[] imageData = reader.ReadBytes(3072);
-
-                        using (Bitmap bitmap = new Bitmap(32, 32))
-                        {
-                            for (int y = 0; y < 32; y++)
-                            {
-                                for (int x = 0; x < 32; x++)
-                                {
-                                    int pixelIndex = y * 32 + x;
-                                    Color color = Color.FromArgb(
-                                        imageData[pixelIndex + 2048],
-                                        imageData[pixelIndex + 1024],
-                                        imageData[pixelIndex]
-                                    );
-                                    bitmap.SetPixel(x, y, color);
+                                    byte pixel = imageData[y * imageSize + x];
+                                    bitmap.SetPixel(x, y, Color.FromArgb(pixel, pixel, pixel));
                                 }
                             }
 
-                            string className = Cifar10Labels[label];
-                            string imagePath = Path.Combine(testDir, className, $"image_{i:D5}.png");
+                            string targetDir = i < trainCount ? trainDir : testDir;
+                            int labelIndex = labels[i];
+                            string className = MnistLabels[labelIndex];
+
+                            string classDir = Path.Combine(targetDir, className);
+                            string imagePath = Path.Combine(classDir, $"image_{i:D5}.png");
                             bitmap.Save(imagePath, ImageFormat.Png);
                         }
                     }
                 }
             }
+
+            // Clean up labels file
+            File.Delete(labelsPath);
         }
+
+        private static async Task ProcessCifar10(string zipPath, string outputDir)
+        {
+            try
+            {
+                string extractPath = Path.Combine(Path.GetDirectoryName(zipPath), "cifar-extract");
+                if (Directory.Exists(extractPath))
+                {
+                    Directory.Delete(extractPath, true);
+                }
+                Directory.CreateDirectory(extractPath);
+
+                // Extract the zip file
+                ZipFile.ExtractToDirectory(zipPath, extractPath);
+
+                // Find the extracted folder - should be "CIFAR-10-images-master"
+                string imageSourceDir = Path.Combine(extractPath, "CIFAR-10-images-master");
+                if (!Directory.Exists(imageSourceDir))
+                {
+                    throw new DirectoryNotFoundException($"Could not find extracted CIFAR-10 images directory at: {imageSourceDir}");
+                }
+
+                // Move the entire CIFAR-10-images-master directory to the output directory
+                string finalDir = Path.Combine(outputDir, "CIFAR-10-images-master");
+                if (Directory.Exists(finalDir))
+                {
+                    Directory.Delete(finalDir, true);
+                }
+                Directory.Move(imageSourceDir, finalDir);
+
+                // Clean up the extract directory
+                if (Directory.Exists(extractPath))
+                {
+                    Directory.Delete(extractPath, true);
+                }
+
+                MessageBox.Show($"Dataset extracted to: {finalDir}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error processing CIFAR-10 images: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+        }
+
     }
-} 
+}
