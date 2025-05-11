@@ -180,6 +180,8 @@ namespace Train.ViewModels
 
         [JsonIgnore]
         public HyperparametersWindowViewModel HyperparametersWindowViewModel { get; set; }
+        [JsonIgnore]
+        public ChartViewModel ChartViewModel { get; set; }
 
         [JsonIgnore]
         public RelayCommand GetDirectoryButtonCommand { get; set; }
@@ -212,11 +214,12 @@ namespace Train.ViewModels
             WorkspaceViewModel = new WorkspaceViewModel();
             InitializeHyperparameters();
             HyperparametersWindowViewModel = new HyperparametersWindowViewModel(this);
+            ChartViewModel = new ChartViewModel();
             GetDirectoryButtonCommand = new RelayCommand(ExecuteClickMe, CanExecuteClickMe);
             ClickMeButtonCommand = new RelayCommand(ExecuteTrainClickMe, CanExecuteTrainClickMe);
 
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            _logFilePath = Path.Combine(baseDirectory, "../../../../Python-server/log.txt");
+            _logFilePath = Path.Combine(baseDirectory, "../../../../Python-server/log1.txt");
             InitializeWatcher();
             RefreshLogCommand = new RelayCommand(_ => RefreshLogContent());
         }
@@ -318,9 +321,5 @@ namespace Train.ViewModels
         {
             return true;
         }
-
-
-
-
     }
 }

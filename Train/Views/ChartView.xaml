@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="Train.Views.ChartView"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+          xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+          xmlns:local="clr-namespace:Train.Views"
+          xmlns:vm="clr-namespace:Train.ViewModels"
+
+          mc:Ignorable="d" 
+          d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <vm:ChartViewModel />
+    </UserControl.DataContext>
+    <Grid>
+        <lvc:CartesianChart Series="{Binding SeriesCollection}">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Epochs" MinValue="0" />
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Loss" MinValue="0" MaxValue="1"/>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+        
+
+    </Grid>
+
+</UserControl>

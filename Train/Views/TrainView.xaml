@@ -10,11 +10,12 @@
     
     <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" LastChildFill="True">
         <views:HyperparametersWindowView DataContext="{Binding HyperparametersWindowViewModel}" DockPanel.Dock="Left" Margin="20,0,0,0"/>
+        
         <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
             <Button Content="Choose image directory" Command="{Binding Path=GetDirectoryButtonCommand}"></Button>
             <Button Content="Start training!" Command="{Binding Path=ClickMeButtonCommand}"></Button>
         </StackPanel>
-        
+        <views:ChartView DataContext="{Binding ChartViewModel}" DockPanel.Dock="Top" Margin="20,0,10,0" Height="400"/>
             <Border DockPanel.Dock="Bottom" BorderBrush="#CCCCCC" BorderThickness="1" 
                 Height="200" Margin="10,10,10,10"
                 VerticalAlignment="Bottom">
