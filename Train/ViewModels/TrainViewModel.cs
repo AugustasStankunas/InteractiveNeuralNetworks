@@ -12,11 +12,20 @@ using Shared.Attributes;
 using Shared.Commands;
 using Shared.ViewModels;
 using Train.Helpers;
+using Train.Datasets;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Windows;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Windows.Forms;
+using static System.Windows.MessageBox;
 
 namespace Train.ViewModels
 {
-    public class TrainViewModel : ViewModelBase
+    public class TrainViewModel : ViewModelBase, IDisposable
     {
         [JsonIgnore]
         public WorkspaceViewModel WorkspaceViewModel { get; set; }
@@ -209,6 +218,20 @@ namespace Train.ViewModels
         [JsonIgnore]
         private DateTime _lastReadTime = DateTime.MinValue;
 
+        [JsonIgnore]
+        public RelayCommand DownloadDatasetCommand { get; set; }
+
+        private string _selectedDataset;
+        public string SelectedDataset
+        {
+            get => _selectedDataset;
+            set
+            {
+                _selectedDataset = value;
+                OnPropertyChanged(nameof(SelectedDataset));
+            }
+        }
+
         public TrainViewModel()
         {
             WorkspaceViewModel = new WorkspaceViewModel();
@@ -217,6 +240,7 @@ namespace Train.ViewModels
             ChartViewModel = new ChartViewModel();
             GetDirectoryButtonCommand = new RelayCommand(ExecuteClickMe, CanExecuteClickMe);
             ClickMeButtonCommand = new RelayCommand(ExecuteTrainClickMe, CanExecuteTrainClickMe);
+            DownloadDatasetCommand = new RelayCommand(ExecuteDownloadDataset, CanExecuteDownloadDataset);
 
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             _logFilePath = Path.Combine(baseDirectory, "../../../../Python-server/log1.txt");
@@ -320,6 +344,51 @@ namespace Train.ViewModels
         private bool CanExecuteTrainClickMe(object obj)
         {
             return true;
+        }
+
+        private async void ExecuteDownloadDataset(object obj)
+        {
+            if (string.IsNullOrEmpty(SelectedDataset))
+            {
+                System.Windows.MessageBox.Show("Please select a dataset to download.", "No Dataset Selected", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                System.Windows.MessageBox.Show($"Starting download of {SelectedDataset}...", "Download Started", MessageBoxButton.OK, MessageBoxImage.Information);
+                var (success, downloadPath) = await DatasetDownloader.DownloadDatasetAsync(SelectedDataset);
+                if (success && !string.IsNullOrEmpty(downloadPath))
+                {
+                    TrainDataPath = downloadPath;
+                    System.Windows.MessageBox.Show($"Dataset downloaded successfully to: {downloadPath}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Download failed or was cancelled.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Error downloading dataset: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private bool CanExecuteDownloadDataset(object obj)
+        {
+            return true;
+        }
+
+        public void Dispose()
+        {
+            try
+            {
+                //DatasetDownloader.Shutdown();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Error during cleanup: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
