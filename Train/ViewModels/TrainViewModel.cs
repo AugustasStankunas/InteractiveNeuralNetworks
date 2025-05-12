@@ -1,24 +1,18 @@
-﻿using System.Text.Json.Serialization;
-using Builder.Enums;
-using Shared.Attributes;
-using Shared.Commands;
-using Shared.ViewModels;
+﻿using System.ComponentModel;
 using System.IO;
-using Microsoft.Win32;
-using System.Text.Json;
-using System.Net.Http.Json;
-using System.Windows;
-using WinForms = System.Windows.Forms;
-using System.Windows.Controls;
-using Train.Helpers;
-using Builder.ViewModels;
-
-using Shared.Commands;
 using System.Text;
-using System.Windows;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Builder;
+using Builder.Enums;
+using Builder.ViewModels;
+using Shared.Attributes;
+using Shared.Commands;
+using Shared.ViewModels;
+using Train.Helpers;
+using System.ComponentModel;
 
 namespace Train.ViewModels
 {
@@ -28,12 +22,14 @@ namespace Train.ViewModels
         public WorkspaceViewModel WorkspaceViewModel { get; set; }
         [JsonIgnore]
         public RelayCommand ClickMeButtonCommand { get; set; }
-        //[JsonIgnore]
-        public List<AugmentationItem> Items { get; set; }
 
 
         private double _learningRate;
         [EditableProperty]
+        [Description(
+           "Learning rate for the optimizer (gradient descent step size). " +
+           "Typical values range from 1e-6 (very fine updates) up to 1.0 (very coarse). " +
+           "Common defaults are 0.001 or 0.01.")]
         public double LearningRate
         {
             get => _learningRate;
@@ -46,6 +42,13 @@ namespace Train.ViewModels
 
         private LossFunctionType _lossFunction;
         [EditableProperty("ComboBox")]
+        [Description(
+             "Which loss function to minimize during training.\n" +
+             "Options include:\n" +
+             "• MSE (Mean Squared Error) – average of squared differences, ideal for regression tasks.\n" +
+             "• MAE (Mean Absolute Error) – average of absolute differences, more robust to outliers.\n" +
+             "• BinaryCrossEntropy – log loss for binary classification (outputs between 0 and 1).\n" +
+             "• CategoricalCrossEntropy – for multi-class classification; compares predicted probability distributions to true labels.")]
         public LossFunctionType LossFunction
         {
             get => _lossFunction;
@@ -58,6 +61,10 @@ namespace Train.ViewModels
 
         private int _batchSize;
         [EditableProperty]
+        [Description(
+           "Number of training samples processed in one forward/backward pass. " +
+           "Larger batch sizes (e.g. 128, 256, 1024) give more stable gradients " +
+           "but use more memory. Typical range: 1 to 65536.")]
         public int BatchSize
         {
             get => _batchSize;
@@ -67,15 +74,107 @@ namespace Train.ViewModels
                 OnPropertyChanged(nameof(BatchSize));
             }
         }
-        private LossFunctionType _augmentationType;   // LossFunctionType i Augmentation pakeist
+
+        private bool _horizontalFlip;
         [EditableProperty("CheckBox")]
-        public LossFunctionType AugmentationType
+        [Description(
+           "Augmentation that mirrors the image along the vertical axis (left-right). " +
+           "Useful for tasks where left-right symmetry is acceptable, like object detection or classification.")]
+        public bool HorizontalFlip
         {
-            get => _augmentationType;
+            get => _horizontalFlip;
             set
             {
-                _augmentationType = value;
-                OnPropertyChanged(nameof(AugmentationType));
+                _horizontalFlip = value;
+                OnPropertyChanged(nameof(HorizontalFlip));
+            }
+        }
+
+        private bool _verticalFlip;
+        [EditableProperty("CheckBox")]
+        [Description(
+           "Augmentation that mirrors the image along the horizontal axis (top-bottom). " +
+           "Use with caution as some tasks (e.g. digit recognition) are not invariant to vertical flips.")]
+        public bool VerticalFlip
+        {
+            get => _verticalFlip;
+            set
+            {
+                _verticalFlip = value;
+                OnPropertyChanged(nameof(VerticalFlip));
+            }
+        }
+
+        private bool _pad;
+        [EditableProperty("CheckBox")]
+        [Description(
+           "Augmentation type which adds extra space (usually filled with zeros or a constant value) around the image. " +
+           "Can help preserve content when applying transformations like cropping or rotation.")]
+        public bool Pad
+        {
+            get => _pad;
+            set
+            {
+                _pad = value;
+                OnPropertyChanged(nameof(Pad));
+            }
+        }
+        private bool _zoomOut;
+        [EditableProperty("CheckBox")]
+        [Description(
+           "Augmentation that scales down the image and places it within a larger canvas. " +
+           "This simulates smaller objects and improves robustness to scale variance.")]
+        public bool ZoomOut
+        {
+            get => _zoomOut;
+            set
+            {
+                _zoomOut = value;
+                OnPropertyChanged(nameof(ZoomOut));
+            }
+        }
+
+        private bool _rotation;
+        [EditableProperty("CheckBox")]
+        [Description(
+           "Augmentation type which randomly rotates the image around its center. " +
+           "Helps the model learn rotational invariance, particularly in tasks where orientation varies.")]
+        public bool Rotation
+        {
+            get => _rotation;
+            set
+            {
+                _rotation = value;
+                OnPropertyChanged(nameof(Rotation));
+            }
+        }
+
+        private bool _affine;
+        [EditableProperty("CheckBox")]
+        [Description(
+           "Augmentation type which applies linear transformations like translation, scaling, rotation, and shearing. " +
+           "Useful for simulating geometric distortions and improving generalization.")]
+        public bool Affine
+        {
+            get => _affine;
+            set
+            {
+                _affine = value;
+                OnPropertyChanged(nameof(Affine));
+            }
+        }
+        private bool _perspective;
+        [EditableProperty("CheckBox")]
+        [Description(
+           "Augmentation type which warps the image to simulate 3D perspective effects. " +
+           "Helps the model become invariant to viewpoint and projective distortions.")]
+        public bool Perspective
+        {
+            get => _perspective;
+            set
+            {
+                _perspective = value;
+                OnPropertyChanged(nameof(Perspective));
             }
         }
 
@@ -89,10 +188,10 @@ namespace Train.ViewModels
         public string OutputText
         {
             get => _outputText;
-            set 
-            { 
-                _outputText = value; 
-                OnPropertyChanged(nameof(OutputText)); 
+            set
+            {
+                _outputText = value;
+                OnPropertyChanged(nameof(OutputText));
             }
         }
 
@@ -120,7 +219,6 @@ namespace Train.ViewModels
             _logFilePath = Path.Combine(baseDirectory, "../../../../Python-server/log.txt");
             InitializeWatcher();
             RefreshLogCommand = new RelayCommand(_ => RefreshLogContent());
-
         }
 
         private void InitializeHyperparameters()
@@ -128,6 +226,13 @@ namespace Train.ViewModels
             LearningRate = 0.01;
             LossFunction = LossFunctionType.CategoricalCrossEntropy;
             BatchSize = 16384;
+            HorizontalFlip = false;
+            VerticalFlip = false;
+            Pad = false;
+            ZoomOut = false;
+            Rotation = false;
+            Affine = false;
+            Perspective = false;
         }
 
         public string TrainDataPath { get; set; }

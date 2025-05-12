@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using Builder.Enums;
+using Builder.Helpers;
 using Builder.ViewModels.WorkspaceElements;
 
 namespace Builder.ViewModels.ToolbarElements
@@ -8,7 +10,8 @@ namespace Builder.ViewModels.ToolbarElements
     {
         public TBFlattenViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
-            Name = "Flattten layer";
+            Name = "Flattten";
+            TooltipText = LayerType.Flatten.GetDescription();
             WorkspaceItem = new WSFlattenViewModel(0, 0);
         }
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

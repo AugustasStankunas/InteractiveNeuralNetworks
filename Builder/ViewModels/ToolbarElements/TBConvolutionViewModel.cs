@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using Builder.Enums;
+using Builder.Helpers;
 using Builder.ViewModels.WorkspaceElements;
 
 
@@ -10,7 +12,8 @@ namespace Builder.ViewModels.ToolbarElements
     {
         public TBConvolutionViewModel(ToolbarViewModel toolbar) : base(toolbar)
         {
-            Name = "Convolutional layer";
+            Name = "Convolutional";
+            TooltipText = LayerType.Convolutional.GetDescription();
             WorkspaceItem = new WSConvolutionViewModel(0, 0, 3, 1, 0, 0);
         }
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

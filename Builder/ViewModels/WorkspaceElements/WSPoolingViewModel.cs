@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
 using System.Text.Json.Serialization;
 using System.Windows;
 using Builder.Enums;
@@ -12,6 +13,11 @@ namespace Builder.ViewModels.WorkspaceElements
     {
         private int _kernelSize;
         [EditableProperty]
+        [Description(
+            "Size of the (square) pooling window in pixels.\n" +
+            "Common values are 2 or 3; larger kernels reduce spatial dimensions more aggressively.\n" +
+            "E.g. a 2×2 window halves width/height when used with stride=2."
+        )]
         public int KernelSize
         {
             get => _kernelSize;
@@ -26,6 +32,11 @@ namespace Builder.ViewModels.WorkspaceElements
 
         private int _stride;
         [EditableProperty]
+        [Description(
+            "Stride of the pooling window across the feature map.\n" +
+            "A stride of 1 applies overlapping windows (minimal downsampling).\n" +
+            "A stride equal to KernelSize yields non-overlapping pooling, downsampling by that factor."
+        )]
         public int Stride
         {
             get => _stride;
@@ -38,6 +49,11 @@ namespace Builder.ViewModels.WorkspaceElements
         }
         private PoolingType _poolingType;
         [EditableProperty("ComboBox")]
+        [Description(
+            "Pooling operation to apply over each window:\n" +
+            "• Max – takes the maximum value, preserving strongest activations.\n" +
+            "• Average – computes the mean, yielding smoother feature maps."
+        )]
         public PoolingType PoolingType
         {
             get => _poolingType;

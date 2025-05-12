@@ -9,24 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Icons\activationFunction.png" />
-    <None Remove="Resources\Icons\Add.png" />
-    <None Remove="Resources\Icons\BatchNorm.png" />
-    <None Remove="Resources\Icons\conv.png" />
-    <None Remove="Resources\Icons\Convolution.png" />
-    <None Remove="Resources\Icons\convolutionall.jpg" />
-    <None Remove="Resources\Icons\defaultIcon.png" />
-    <None Remove="Resources\Icons\Dropout.png" />
-    <None Remove="Resources\Icons\Flatten.png" />
-    <None Remove="Resources\Icons\fullyConnected.png" />
-    <None Remove="Resources\Icons\fullyConnectedl.jpg" />
-    <None Remove="Resources\Icons\fullyConnectedl.png" />
-    <None Remove="Resources\Icons\pooling.png" />
-    <None Remove="Resources\Icons\Poolingg.png" />
-    <None Remove="Resources\Icons\poolingl.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Resources\Icons\Add.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -51,6 +33,9 @@
     <Content Include="Resources\Icons\Poolingg.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+	<Content Include="Resources\Icons\information.png">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
   </ItemGroup>
 
   <ItemGroup>
