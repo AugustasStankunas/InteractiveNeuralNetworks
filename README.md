@@ -39,3 +39,19 @@ Using this app the user can build, train and test neural networks for image clas
   - Rotation
   - Affine
   - Perspective
+
+## How to use
+
+The program has 3 windows - Builder, Train and Test. The model can be saved to a .JSON file by the File menu item.
+
+### Builder
+
+This window is for building the actual model. The toolbar in the left contains all neural network layers, which can be dragged and dropped on the main canvas. When a layer is selected, its properties are shown in the properties window on the right. Connection mode can either be turned on or off. When connection mode is ON, layers cannot be moved, only connections can be created. Layers and connections can be deleted by pressing the Delete button when selected. Multi selection is also implemented with Ctrl + LMB.
+
+### Train
+
+### Test
+
+## How to launch
+
+## Testing and its results
