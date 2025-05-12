@@ -77,22 +77,42 @@ namespace Builder.ViewModels.WorkspaceElements
                 OnPropertyChanged(nameof(DisplayName));
             }
         }
+        private int _padding;
+
+        [EditableProperty]
+        [Description(
+            "Padding applied to the input before the convolution operation. \n" +
+            "Padding helps control the spatial dimensions of the output. \n" +
+            "For example, padding=1 adds a one-pixel border around the input."
+        )]
+        public int Padding
+        {
+            get => _padding;
+            set
+            {
+                _padding = value;
+                OnPropertyChanged(nameof(Padding));
+                OnPropertyChanged(nameof(DisplayName));
+            }
+        }
+
         [JsonIgnore]
         public override string DisplayName =>
-            $"{Name}\nI:{InputChannels} O:{OutputChannels} \n K:{KernelSize} S:{Stride}";
+            $"{Name}\nI:{InputChannels} O:{OutputChannels} \n K:{KernelSize} S:{Stride} P:{Padding}";
 
-        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
+        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, int padding, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
             : base(x, y, width, height, opacity, name)
         {
             InputChannels = inputChannels;
             OutputChannels = outputChannels;
             KernelSize = kernelSize;
             Stride = stride;
+            Padding = padding;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Convolution.png");
         }
 
         [JsonConstructor]
-        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, Point position,
+        public WSConvolutionViewModel(int inputChannels, int outputChannels, int kernelSize, int stride, int padding, Point position,
                                       string name, ActivationFunctionType activationFunction)
             : base(position.X, position.Y, name: name, activationFunction: activationFunction)
         {
@@ -100,6 +120,7 @@ namespace Builder.ViewModels.WorkspaceElements
             OutputChannels = outputChannels;
             KernelSize = kernelSize;
             Stride = stride;
+            Padding = padding;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Convolution.png");
         }
     }

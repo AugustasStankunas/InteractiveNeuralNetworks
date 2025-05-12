@@ -15,7 +15,7 @@ namespace Builder.ViewModels
         {
             Builder = builderViewModel;
 
-            WorkspaceItems.Add(new WSConvolutionViewModel(3, 64, 3, 2, x: 50020, y: 50200, name: "conv1"));
+            WorkspaceItems.Add(new WSConvolutionViewModel(3, 64, 3, 2, 0, x: 50020, y: 50200, name: "conv1"));
             WorkspaceItems.Add(new WSPoolingViewModel(3, 2, x: 50120, y: 50200, name: "pool1"));
             WorkspaceItems.Add(new WSFullyConnectedViewModel(256, 512, x: 50220, y: 50200, name: "fc1"));
 
@@ -365,6 +365,7 @@ namespace Builder.ViewModels
                     convItem.OutputChannels,
                     convItem.KernelSize,
                     convItem.Stride,
+                    convItem.Padding,
                     original.Position.X,
                     original.Position.Y,
                     original.Width,
@@ -464,7 +465,6 @@ namespace Builder.ViewModels
             else if (original is WSAddViewModel addItem)
             {
                 return new WSAddViewModel(
-                    addItem.NumInputs,
                     original.Position.X,
                     original.Position.Y,
                     original.Width,

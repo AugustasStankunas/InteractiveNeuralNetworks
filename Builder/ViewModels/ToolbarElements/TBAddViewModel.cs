@@ -18,7 +18,7 @@ namespace Builder.ViewModels.ToolbarElements
         {
             IsSelected = true;
             Point mousePos = e.GetPosition(null);
-            WorkspaceItemViewModel workspaceItem = new WSAddViewModel(0, mousePos.X, mousePos.Y, opacity: 0.5);
+            WorkspaceItemViewModel workspaceItem = new WSAddViewModel(mousePos.X, mousePos.Y, opacity: 0.5);
             Toolbar.Builder.WorkspaceItemSelected.Add(workspaceItem);
         }
     }
