@@ -15,7 +15,7 @@ namespace Builder.ViewModels
         {
             Builder = builderViewModel;
 
-            WorkspaceItems.Add(new WSConvolutionViewModel(3, 64, 3, 2, x: 50020, y: 50200, name: "conv1"));
+            WorkspaceItems.Add(new WSConvolutionViewModel(3, 64, 3, 2, 0, x: 50020, y: 50200, name: "conv1"));
             WorkspaceItems.Add(new WSPoolingViewModel(3, 2, x: 50120, y: 50200, name: "pool1"));
             WorkspaceItems.Add(new WSFullyConnectedViewModel(256, 512, x: 50220, y: 50200, name: "fc1"));
 
@@ -34,7 +34,20 @@ namespace Builder.ViewModels
             ControlKeyDownCommand = new RelayCommand<KeyEventArgs>(ControlKeyDown);
             CanvasPanOffset = new Point(-Width / 2, -Height / 2);
         }
-        public WorkspaceViewModel() { }
+        public WorkspaceViewModel() 
+        {
+            MouseMoveCommand = new RelayCommand<MouseEventArgs>(OnMouseMove);
+            DragOverCommand = new RelayCommand<DragEventArgs>(OnDragOver);
+
+            MouseWheelCommand = new RelayCommand<MouseWheelEventArgs>(OnMouseWheel);
+            MouseLeftButtonDownCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonDown);
+            MouseLeftButtonUpCommand = new RelayCommand<MouseButtonEventArgs>(OnMouseLeftButtonUp);
+
+            RenderSizeChangedCommand = new RelayCommand<SizeChangedEventArgs>(OnRenderSizeChanged);
+            DeleteKeyDownCommand = new RelayCommand<KeyEventArgs>(OnDeleteKeyDown);
+            ControlKeyDownCommand = new RelayCommand<KeyEventArgs>(ControlKeyDown);
+            CanvasPanOffset = new Point(-Width / 2, -Height / 2);
+        }
 
         public BuilderViewModel Builder { get; set; }
 
@@ -149,7 +162,15 @@ namespace Builder.ViewModels
             get => _selectionRect;
             set { _selectionRect = value; OnPropertyChanged(nameof(SelectionRect)); }
         }
-
+		// Update the properties window with selection information
+		private void UpdatePropertiesWindowViewModel()
+		{
+			Builder.PropertiesWindowViewModel.IsMultipleSelectionActive = IsMultipleSelectionActive;
+			if (SelectedItems.Count == 0)
+			{
+				Builder.PropertiesWindowViewModel.Properties = null;
+			}
+		}
         // Add property to check if multiple selection is active
         public bool IsMultipleSelectionActive => SelectedItems.Count > 1;
 
@@ -344,6 +365,7 @@ namespace Builder.ViewModels
                     convItem.OutputChannels,
                     convItem.KernelSize,
                     convItem.Stride,
+                    convItem.Padding,
                     original.Position.X,
                     original.Position.Y,
                     original.Width,
@@ -443,7 +465,6 @@ namespace Builder.ViewModels
             else if (original is WSAddViewModel addItem)
             {
                 return new WSAddViewModel(
-                    addItem.NumInputs,
                     original.Position.X,
                     original.Position.Y,
                     original.Width,
@@ -500,6 +521,7 @@ namespace Builder.ViewModels
             }
             SelectedItems.Clear();
             OnPropertyChanged(nameof(IsMultipleSelectionActive));
+            UpdatePropertiesWindowViewModel(); 
         }
         private void UpdateSelectionRectangle(Point currentPos)
         {
@@ -556,6 +578,7 @@ namespace Builder.ViewModels
             }
 
             OnPropertyChanged(nameof(IsMultipleSelectionActive));
+            UpdatePropertiesWindowViewModel();
         }
         private void CopySelectedItems()
         {
@@ -689,6 +712,7 @@ namespace Builder.ViewModels
             }
             OnPropertyChanged(nameof(SelectedItem));
             OnPropertyChanged(nameof(IsMultipleSelectionActive));
+            UpdatePropertiesWindowViewModel();
         }
     }
 }

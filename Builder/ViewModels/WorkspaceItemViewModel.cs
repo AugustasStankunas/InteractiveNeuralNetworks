@@ -188,5 +188,10 @@ namespace Builder.ViewModels
             WorkspaceItemViewModel otherItem = (WorkspaceItemViewModel)obj;
             return Position == otherItem.Position && Name == otherItem.Name;
         }
+
+        public override int GetHashCode()
+        {
+            return Position.GetHashCode() ^ Name.GetHashCode();
+        }
     }
 }
