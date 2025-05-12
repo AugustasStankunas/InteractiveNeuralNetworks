@@ -109,10 +109,10 @@ namespace Builder.ViewModels
         private void OnMouseWheel(MouseWheelEventArgs e)
         {
             Point mousePos;
-            if (e.OriginalSource is Image || e.OriginalSource is TextBlock)
-                mousePos = e.GetPosition(e.Source as IInputElement);
-            else
+            if (e.OriginalSource is Canvas)
                 mousePos = e.GetPosition(e.OriginalSource as IInputElement);
+            else
+                mousePos = e.GetPosition(e.Source as IInputElement);
 
             double oldZoom = ZoomFactor;
             double zoomDelta = e.Delta > 0 ? 0.1 : -0.1;
