@@ -20,10 +20,16 @@ SAVE_INTERVAL = 5
 def reset_log():
     if os.path.exists("log.txt"):
          os.remove("log.txt")
+    if os.path.exists("log1.txt"):
+         os.remove("log1.txt")
 
 
 def log(text):
     with open("log.txt", "a") as f:
+        f.write(text)
+
+def log1(text):
+    with open("log1.txt", "a") as f:
         f.write(text)
 
 
@@ -34,10 +40,10 @@ def train():
 
     BATCH_SIZE = config['Train']['BatchSize']
     LEARNING_RATE = config['Train']['LearningRate']
-    TRAIN_DIR = os.path.join(config['Train']['DataDir'], "train")
-    TEST_DIR = os.path.join(config['Train']['DataDir'], "test")
+    TRAIN_DIR = os.path.join(config['Train']['TrainDataPath'], "train")
+    TEST_DIR = os.path.join(config['Train']['TrainDataPath'], "test")
     if not os.path.exists(TEST_DIR): TEST_DIR = None
-    VAL_DIR = os.path.join(config['Train']['DataDir'], "val")
+    VAL_DIR = os.path.join(config['Train']['TrainDataPath'], "val")
     if not os.path.exists(VAL_DIR): VAL_DIR = None
 
     if config['Train']['LossFunction'] == 0:
@@ -68,6 +74,7 @@ def train():
     with open(os.path.join("checkpoints", current_time, "model_info.json"), "w") as f:
         json.dump({'labels': train_dataset.labels}, f)
 
+    last_val_loss = 0
     for epoch in range(1, MAX_EPOCHS):
         model.train()
         log(f"Epoch: {epoch}")
@@ -98,6 +105,7 @@ def train():
                     loss = loss_fn(output, y_val)
                     total_loss_val += loss
             total_loss_val /= val_batches_N
+            last_val_loss = total_loss_val
             log(f"Validation loss: {total_loss_val}\n")
         
         if epoch % SAVE_INTERVAL == 0:
@@ -105,6 +113,7 @@ def train():
             model_path = os.path.join("checkpoints", current_time, model_name)
             torch.save(model.state_dict(), model_path)
             log(f"Saving model as {model_path}\n")
+        log1(f"Epoch {epoch}: Train loss: {total_loss_train}\tValidation loss: {last_val_loss}\n")
 
         
     

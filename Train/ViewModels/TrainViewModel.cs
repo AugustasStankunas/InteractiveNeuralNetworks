@@ -243,7 +243,7 @@ namespace Train.ViewModels
             DownloadDatasetCommand = new RelayCommand(ExecuteDownloadDataset, CanExecuteDownloadDataset);
 
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            _logFilePath = Path.Combine(baseDirectory, "../../../../Python-server/log1.txt");
+            _logFilePath = Path.Combine(baseDirectory, "../../../../Python-server/log.txt");
             InitializeWatcher();
             RefreshLogCommand = new RelayCommand(_ => RefreshLogContent());
         }

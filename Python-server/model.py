@@ -22,8 +22,11 @@ class Model(nn.Module):
         self.connections = []
         model_layers = torch.nn.ModuleDict()
         model_layers_info = {}
-        for layer_config in config['Items']:
-            if layer_config['$type'] == "Linear":
+        for i, layer_config in enumerate(config['Items']):
+            current_layer = None
+            if layer_config['$type'] == 'Input':
+                current_layer = modules.Input()
+            elif layer_config['$type'] == "Linear":
                 current_layer = nn.Linear(in_features=layer_config['InputNeurons'],
                                           out_features=layer_config['OutputNeurons'])
             elif layer_config['$type'] == "Conv2D":
@@ -61,10 +64,11 @@ class Model(nn.Module):
 
             # Inputs - list of layer names that are inputs for this layer
             # Output - this layer forward result
-            model_layers.update(torch.nn.ModuleDict({layer_config['Name']: current_layer}))
-            model_layers_info.update({layer_config['Name']:  {'Inputs': [], 
-                                                              'Output': None, 
-                                                              'ForwardPassPoss': layer_config['Layer']}})
+            if current_layer:
+                model_layers.update(torch.nn.ModuleDict({layer_config['Name']: current_layer}))
+                model_layers_info.update({layer_config['Name']:  {'Inputs': [], 
+                                                                'Output': None, 
+                                                                'ForwardPassPoss': 0 if i == 0 else (1 if i == len(config['Items']) - 1 else 2)}})
 
         self.model_layers = model_layers
         self.model_layers_info = model_layers_info

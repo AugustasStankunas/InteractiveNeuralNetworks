@@ -4,6 +4,7 @@ import os
 from model import build_model
 from torchvision.io import decode_image
 import json
+import sys
 
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -32,7 +33,7 @@ def load_latest_checkpoint():
     return torch.load(path), parent_path, path 
 
 
-def inference():
+def inference(load_latest=False):
     reset_log()
     model = build_model()
     state_dict, checkpoint_dir_path, state_dict_path = load_latest_checkpoint()
