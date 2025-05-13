@@ -465,6 +465,6 @@
     "Affine": false,
     "Perspective": false,
     "SelectedDataset": null,
-    "TrainDataPath": "C:\\Files\\KTU\\4 semestras\\Projektas\\InteractiveNeuralNetwork_git\\Python-server\\Cifar10DatasetImg"
+    "TrainDataPath": "C:\\Files\\KTU\\4 semestras\\Projektas\\Datasets\\Cifar10DatasetImg"
   }
 }

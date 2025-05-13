@@ -6,11 +6,12 @@ from model import Model, build_model
 import json
 import os
 import torchvision
+from torcheval.metrics import MulticlassAccuracy
 from time import localtime, strftime
 
 
 # will have to make dynamic with config:
-MAX_EPOCHS = 1000
+MAX_EPOCHS = 200
 CONFIG_PATH = "config.json"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 VALID_INTERVAL = 10
@@ -115,6 +116,25 @@ def train():
             log(f"Saving model as {model_path}\n")
         log1(f"Epoch {epoch}: Train loss: {total_loss_train}\tValidation loss: {last_val_loss}\n")
 
+    log(f"Training finished.\n")
+    log(f"Doing testing...\n")
+    model.eval()
+    total_loss_test = 0
+    metric = MulticlassAccuracy()
+    with torch.no_grad():
+        for X_test, y_test in test_dataloader:
+            X_test = X_test.to(DEVICE)
+            y_test = y_test.to(DEVICE)
+            output = model(X_test)
+            model.reset_layers_outputs()
+            loss = loss_fn(output, y_test)
+            total_loss_test += loss
+            metric.update(output, y_test)
+    
+    total_loss_test /= test_batches_N
+    test_accuracy = metric.compute()
+    log(f"Test loss: {total_loss_test}\n")
+    log(f"Test accuracy: {test_accuracy}\n")
         
     
             

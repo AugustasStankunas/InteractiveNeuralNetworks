@@ -1,5 +1,5 @@
 import os
-from torchvision.datasets import FashionMNIST, CIFAR10
+from torchvision.datasets import FashionMNIST, CIFAR10, MNIST
 from torchvision.transforms import ToPILImage
 from pathlib import Path
 
@@ -9,7 +9,7 @@ Method to save fashion MNIST as raw images.
 Maybe we should let user choose to use any existing Pytorch dataset,
 that wouldn't really be difficult, but I think it's better to give user more control by letting them use custom images.
 """
-def save_fashion_mnist(torch_dataset, root_dir="FashionMnistImg", image_format="png"):
+def save_fashion_mnist(torch_dataset, root_dir="Mnist", image_format="png"):
     train_dir = os.path.join(root_dir, "train")
     test_dir = os.path.join(root_dir, "test")
     val_dir = os.path.join(root_dir, "val")
@@ -48,4 +48,4 @@ def save_fashion_mnist(torch_dataset, root_dir="FashionMnistImg", image_format="
     print("Finished.")
 
 if __name__ == "__main__":
-    save_fashion_mnist(CIFAR10, "Cifar10DatasetImg")
+    save_fashion_mnist(MNIST, "Mnist")
