@@ -1,470 +1,471 @@
 {
-  "Items": [
-    {
-      "$type": "Input",
-      "ImageHeight": 32,
-      "ImageWidth": 32,
-      "NumChannels": 3,
-      "Name": "Inpu1",
-      "Position": {
-        "X": 50119.641616162,
-        "Y": 50162.784011543816
-      },
-      "ActivationFunction": 0
+    "Items": [
+        {
+            "$type": "Input",
+            "ImageHeight": 32,
+            "ImageWidth": 32,
+            "NumChannels": 3,
+            "Name": "Inpu1",
+            "Position": {
+                "X": 50119.641616162,
+                "Y": 50162.784011543816
+            },
+            "ActivationFunction": 0
+        },
+        {
+            "$type": "Conv2D",
+            "InputChannels": 3,
+            "OutputChannels": 6,
+            "KernelSize": 5,
+            "Stride": 1,
+            "Padding": 0,
+            "Name": "Conv1",
+            "Position": {
+                "X": 50224.84469697009,
+                "Y": 50068.31936507918
+            },
+            "ActivationFunction": 2
+        },
+        {
+            "$type": "Pool2D",
+            "KernelSize": 2,
+            "Stride": 2,
+            "PoolingType": 0,
+            "Name": "Pool1",
+            "Position": {
+                "X": 50347.945454545836,
+                "Y": 49997.67290043272
+            },
+            "ActivationFunction": 0
+        },
+        {
+            "$type": "Conv2D",
+            "InputChannels": 6,
+            "OutputChannels": 16,
+            "KernelSize": 5,
+            "Stride": 1,
+            "Padding": 0,
+            "Name": "Conv2",
+            "Position": {
+                "X": 50464.353737374426,
+                "Y": 50018.21835497809
+            },
+            "ActivationFunction": 2
+        },
+        {
+            "$type": "Pool2D",
+            "KernelSize": 2,
+            "Stride": 2,
+            "PoolingType": 0,
+            "Name": "Pool2",
+            "Position": {
+                "X": 50585.54141414209,
+                "Y": 49959.79411255386
+            },
+            "ActivationFunction": 0
+        },
+        {
+            "$type": "Linear",
+            "InputNeurons": 2097152,
+            "OutputNeurons": 120,
+            "Name": "Full1",
+            "Position": {
+                "X": 51039.25404040474,
+                "Y": 49976.31936507911
+            },
+            "ActivationFunction": 2
+        },
+        {
+            "$type": "Linear",
+            "InputNeurons": 120,
+            "OutputNeurons": 84,
+            "Name": "Full2",
+            "Position": {
+                "X": 51050.84924242502,
+                "Y": 50228.80421356384
+            },
+            "ActivationFunction": 2
+        },
+        {
+            "$type": "Output",
+            "NumOutputs": 10,
+            "OutputParam": 1,
+            "Name": "Outp1",
+            "Position": {
+                "X": 51367.07676767758,
+                "Y": 50134.622395382
+            },
+            "ActivationFunction": 0
+        },
+        {
+            "$type": "Linear",
+            "InputNeurons": 84,
+            "OutputNeurons": 10,
+            "Name": "Full3",
+            "Position": {
+                "X": 51199.81616161703,
+                "Y": 50044.21027416991
+            },
+            "ActivationFunction": 0
+        },
+        {
+            "$type": "Conv2D",
+            "InputChannels": 16,
+            "OutputChannels": 32,
+            "KernelSize": 3,
+            "Stride": 1,
+            "Padding": 0,
+            "Name": "Conv3",
+            "Position": {
+                "X": 50674.02429293018,
+                "Y": 50045.36178932141
+            },
+            "ActivationFunction": 2
+        },
+        {
+            "$type": "Pool2D",
+            "KernelSize": 2,
+            "Stride": 2,
+            "PoolingType": 0,
+            "Name": "Pool3",
+            "Position": {
+                "X": 50808.240404041295,
+                "Y": 50025.806233765856
+            },
+            "ActivationFunction": 0
+        },
+        {
+            "$type": "Flatten",
+            "Name": "Flat1",
+            "Position": {
+                "X": 50934.39076479185,
+                "Y": 50001.61258297211
+            },
+            "ActivationFunction": 0
+        }
+    ],
+    "Connections": [
+        {
+            "Source": {
+                "$type": "Input",
+                "ImageHeight": 32,
+                "ImageWidth": 32,
+                "NumChannels": 3,
+                "Name": "Inpu1",
+                "Position": {
+                    "X": 50119.641616162,
+                    "Y": 50162.784011543816
+                },
+                "ActivationFunction": 0
+            },
+            "Target": {
+                "$type": "Conv2D",
+                "InputChannels": 3,
+                "OutputChannels": 6,
+                "KernelSize": 5,
+                "Stride": 1,
+                "Padding": 0,
+                "Name": "Conv1",
+                "Position": {
+                    "X": 50224.84469697009,
+                    "Y": 50068.31936507918
+                },
+                "ActivationFunction": 2
+            },
+            "SourceFaceDirection": 1,
+            "TargetFaceDirection": 0
+        },
+        {
+            "Source": {
+                "$type": "Conv2D",
+                "InputChannels": 3,
+                "OutputChannels": 6,
+                "KernelSize": 5,
+                "Stride": 1,
+                "Padding": 0,
+                "Name": "Conv1",
+                "Position": {
+                    "X": 50224.84469697009,
+                    "Y": 50068.31936507918
+                },
+                "ActivationFunction": 2
+            },
+            "Target": {
+                "$type": "Pool2D",
+                "KernelSize": 2,
+                "Stride": 2,
+                "PoolingType": 0,
+                "Name": "Pool1",
+                "Position": {
+                    "X": 50347.945454545836,
+                    "Y": 49997.67290043272
+                },
+                "ActivationFunction": 0
+            },
+            "SourceFaceDirection": 1,
+            "TargetFaceDirection": 0
+        },
+        {
+            "Source": {
+                "$type": "Pool2D",
+                "KernelSize": 2,
+                "Stride": 2,
+                "PoolingType": 0,
+                "Name": "Pool1",
+                "Position": {
+                    "X": 50347.945454545836,
+                    "Y": 49997.67290043272
+                },
+                "ActivationFunction": 0
+            },
+            "Target": {
+                "$type": "Conv2D",
+                "InputChannels": 6,
+                "OutputChannels": 16,
+                "KernelSize": 5,
+                "Stride": 1,
+                "Padding": 0,
+                "Name": "Conv2",
+                "Position": {
+                    "X": 50464.353737374426,
+                    "Y": 50018.21835497809
+                },
+                "ActivationFunction": 2
+            },
+            "SourceFaceDirection": 1,
+            "TargetFaceDirection": 0
+        },
+        {
+            "Source": {
+                "$type": "Conv2D",
+                "InputChannels": 6,
+                "OutputChannels": 16,
+                "KernelSize": 5,
+                "Stride": 1,
+                "Padding": 0,
+                "Name": "Conv2",
+                "Position": {
+                    "X": 50464.353737374426,
+                    "Y": 50018.21835497809
+                },
+                "ActivationFunction": 2
+            },
+            "Target": {
+                "$type": "Pool2D",
+                "KernelSize": 2,
+                "Stride": 2,
+                "PoolingType": 0,
+                "Name": "Pool2",
+                "Position": {
+                    "X": 50585.54141414209,
+                    "Y": 49959.79411255386
+                },
+                "ActivationFunction": 0
+            },
+            "SourceFaceDirection": 1,
+            "TargetFaceDirection": 0
+        },
+        {
+            "Source": {
+                "$type": "Linear",
+                "InputNeurons": 2097152,
+                "OutputNeurons": 120,
+                "Name": "Full1",
+                "Position": {
+                    "X": 51039.25404040474,
+                    "Y": 49976.31936507911
+                },
+                "ActivationFunction": 2
+            },
+            "Target": {
+                "$type": "Linear",
+                "InputNeurons": 120,
+                "OutputNeurons": 84,
+                "Name": "Full2",
+                "Position": {
+                    "X": 51050.84924242502,
+                    "Y": 50228.80421356384
+                },
+                "ActivationFunction": 2
+            },
+            "SourceFaceDirection": 1,
+            "TargetFaceDirection": 0
+        },
+        {
+            "Source": {
+                "$type": "Linear",
+                "InputNeurons": 120,
+                "OutputNeurons": 84,
+                "Name": "Full2",
+                "Position": {
+                    "X": 51050.84924242502,
+                    "Y": 50228.80421356384
+                },
+                "ActivationFunction": 2
+            },
+            "Target": {
+                "$type": "Linear",
+                "InputNeurons": 84,
+                "OutputNeurons": 10,
+                "Name": "Full3",
+                "Position": {
+                    "X": 51199.81616161703,
+                    "Y": 50044.21027416991
+                },
+                "ActivationFunction": 0
+            },
+            "SourceFaceDirection": 1,
+            "TargetFaceDirection": 0
+        },
+        {
+            "Source": {
+                "$type": "Linear",
+                "InputNeurons": 84,
+                "OutputNeurons": 10,
+                "Name": "Full3",
+                "Position": {
+                    "X": 51199.81616161703,
+                    "Y": 50044.21027416991
+                },
+                "ActivationFunction": 0
+            },
+            "Target": {
+                "$type": "Output",
+                "NumOutputs": 10,
+                "OutputParam": 1,
+                "Name": "Outp1",
+                "Position": {
+                    "X": 51367.07676767758,
+                    "Y": 50134.622395382
+                },
+                "ActivationFunction": 0
+            },
+            "SourceFaceDirection": 1,
+            "TargetFaceDirection": 0
+        },
+        {
+            "Source": {
+                "$type": "Pool2D",
+                "KernelSize": 2,
+                "Stride": 2,
+                "PoolingType": 0,
+                "Name": "Pool2",
+                "Position": {
+                    "X": 50585.54141414209,
+                    "Y": 49959.79411255386
+                },
+                "ActivationFunction": 0
+            },
+            "Target": {
+                "$type": "Conv2D",
+                "InputChannels": 16,
+                "OutputChannels": 32,
+                "KernelSize": 3,
+                "Stride": 1,
+                "Padding": 0,
+                "Name": "Conv3",
+                "Position": {
+                    "X": 50674.02429293018,
+                    "Y": 50045.36178932141
+                },
+                "ActivationFunction": 2
+            },
+            "SourceFaceDirection": 1,
+            "TargetFaceDirection": 0
+        },
+        {
+            "Source": {
+                "$type": "Conv2D",
+                "InputChannels": 16,
+                "OutputChannels": 32,
+                "KernelSize": 3,
+                "Stride": 1,
+                "Padding": 0,
+                "Name": "Conv3",
+                "Position": {
+                    "X": 50674.02429293018,
+                    "Y": 50045.36178932141
+                },
+                "ActivationFunction": 2
+            },
+            "Target": {
+                "$type": "Pool2D",
+                "KernelSize": 2,
+                "Stride": 2,
+                "PoolingType": 0,
+                "Name": "Pool3",
+                "Position": {
+                    "X": 50808.240404041295,
+                    "Y": 50025.806233765856
+                },
+                "ActivationFunction": 0
+            },
+            "SourceFaceDirection": 1,
+            "TargetFaceDirection": 0
+        },
+        {
+            "Source": {
+                "$type": "Pool2D",
+                "KernelSize": 2,
+                "Stride": 2,
+                "PoolingType": 0,
+                "Name": "Pool3",
+                "Position": {
+                    "X": 50808.240404041295,
+                    "Y": 50025.806233765856
+                },
+                "ActivationFunction": 0
+            },
+            "Target": {
+                "$type": "Flatten",
+                "Name": "Flat1",
+                "Position": {
+                    "X": 50934.39076479185,
+                    "Y": 50001.61258297211
+                },
+                "ActivationFunction": 0
+            },
+            "SourceFaceDirection": 1,
+            "TargetFaceDirection": 0
+        },
+        {
+            "Source": {
+                "$type": "Flatten",
+                "Name": "Flat1",
+                "Position": {
+                    "X": 50934.39076479185,
+                    "Y": 50001.61258297211
+                },
+                "ActivationFunction": 0
+            },
+            "Target": {
+                "$type": "Linear",
+                "InputNeurons": 2097152,
+                "OutputNeurons": 120,
+                "Name": "Full1",
+                "Position": {
+                    "X": 51039.25404040474,
+                    "Y": 49976.31936507911
+                },
+                "ActivationFunction": 2
+            },
+            "SourceFaceDirection": 1,
+            "TargetFaceDirection": 0
+        }
+    ],
+    "Train": {
+        "LearningRate": 0.01,
+        "LossFunction": 3,
+        "BatchSize": 8192,
+        "HorizontalFlip": false,
+        "VerticalFlip": false,
+        "Pad": false,
+        "ZoomOut": false,
+        "Rotation": false,
+        "Affine": false,
+        "Perspective": false,
+        "SelectedDataset": null,
+        "TrainDataPath": "C:\\Files\\KTU\\4 semestras\\Projektas\\Datasets\\Cifar10DatasetImg"
     },
-    {
-      "$type": "Conv2D",
-      "InputChannels": 3,
-      "OutputChannels": 6,
-      "KernelSize": 5,
-      "Stride": 1,
-      "Padding": 0,
-      "Name": "Conv1",
-      "Position": {
-        "X": 50224.84469697009,
-        "Y": 50068.31936507918
-      },
-      "ActivationFunction": 2
-    },
-    {
-      "$type": "Pool2D",
-      "KernelSize": 2,
-      "Stride": 2,
-      "PoolingType": 0,
-      "Name": "Pool1",
-      "Position": {
-        "X": 50347.945454545836,
-        "Y": 49997.67290043272
-      },
-      "ActivationFunction": 0
-    },
-    {
-      "$type": "Conv2D",
-      "InputChannels": 6,
-      "OutputChannels": 16,
-      "KernelSize": 5,
-      "Stride": 1,
-      "Padding": 0,
-      "Name": "Conv2",
-      "Position": {
-        "X": 50464.353737374426,
-        "Y": 50018.21835497809
-      },
-      "ActivationFunction": 2
-    },
-    {
-      "$type": "Pool2D",
-      "KernelSize": 2,
-      "Stride": 2,
-      "PoolingType": 0,
-      "Name": "Pool2",
-      "Position": {
-        "X": 50585.54141414209,
-        "Y": 49959.79411255386
-      },
-      "ActivationFunction": 0
-    },
-    {
-      "$type": "Linear",
-      "InputNeurons": 2097152,
-      "OutputNeurons": 120,
-      "Name": "Full1",
-      "Position": {
-        "X": 51039.25404040474,
-        "Y": 49976.31936507911
-      },
-      "ActivationFunction": 2
-    },
-    {
-      "$type": "Linear",
-      "InputNeurons": 120,
-      "OutputNeurons": 84,
-      "Name": "Full2",
-      "Position": {
-        "X": 51050.84924242502,
-        "Y": 50228.80421356384
-      },
-      "ActivationFunction": 2
-    },
-    {
-      "$type": "Output",
-      "NumOutputs": 10,
-      "OutputParam": 1,
-      "Name": "Outp1",
-      "Position": {
-        "X": 51367.07676767758,
-        "Y": 50134.622395382
-      },
-      "ActivationFunction": 0
-    },
-    {
-      "$type": "Linear",
-      "InputNeurons": 84,
-      "OutputNeurons": 10,
-      "Name": "Full3",
-      "Position": {
-        "X": 51199.81616161703,
-        "Y": 50044.21027416991
-      },
-      "ActivationFunction": 0
-    },
-    {
-      "$type": "Conv2D",
-      "InputChannels": 16,
-      "OutputChannels": 32,
-      "KernelSize": 3,
-      "Stride": 1,
-      "Padding": 0,
-      "Name": "Conv3",
-      "Position": {
-        "X": 50674.02429293018,
-        "Y": 50045.36178932141
-      },
-      "ActivationFunction": 2
-    },
-    {
-      "$type": "Pool2D",
-      "KernelSize": 2,
-      "Stride": 2,
-      "PoolingType": 0,
-      "Name": "Pool3",
-      "Position": {
-        "X": 50808.240404041295,
-        "Y": 50025.806233765856
-      },
-      "ActivationFunction": 0
-    },
-    {
-      "$type": "Flatten",
-      "Name": "Flat1",
-      "Position": {
-        "X": 50934.39076479185,
-        "Y": 50001.61258297211
-      },
-      "ActivationFunction": 0
-    }
-  ],
-  "Connections": [
-    {
-      "Source": {
-        "$type": "Input",
-        "ImageHeight": 32,
-        "ImageWidth": 32,
-        "NumChannels": 3,
-        "Name": "Inpu1",
-        "Position": {
-          "X": 50119.641616162,
-          "Y": 50162.784011543816
-        },
-        "ActivationFunction": 0
-      },
-      "Target": {
-        "$type": "Conv2D",
-        "InputChannels": 3,
-        "OutputChannels": 6,
-        "KernelSize": 5,
-        "Stride": 1,
-        "Padding": 0,
-        "Name": "Conv1",
-        "Position": {
-          "X": 50224.84469697009,
-          "Y": 50068.31936507918
-        },
-        "ActivationFunction": 2
-      },
-      "SourceFaceDirection": 1,
-      "TargetFaceDirection": 0
-    },
-    {
-      "Source": {
-        "$type": "Conv2D",
-        "InputChannels": 3,
-        "OutputChannels": 6,
-        "KernelSize": 5,
-        "Stride": 1,
-        "Padding": 0,
-        "Name": "Conv1",
-        "Position": {
-          "X": 50224.84469697009,
-          "Y": 50068.31936507918
-        },
-        "ActivationFunction": 2
-      },
-      "Target": {
-        "$type": "Pool2D",
-        "KernelSize": 2,
-        "Stride": 2,
-        "PoolingType": 0,
-        "Name": "Pool1",
-        "Position": {
-          "X": 50347.945454545836,
-          "Y": 49997.67290043272
-        },
-        "ActivationFunction": 0
-      },
-      "SourceFaceDirection": 1,
-      "TargetFaceDirection": 0
-    },
-    {
-      "Source": {
-        "$type": "Pool2D",
-        "KernelSize": 2,
-        "Stride": 2,
-        "PoolingType": 0,
-        "Name": "Pool1",
-        "Position": {
-          "X": 50347.945454545836,
-          "Y": 49997.67290043272
-        },
-        "ActivationFunction": 0
-      },
-      "Target": {
-        "$type": "Conv2D",
-        "InputChannels": 6,
-        "OutputChannels": 16,
-        "KernelSize": 5,
-        "Stride": 1,
-        "Padding": 0,
-        "Name": "Conv2",
-        "Position": {
-          "X": 50464.353737374426,
-          "Y": 50018.21835497809
-        },
-        "ActivationFunction": 2
-      },
-      "SourceFaceDirection": 1,
-      "TargetFaceDirection": 0
-    },
-    {
-      "Source": {
-        "$type": "Conv2D",
-        "InputChannels": 6,
-        "OutputChannels": 16,
-        "KernelSize": 5,
-        "Stride": 1,
-        "Padding": 0,
-        "Name": "Conv2",
-        "Position": {
-          "X": 50464.353737374426,
-          "Y": 50018.21835497809
-        },
-        "ActivationFunction": 2
-      },
-      "Target": {
-        "$type": "Pool2D",
-        "KernelSize": 2,
-        "Stride": 2,
-        "PoolingType": 0,
-        "Name": "Pool2",
-        "Position": {
-          "X": 50585.54141414209,
-          "Y": 49959.79411255386
-        },
-        "ActivationFunction": 0
-      },
-      "SourceFaceDirection": 1,
-      "TargetFaceDirection": 0
-    },
-    {
-      "Source": {
-        "$type": "Linear",
-        "InputNeurons": 2097152,
-        "OutputNeurons": 120,
-        "Name": "Full1",
-        "Position": {
-          "X": 51039.25404040474,
-          "Y": 49976.31936507911
-        },
-        "ActivationFunction": 2
-      },
-      "Target": {
-        "$type": "Linear",
-        "InputNeurons": 120,
-        "OutputNeurons": 84,
-        "Name": "Full2",
-        "Position": {
-          "X": 51050.84924242502,
-          "Y": 50228.80421356384
-        },
-        "ActivationFunction": 2
-      },
-      "SourceFaceDirection": 1,
-      "TargetFaceDirection": 0
-    },
-    {
-      "Source": {
-        "$type": "Linear",
-        "InputNeurons": 120,
-        "OutputNeurons": 84,
-        "Name": "Full2",
-        "Position": {
-          "X": 51050.84924242502,
-          "Y": 50228.80421356384
-        },
-        "ActivationFunction": 2
-      },
-      "Target": {
-        "$type": "Linear",
-        "InputNeurons": 84,
-        "OutputNeurons": 10,
-        "Name": "Full3",
-        "Position": {
-          "X": 51199.81616161703,
-          "Y": 50044.21027416991
-        },
-        "ActivationFunction": 0
-      },
-      "SourceFaceDirection": 1,
-      "TargetFaceDirection": 0
-    },
-    {
-      "Source": {
-        "$type": "Linear",
-        "InputNeurons": 84,
-        "OutputNeurons": 10,
-        "Name": "Full3",
-        "Position": {
-          "X": 51199.81616161703,
-          "Y": 50044.21027416991
-        },
-        "ActivationFunction": 0
-      },
-      "Target": {
-        "$type": "Output",
-        "NumOutputs": 10,
-        "OutputParam": 1,
-        "Name": "Outp1",
-        "Position": {
-          "X": 51367.07676767758,
-          "Y": 50134.622395382
-        },
-        "ActivationFunction": 0
-      },
-      "SourceFaceDirection": 1,
-      "TargetFaceDirection": 0
-    },
-    {
-      "Source": {
-        "$type": "Pool2D",
-        "KernelSize": 2,
-        "Stride": 2,
-        "PoolingType": 0,
-        "Name": "Pool2",
-        "Position": {
-          "X": 50585.54141414209,
-          "Y": 49959.79411255386
-        },
-        "ActivationFunction": 0
-      },
-      "Target": {
-        "$type": "Conv2D",
-        "InputChannels": 16,
-        "OutputChannels": 32,
-        "KernelSize": 3,
-        "Stride": 1,
-        "Padding": 0,
-        "Name": "Conv3",
-        "Position": {
-          "X": 50674.02429293018,
-          "Y": 50045.36178932141
-        },
-        "ActivationFunction": 2
-      },
-      "SourceFaceDirection": 1,
-      "TargetFaceDirection": 0
-    },
-    {
-      "Source": {
-        "$type": "Conv2D",
-        "InputChannels": 16,
-        "OutputChannels": 32,
-        "KernelSize": 3,
-        "Stride": 1,
-        "Padding": 0,
-        "Name": "Conv3",
-        "Position": {
-          "X": 50674.02429293018,
-          "Y": 50045.36178932141
-        },
-        "ActivationFunction": 2
-      },
-      "Target": {
-        "$type": "Pool2D",
-        "KernelSize": 2,
-        "Stride": 2,
-        "PoolingType": 0,
-        "Name": "Pool3",
-        "Position": {
-          "X": 50808.240404041295,
-          "Y": 50025.806233765856
-        },
-        "ActivationFunction": 0
-      },
-      "SourceFaceDirection": 1,
-      "TargetFaceDirection": 0
-    },
-    {
-      "Source": {
-        "$type": "Pool2D",
-        "KernelSize": 2,
-        "Stride": 2,
-        "PoolingType": 0,
-        "Name": "Pool3",
-        "Position": {
-          "X": 50808.240404041295,
-          "Y": 50025.806233765856
-        },
-        "ActivationFunction": 0
-      },
-      "Target": {
-        "$type": "Flatten",
-        "Name": "Flat1",
-        "Position": {
-          "X": 50934.39076479185,
-          "Y": 50001.61258297211
-        },
-        "ActivationFunction": 0
-      },
-      "SourceFaceDirection": 1,
-      "TargetFaceDirection": 0
-    },
-    {
-      "Source": {
-        "$type": "Flatten",
-        "Name": "Flat1",
-        "Position": {
-          "X": 50934.39076479185,
-          "Y": 50001.61258297211
-        },
-        "ActivationFunction": 0
-      },
-      "Target": {
-        "$type": "Linear",
-        "InputNeurons": 2097152,
-        "OutputNeurons": 120,
-        "Name": "Full1",
-        "Position": {
-          "X": 51039.25404040474,
-          "Y": 49976.31936507911
-        },
-        "ActivationFunction": 2
-      },
-      "SourceFaceDirection": 1,
-      "TargetFaceDirection": 0
-    }
-  ],
-  "Train": {
-    "LearningRate": 0.01,
-    "LossFunction": 3,
-    "BatchSize": 8192,
-    "HorizontalFlip": false,
-    "VerticalFlip": false,
-    "Pad": false,
-    "ZoomOut": false,
-    "Rotation": false,
-    "Affine": false,
-    "Perspective": false,
-    "SelectedDataset": null,
-    "TrainDataPath": "C:\\Files\\KTU\\4 semestras\\Projektas\\Datasets\\Cifar10DatasetImg"
-  }
+    "latest_checkpoint": "checkpoints\\2025-05-13-22-15-16\\checkpoint_15_2025-05-13-22-19-24.pt"
 }

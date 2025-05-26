@@ -114,7 +114,15 @@ def train():
             model_path = os.path.join("checkpoints", current_time, model_name)
             torch.save(model.state_dict(), model_path)
             log(f"Saving model as {model_path}\n")
-        log1(f"Epoch {epoch}: Train loss: {total_loss_train}\tValidation loss: {last_val_loss}\n")
+            with open(CONFIG_PATH, "r") as f:
+                config = json.load(f)
+                with open(CONFIG_PATH, "w") as fw:
+                    if "latest_checkpoint" in config.keys():
+                        config['latest_checkpoint'] = model_path
+                    else:
+                        config.update({"latest_checkpoint": model_path})
+                    json.dump(config, fw)
+        log1(f"Epoch {epoch}: Train loss: {total_loss_train}    Validation loss: {last_val_loss}\n")
 
     log(f"Training finished.\n")
     log(f"Doing testing...\n")
