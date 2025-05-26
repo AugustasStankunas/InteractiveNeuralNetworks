@@ -15,7 +15,7 @@
     <Grid>
         <lvc:CartesianChart Series="{Binding SeriesCollection}">
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Epochs" MinValue="0" />
+                <lvc:Axis Title="Epochs" MinValue="1" />
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Loss" MinValue="0" MaxValue="10"/>

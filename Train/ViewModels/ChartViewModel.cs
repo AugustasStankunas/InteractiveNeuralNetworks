@@ -4,12 +4,12 @@ using LiveCharts.Defaults;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Shared.ViewModels;
 using System.Globalization;
+using System.Text;
 
 namespace Train.ViewModels
 {
@@ -19,7 +19,7 @@ namespace Train.ViewModels
         public Func<double, string> YFormatter { get; set; }
 
         private readonly string _logFilePath;
-        private readonly DispatcherTimer _refreshTimer;
+        private FileSystemWatcher _watcher;
 
         private ChartValues<ObservablePoint> _trainingLossValues = new ChartValues<ObservablePoint>();
         private ChartValues<ObservablePoint> _validationLossValues = new ChartValues<ObservablePoint>();
@@ -60,23 +60,38 @@ namespace Train.ViewModels
 
             YFormatter = value => value.ToString("N");
 
-            _refreshTimer = new DispatcherTimer();
-            _refreshTimer.Interval = TimeSpan.FromSeconds(2);
-            _refreshTimer.Tick += (s, e) => RefreshAndUpdateChart();
-            _refreshTimer.Start();
+            SetupFileWatcher();
+            LoadFile(); 
         }
 
-        private async void RefreshAndUpdateChart()
+        private void SetupFileWatcher()
+        {
+            var directory = Path.GetDirectoryName(_logFilePath);
+            var fileName = Path.GetFileName(_logFilePath);
+
+            _watcher = new FileSystemWatcher(directory, fileName)
+            {
+                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size,
+                EnableRaisingEvents = true
+            };
+
+            _watcher.Changed += (s, e) =>
+            {
+                App.Current.Dispatcher.Invoke(LoadFile);
+            };
+        }
+
+        private void LoadFile()
         {
             try
             {
                 using (var fs = new FileStream(_logFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 using (var reader = new StreamReader(fs, Encoding.UTF8))
                 {
-                    OutputText = await reader.ReadToEndAsync();
+                    OutputText = reader.ReadToEnd();
                 }
 
-                CreateLinesFromOutput();
+                ParseAndUpdateChart();
             }
             catch (Exception ex)
             {
@@ -84,7 +99,7 @@ namespace Train.ViewModels
             }
         }
 
-        private void CreateLinesFromOutput()
+        private void ParseAndUpdateChart()
         {
             _trainingLossValues.Clear();
             _validationLossValues.Clear();
