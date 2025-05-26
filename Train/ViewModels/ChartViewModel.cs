@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Shared.ViewModels;
+using System.Globalization;
 
 namespace Train.ViewModels
 {
@@ -95,12 +96,10 @@ namespace Train.ViewModels
             {
                 var match = Regex.Match(line, @"Train loss:\s*([\d.]+)\s+Validation loss:\s*([\d.]+)");
 
-                if (match.Success &&
-                    double.TryParse(match.Groups[1].Value, out double trainLoss) &&
-                    double.TryParse(match.Groups[2].Value, out double valLoss))
+                if (match.Success)
                 {
-                    _trainingLossValues.Add(new ObservablePoint(epoch, trainLoss));
-                    _validationLossValues.Add(new ObservablePoint(epoch, valLoss));
+                    _trainingLossValues.Add(new ObservablePoint(epoch, double.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture)));
+                    _validationLossValues.Add(new ObservablePoint(epoch, double.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture)));
                     epoch++;
                 }
             }

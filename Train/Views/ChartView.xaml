@@ -18,7 +18,7 @@
                 <lvc:Axis Title="Epochs" MinValue="0" />
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="Loss" MinValue="0" MaxValue="1"/>
+                <lvc:Axis Title="Loss" MinValue="0" MaxValue="10"/>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
         
