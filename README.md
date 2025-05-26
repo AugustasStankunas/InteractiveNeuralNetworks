@@ -55,3 +55,17 @@ This window is for building the actual model. The toolbar in the left contains a
 ## How to launch
 
 ## Testing and its results
+
+| Action                          | Wanted                                                                                       | Actual                                                                                       |
+|---------------------------------|----------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| Dragging item on canvas         | Item is moving, connection is updating                                                       | Item is moving, connection is updating                                                       |
+| Creating connection             | Connection is made following the mouse                                                       | Connection is made following the mouse                                                       |
+| Creating an item                | Dragging an item from toolbar to canvas creates an item                                      | Dragging an item from toolbar to canvas creates an item                                      |
+| Deleting an item or connection  | Pressing delete button when selected deletes the item(s)                                     | Pressing delete button when selected deletes the item(s)                                     |
+| Select item properties          | While an item is selected, properties can be edited in the property window                   | While an item is selected, properties can be edited in the property window                   |
+| See info about item/property    | Holding mouse cursor over i symbol shows a tooltip, which contains information about that item/hyperparameter/property | Holding mouse cursor over i symbol shows a tooltip, which contains information about that item/hyperparameter/property |
+| Save or load configuration      | The model can be saved or loaded in the File menu item                                       | The model can be saved or loaded in the File menu item                                       |
+| Load training data              | Training images can be loaded from local files or uploaded from the internet                 | Training images can be loaded from local files or uploaded from the internet                 |
+| Start model training            | After pressing start training the python server log shows information, graph shows training progress as well | After pressing start training the python server log shows information, graph shows training progress as well |
+| Test model                      | In the train window user can select photos to test and see how the model performs            | In the train window user can select photos to test and see how the model performs            |
+
