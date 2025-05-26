@@ -62,7 +62,7 @@ After building the model it can be trained as well. The user can select the foll
 - Affine
 - Perspective
 
-  While the model is training the user sees a text log, showing general information about the model training, as well as a graph showing loss at each training epoch
+While the model is training the user sees a text log, showing general information about the model training, as well as a graph showing loss at each training epoch
 
 ### Test
 
