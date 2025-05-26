@@ -11,11 +11,11 @@ from time import localtime, strftime
 
 
 # will have to make dynamic with config:
-MAX_EPOCHS = 200
+MAX_EPOCHS = 1000
 CONFIG_PATH = "config.json"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-VALID_INTERVAL = 10
-SAVE_INTERVAL = 5
+VALID_INTERVAL = 5
+SAVE_INTERVAL = 20
 
 
 def reset_log():

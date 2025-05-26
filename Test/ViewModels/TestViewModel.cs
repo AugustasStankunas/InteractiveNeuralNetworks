@@ -77,7 +77,9 @@ namespace Test.ViewModels
 
         private void ExecuteTestClickMe(object obj)
         {
-                //juozapai dirbk nafyk!
+            //juozapai dirbk nafyk!
+            PythonRunner.RunScript();
+
         }
         private bool CanExecuteTestClickMe(object obj)
         {
