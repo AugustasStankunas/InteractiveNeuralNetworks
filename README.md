@@ -62,10 +62,11 @@ After building the model it can be trained as well. The user can select the foll
 - Affine
 - Perspective
 
-While the model is training the user sees a text log, showing general information about the model training, as well as a graph showing loss at each training epoch
+While the model is training the user sees a text log, showing general information about the model training, as well as a auto updating graph showing loss at each training epoch
 
 ### Test
 
+After training the model, you can test it using your own images. Simply load an image, press the button to start classification, and view the results to see the predicted class along with its confidence percentage.
 ## How to launch
 
 ## Testing and its results
@@ -80,6 +81,10 @@ While the model is training the user sees a text log, showing general informatio
 | See info about item/property    | Holding mouse cursor over i symbol shows a tooltip, which contains information about that item/hyperparameter/property | Holding mouse cursor over i symbol shows a tooltip, which contains information about that item/hyperparameter/property |
 | Save or load configuration      | The model can be saved or loaded in the File menu item                                       | The model can be saved or loaded in the File menu item                                       |
 | Load training data              | Training images can be loaded from local files or uploaded from the internet                 | Training images can be loaded from local files or uploaded from the internet                 |
-| Start model training            | After pressing start training the python server log shows information, graph shows training progress as well | After pressing start training the python server log shows information, graph shows training progress as well |
+| Start model training            | After pressing start training the python server log shows information, graph shows training and validation loss at each epoch| After pressing start training the python server log shows information, graph shows training and validation loss at each epoch as well |
 | Test model                      | In the train window user can select photos to test and see how the model performs            | In the train window user can select photos to test and see how the model performs            |
+| Load image to predict           | On the testing page, the user can load an image to make a prediction                         | On the testing page, the user can load an image to make a prediction
+| Start classification            | After pressing the 'Start Classification' button on the testing page, the loaded image is processed, and the predicted class is displayed along with its confidence score | After pressing the 'Start Classification' button on the testing page, the loaded image is processed, and the predicted class is displayed along with its confidence score |
+| Start segmentation              | After pressing the 'Start Segmentation' button on the testing page, the loaded image is processed and the segmented image is displayed | Not implemented 
+           |
 
