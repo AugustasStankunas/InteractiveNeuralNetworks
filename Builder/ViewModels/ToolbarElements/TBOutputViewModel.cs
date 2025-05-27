@@ -12,13 +12,13 @@ namespace Builder.ViewModels.ToolbarElements
         {
             Name = "Output";
             TooltipText = LayerType.Output.GetDescription();
-            WorkspaceItem = new WSOutputViewModel(0, 0, 0);
+            WorkspaceItem = new WSOutputViewModel(0, 0, 0, 0);
         }
         public override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             IsSelected = true;
             Point mousePos = e.GetPosition(null);
-            WorkspaceItemViewModel workspaceItem = new WSOutputViewModel(0, mousePos.X, mousePos.Y, opacity: 0.5);
+            WorkspaceItemViewModel workspaceItem = new WSOutputViewModel(0, 0, mousePos.X, mousePos.Y, opacity: 0.5);
             Toolbar.Builder.WorkspaceItemSelected.Add(workspaceItem);
         }
     }

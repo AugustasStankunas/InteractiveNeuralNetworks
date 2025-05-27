@@ -15,6 +15,8 @@ namespace Test.ViewModels
     public class TestViewModel : ViewModelBase
     {
         public string TestDataPath { get; set; }
+        public string ModelPath { get; set; }
+        public RelayCommand GetModelButtonCommand { get; set; }
         public RelayCommand GetImageButtonCommand { get; set; }
         public RelayCommand TestButtonCommand { get; set; }
         public ICommand RefreshLogCommand { get; }
@@ -27,6 +29,17 @@ namespace Test.ViewModels
             {
                 _pythonServerConfigPath = value;
                 OnPropertyChanged(nameof(PythonServerConfigPath));
+            }
+        }
+
+        private string _pythonServerModelConfigPath;
+        public string PythonServerModelConfigPath
+        {
+            get => _pythonServerModelConfigPath;
+            set
+            {
+                _pythonServerModelConfigPath = value;
+                OnPropertyChanged(nameof(PythonServerModelConfigPath));
             }
         }
 
@@ -60,11 +73,32 @@ namespace Test.ViewModels
             return true;
         }
 
+        private void ExecuteGetModel(object obj)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Model Files|*.pt;*.pth;";
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+            {
+                ModelPath = dialog.FileName;
+                var data = new { InferenceModelPath = ModelPath };
+                string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(PythonServerModelConfigPath, json);
+            }
+
+        }
+        private bool CanExecuteGetModel(object obj)
+        {
+            return true;
+        }
+
 
         public TestViewModel()
         {
             PythonServerConfigPath = "../../../../Python-server/predictImage.json";
+            PythonServerModelConfigPath = "../../../../Python-server/predictModel.json";
 
+            GetModelButtonCommand = new RelayCommand(ExecuteGetModel, CanExecuteGetModel);
             GetImageButtonCommand = new RelayCommand(ExecuteClickMe, CanExecuteClickMe);
             TestButtonCommand = new RelayCommand(ExecuteTestClickMe, CanExecuteTestClickMe);
 
@@ -79,7 +113,6 @@ namespace Test.ViewModels
         {
             //juozapai dirbk nafyk!
             PythonRunner.RunScript();
-
         }
         private bool CanExecuteTestClickMe(object obj)
         {

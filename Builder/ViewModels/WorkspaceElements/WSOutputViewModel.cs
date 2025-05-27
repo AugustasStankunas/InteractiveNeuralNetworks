@@ -9,6 +9,25 @@ namespace Builder.ViewModels.WorkspaceElements
 {
     class WSOutputViewModel : WorkspaceItemViewModel
     {
+        private int _inputNeurons;
+        [EditableProperty]
+        [Description(
+            "Number of neurons in the incoming vector. " +
+            "Must match the size of the previous layer’s output.\n" +
+            "For example, if the prior layer outputs a 512‐dimensional feature, " +
+            "set InputNeurons = 512."
+        )]
+        public int InputNeurons
+        {
+            get => _inputNeurons;
+            set
+            {
+                _inputNeurons = value;
+                OnPropertyChanged(nameof(InputNeurons));
+                OnPropertyChanged(nameof(DisplayName));
+            }
+        }
+
         private int _numOutputs;
         [EditableProperty("TextBox")]
         [Description(
@@ -62,17 +81,19 @@ namespace Builder.ViewModels.WorkspaceElements
         public override string DisplayName =>
             $"{Name}\nN:{NumOutputs}";
 
-        public WSOutputViewModel(int numOutputs, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
+        public WSOutputViewModel(int inputNeurons, int numOutputs, double x, double y, int width = 60, int height = 60, double opacity = 1, string name = "")
             : base(x, y, width, height, opacity, name)
         {
+            InputNeurons = inputNeurons;
             NumOutputs = numOutputs;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Add.png");
         }
 
         [JsonConstructor]
-        public WSOutputViewModel(int numOutputs, Point position, string name, ActivationFunctionType activationFunction)
+        public WSOutputViewModel(int inputNeurons, int numOutputs, Point position, string name, ActivationFunctionType activationFunction)
             : base(position.X, position.Y, name: name, activationFunction: activationFunction)
         {
+            InputNeurons = inputNeurons;
             NumOutputs = numOutputs;
             IconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Icons", "Add.png");
         }

@@ -29,6 +29,9 @@ class Model(nn.Module):
             elif layer_config['$type'] == "Linear":
                 current_layer = nn.Linear(in_features=layer_config['InputNeurons'],
                                           out_features=layer_config['OutputNeurons'])
+            elif layer_config['$type'] == "Output":
+                current_layer = nn.Linear(in_features=layer_config['InputNeurons'],
+                                          out_features=layer_config['NumOutputs'])
             elif layer_config['$type'] == "Conv2D":
                 current_layer = nn.Conv2d(in_channels=layer_config['InputChannels'], 
                                           out_channels=layer_config['OutputChannels'],
@@ -68,7 +71,7 @@ class Model(nn.Module):
                 model_layers.update(torch.nn.ModuleDict({layer_config['Name']: current_layer}))
                 model_layers_info.update({layer_config['Name']:  {'Inputs': [], 
                                                                 'Output': None, 
-                                                                'ForwardPassPoss': 0 if i == 0 else (1 if i == len(config['Items']) - 1 else 2)}})
+                                                                'ForwardPassPoss': 0 if i == 0 else (1 if layer_config['$type'] == 'Output' else 2)}})
 
         self.model_layers = model_layers
         self.model_layers_info = model_layers_info
@@ -81,30 +84,37 @@ class Model(nn.Module):
                 if layer_name == target_name:
                     self.model_layers_info[layer_name]['Inputs'].append(source_name)
         
-        #print(self.model_layers_info)
+        #print(self.model_layers_info)  
+
+        print(model_layers_info)
                 
     
     def forward(self, X):
         passed_all_layers = False
         # Iterating through layers until input passed through all layers
         while not passed_all_layers:
-            passed_all_layers = True
+            #passed_all_layers = True
             # Iterating through layers to find ones that have available input
             for layer_name in self.model_layers.keys(): 
+                #print("Iteration")
                 layer_info = self.model_layers_info[layer_name]
                 layer = self.model_layers[layer_name]
+                if layer_name.startswith("Out") and layer_info['Output'] is not None:
+                    passed_all_layers = True
+                    break
                 # Found input layer
                 if layer_info['ForwardPassPoss'] == 0 and layer_info['Output'] is None:
                     #print(f"Passed input layer {layer_name}")
-                    passed_all_layers = True
+                    #passed_all_layers = True
                     layer_info['Output'] = layer(X) # Input layer forward pass
                     #print(f"Out shape: {layer_info['Output'].shape}")
                     continue
                 # Check if all input layers have been already forwarded
-                if sum([1 if self.model_layers_info[input_name]['Output'] is None else 0 for input_name in layer_info['Inputs']]) == 0:
+                if sum([1 if self.model_layers_info[input_name]['Output'] is None else 0 for input_name in layer_info['Inputs']]) == 0 and layer_info['Output'] is None:
                     #print(f"Passed hidden layer {layer_name}")
-                    passed_all_layers = True
+                    #passed_all_layers = True
                     # Hidden layer forward pass
+                    #print(F"Name: {layer_name} ", end="")
                     layer_info['Output'] = layer(*[self.model_layers_info[input_name]['Output'] for input_name in layer_info['Inputs']])
                     #print(f"Out shape: {layer_info['Output'].shape}")
         # Finding output layer and returning output

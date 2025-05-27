@@ -417,6 +417,7 @@ namespace Builder.ViewModels
             else if (original is WSOutputViewModel outputItem)
             {
                 return new WSOutputViewModel(
+                    outputItem.InputNeurons,
                     outputItem.NumOutputs,
                     original.Position.X,
                     original.Position.Y,

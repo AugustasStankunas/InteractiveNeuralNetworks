@@ -252,7 +252,7 @@ namespace Train.ViewModels
         {
             LearningRate = 0.01;
             LossFunction = LossFunctionType.CategoricalCrossEntropy;
-            BatchSize = 16384;
+            BatchSize = 8192;
             HorizontalFlip = false;
             VerticalFlip = false;
             Pad = false;

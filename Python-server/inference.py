@@ -9,6 +9,7 @@ import sys
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 IMAGE_PATH_CONFIG = "predictImage.json"
+MODEL_PATH_CONFIG = "predictModel.json"
 CONFIG_PATH = "config.json"
 
 
@@ -39,6 +40,8 @@ def inference(load_latest=False):
     model = build_model()
     with open(IMAGE_PATH_CONFIG, "r") as f:
         image_config = json.load(f)
+    with open(MODEL_PATH_CONFIG, "r") as f:
+        model_path_config = json.load(f)
 
     if load_latest:
         state_dict, checkpoint_dir_path, state_dict_path = load_latest_checkpoint()
@@ -47,9 +50,9 @@ def inference(load_latest=False):
             model_info = json.load(f)
         log(f"Loaded latest model from {state_dict_path}\n")
     else:
-        with open(CONFIG_PATH) as f:
-            model_config = json.load(f)
-        state_dict_path = model_config['latest_checkpoint']
+        # with open(CONFIG_PATH) as f:
+        #     model_config = json.load(f)
+        state_dict_path = model_path_config['InferenceModelPath']
         model.load_state_dict(torch.load(state_dict_path))
         checkpoint_dir_path = os.path.dirname(state_dict_path)
         with open(os.path.join(checkpoint_dir_path, "model_info.json"), "r") as f:
