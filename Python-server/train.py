@@ -8,6 +8,7 @@ import os
 import torchvision
 from torcheval.metrics import MulticlassAccuracy
 from time import localtime, strftime
+import sys
 
 
 # will have to make dynamic with config:
@@ -38,6 +39,7 @@ def train():
     reset_log()
     with open(CONFIG_PATH, "r") as f:
         config = json.load(f)
+    sys.stderr = open("log.txt", "a")
 
     BATCH_SIZE = config['Train']['BatchSize']
     LEARNING_RATE = config['Train']['LearningRate']

@@ -62,8 +62,9 @@ def inference(load_latest=False):
     image = image.to(DEVICE) / 255.0
     model.eval()
     output = model(image)
+    output = nn.functional.softmax(output)
     for i in model_info['labels'].keys():
-        log(f"{model_info['labels'][i]}: {str(round(output[0][int(i)].item(), 2))}%\n")
+        log(f"{model_info['labels'][i]}: {str(int(output[0][int(i)].item() * 100))}%\n")
 
 
 if __name__ == "__main__":
