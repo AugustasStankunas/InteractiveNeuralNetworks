@@ -1,10 +1,10 @@
 airplane: 0%
-automobile: 4%
+automobile: 0%
 bird: 0%
-cat: 52%
+cat: 0%
 deer: 0%
-dog: 31%
-frog: 5%
-horse: 0%
-ship: 1%
-truck: 2%
+dog: 0%
+frog: 0%
+horse: 99%
+ship: 0%
+truck: 0%

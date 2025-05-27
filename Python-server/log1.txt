@@ -1,0 +1,1 @@
+Epoch 1: Train loss: 3.0241803125    Validation loss: 4.004494667053223

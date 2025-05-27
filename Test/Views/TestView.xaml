@@ -9,7 +9,7 @@
 
     <DockPanel>
         <!-- Top panel for the "Choose Image" button -->
-        <StackPanel Orientation="Vertical" DockPanel.Dock="Top" Margin="10">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10">
             <Button Content="Choose Model" Command="{Binding GetModelButtonCommand}" />
             <Button Content="Choose image" Command="{Binding GetImageButtonCommand}" />
             <Button Content="Start classification" Command="{Binding TestButtonCommand}" />
